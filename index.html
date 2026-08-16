@@ -171,7 +171,19 @@
     font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--verified);
     background:var(--verified-dim);display:inline-block;padding:4px 10px;border-radius:6px;margin-bottom:14px;
   }
+  .proj-stat-flag{color:var(--flag);background:var(--flag-dim);}
   .proj-link{font-size:13px;font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;}
+
+  /* audit log */
+  .audit-list{display:flex;flex-direction:column;}
+  .audit-item{display:flex;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);align-items:baseline;}
+  .audit-item:last-child{border-bottom:none;}
+  .audit-date{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--flag);white-space:nowrap;min-width:110px;}
+  .audit-repo{font-weight:600;color:var(--ink);}
+  .audit-desc{font-size:14px;color:var(--ink-muted);line-height:1.55;}
+  @media (max-width:820px){
+    .audit-item{flex-direction:column;gap:4px;}
+  }
 
   /* manifesto */
   .rule0{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--verified);border-radius:0 12px 12px 0;padding:32px 36px;}
@@ -199,8 +211,39 @@
   /* footer */
   footer{border-top:1px solid var(--line);padding:48px 0;}
   .foot-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  .foot-left{display:flex;align-items:center;gap:14px;}
   .foot-links{display:flex;gap:20px;font-size:14px;}
   .foot-copy{font-size:13px;color:var(--ink-dim);}
+
+  /* day/night desk illustration — decorative, loops continuously */
+  .desk-scene{width:64px;height:48px;flex-shrink:0;}
+  .desk-scene svg{display:block;width:100%;height:100%;}
+  .ds-sun,.ds-moon{offset-path:path('M5 44 Q32 6 59 44');offset-rotate:0deg;animation:ds-orbit 14s linear infinite;}
+  .ds-moon{animation-delay:-7s;}
+  @keyframes ds-orbit{
+    0%{offset-distance:0%;opacity:0;}
+    4%{opacity:1;}
+    46%{opacity:1;}
+    50%,100%{offset-distance:100%;opacity:0;}
+  }
+  .ds-character{transform-origin:22px 40px;animation:ds-posture 14s ease-in-out infinite;}
+  @keyframes ds-posture{
+    0%,45%{transform:rotate(0deg) translateY(0);}
+    55%,95%{transform:rotate(16deg) translateY(2px);}
+    100%{transform:rotate(0deg) translateY(0);}
+  }
+  .ds-screen{animation:ds-screen-glow 14s ease-in-out infinite;}
+  @keyframes ds-screen-glow{
+    0%,45%{fill:var(--verified);opacity:0.9;}
+    55%,95%{fill:var(--ink-dim);opacity:0.4;}
+    100%{fill:var(--verified);opacity:0.9;}
+  }
+  .ds-zzz{opacity:0;animation:ds-zzz-fade 14s ease-in-out infinite;}
+  @keyframes ds-zzz-fade{
+    0%,45%{opacity:0;}
+    55%,95%{opacity:1;}
+    100%{opacity:0;}
+  }
 
   @media (max-width:820px){
     .hero-grid{grid-template-columns:1fr;}
@@ -271,7 +314,7 @@
       <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 6</div><div class="t-title">Reasoning Kernel</div><div class="t-desc">The validation engine — built and eval'd alone for a week before anything else.</div></div>
       <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 13</div><div class="t-title">Sentry, Review Board &amp; Trust Boundary</div><div class="t-desc">Input detection and deliberation land same day; the coordinator wiring both together follows hours later.</div></div>
       <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 14</div><div class="t-title">IntentGraph</div><div class="t-desc">Extends the architecture from single-turn validation to conversation-level trajectory tracking.</div></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 15</div><div class="t-title">Warden</div><div class="t-desc">Turns the whole portfolio's operating principle into a tool: audit the agent, don't trust its self-report.</div></div>
+      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 15</div><div class="t-title">Warden</div><div class="t-desc">Turns the whole portfolio's operating principle into a tool: audit the agent, don't trust its self-report. On hold as of Aug 16 — the core detector was found to score inverted; redesign in progress.</div></div>
     </div>
   </div>
 </section>
@@ -292,7 +335,7 @@
       <div class="pipe-coord">↑ coordinated by Trust Boundary — 2 real integration defects found &amp; fixed ↑</div>
       <div class="ext-row">
         <div class="pipe-node"><div class="pn-name">IntentGraph</div><div class="pn-stat">100% / 0% FP</div></div>
-        <div class="pipe-node"><div class="pn-name">Warden</div><div class="pn-stat">agent drift audit</div></div>
+        <div class="pipe-node"><div class="pn-name">Warden</div><div class="pn-stat" style="color:var(--flag);">on hold — detector inverted</div></div>
       </div>
     </div>
   </div>
@@ -336,9 +379,41 @@
       </div>
       <div class="proj-card reveal">
         <div class="proj-top"><div class="proj-name">Warden</div><div class="proj-date mono">AUG 15</div></div>
-        <div class="proj-desc">External observer for long-running AI coding agents. Doesn't control the agent — only checks its self-reported status against reality and flags drift.</div>
-        <div class="proj-stat">MATCH / DRIFT / UNCLEAR / DIVERGENT</div><br>
+        <div class="proj-desc">External observer for long-running AI coding agents. On hold: an adversarial review found the core detector's match/drift scoring is inverted (AUC 0.332, below random) — redesign in progress.</div>
+        <div class="proj-stat proj-stat-flag">ON HOLD — detector inverted</div><br>
         <a class="proj-link" href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">view source ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="audit-log">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">disclosure</div>
+    <h2 class="section-title reveal">Live audit of failures</h2>
+    <p class="section-sub reveal">A permanent record, not a scrolling ticker. Every entry is pulled from real commit history or an audit trail — dated, attributed, and left up after the fix.</p>
+    <div class="paper-card reveal">
+      <div class="audit-list">
+        <div class="audit-item">
+          <div class="audit-date mono">AUG 9, 2026</div>
+          <div class="audit-desc"><span class="audit-repo">Reasoning Kernel</span> — Rule 3 confidence-ceiling bug: FACT nodes could exist with <code>confidence=None</code>, undermining the integrity check. Found in live eval, fixed same day.</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-date mono">AUG 13, 2026</div>
+          <div class="audit-desc"><span class="audit-repo">Trust Boundary</span> — Sentry severity check used <code>isinstance(f, dict)</code> against <code>Match</code> dataclass instances; always False, so REJECT could never fire regardless of findings. Fixed same day.</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-date mono">AUG 13, 2026</div>
+          <div class="audit-desc"><span class="audit-repo">Trust Boundary</span> — Reasoning Kernel integration assumed a <code>Kernel.evaluate()</code> method that doesn't exist; rewired against the real graph/transaction API.</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-date mono">AUG 15, 2026</div>
+          <div class="audit-desc"><span class="audit-repo">Reasoning Kernel</span> — Rule 8: circular SUPPORTS chains passed validation undetected. Fixed same day.</div>
+        </div>
+        <div class="audit-item">
+          <div class="audit-date mono">AUG 16, 2026</div>
+          <div class="audit-desc"><span class="audit-repo">Warden</span> — Core matcher (word-Jaccard) found to score inverted: AUC 0.332 on a 60-pair hand-labelled set, below the 0.50 random baseline. On hold, redesign in progress.</div>
+        </div>
       </div>
     </div>
   </div>
@@ -395,7 +470,29 @@
 
 <footer>
   <div class="wrap foot-grid">
-    <div class="foot-copy">Chennai, India — clinpeter@gmail.com</div>
+    <div class="foot-left">
+      <div class="desk-scene" aria-hidden="true">
+        <svg viewBox="0 0 64 48">
+          <rect x="0" y="0" width="64" height="48" rx="6" fill="var(--panel)"/>
+          <rect x="0" y="0" width="64" height="34" fill="var(--void)"/>
+          <g class="ds-sun"><circle cx="0" cy="0" r="3.5" fill="var(--flag)"/></g>
+          <g class="ds-moon"><circle cx="0" cy="0" r="3" fill="var(--ink)"/></g>
+          <rect x="0" y="34" width="64" height="14" fill="var(--panel-2)"/>
+          <rect x="16" y="32" width="34" height="3" fill="var(--ink-dim)"/>
+          <rect x="18" y="35" width="3" height="10" fill="var(--ink-dim)"/>
+          <rect x="47" y="35" width="3" height="10" fill="var(--ink-dim)"/>
+          <rect x="29" y="21" width="12" height="9" rx="1" fill="var(--panel-2)" stroke="var(--ink-dim)" stroke-width="1"/>
+          <rect class="ds-screen" x="31" y="23" width="8" height="5" fill="var(--verified)"/>
+          <g class="ds-character">
+            <circle cx="20" cy="25" r="4.5" fill="var(--ink)"/>
+            <rect x="16" y="29" width="9" height="9" rx="2" fill="var(--link-blue)"/>
+            <line x1="17" y1="31" x2="29" y2="25" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <text class="ds-zzz mono" x="6" y="16" font-size="7" fill="var(--ink-muted)">z z z</text>
+        </svg>
+      </div>
+      <div class="foot-copy">Chennai, India — clinpeter@gmail.com</div>
+    </div>
     <div class="foot-links">
       <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a>
       <a href="Rick_Clinton_Resume.pdf">Resume</a>
@@ -416,6 +513,7 @@ try {
     { ts: "08.14", tag: "EVAL", tone: "verified", txt: "intent-layer: 100% detect / 0% false-positive, 15 cases" },
     { ts: "08.15", tag: "BUILT", tone: "verified", txt: "warden: agent drift audit, MATCH/DRIFT/UNCLEAR/DIVERGENT" },
     { ts: "08.15", tag: "VERIFIED", tone: "verified", txt: "sentry claim cross-checked live against github, confirmed" },
+    { ts: "08.16", tag: "FLAG", tone: "flag", txt: "warden: core matcher found inverted, AUC 0.332 vs 0.50 baseline — on hold" },
   ];
   const tickerEl = document.getElementById('ticker');
   let fi = 0;

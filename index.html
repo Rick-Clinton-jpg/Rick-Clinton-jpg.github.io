@@ -125,6 +125,8 @@
   .section-sub{color:var(--ink-muted);max-width:640px;font-size:15.5px;margin-bottom:48px;}
 
   /* timeline */
+  .timeline-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:start;}
+  .timeline-scene-box{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:28px;display:flex;align-items:center;justify-content:center;}
   .timeline{position:relative;padding-left:8px;}
   .timeline-track{position:absolute;left:15px;top:8px;bottom:8px;width:2px;background:var(--line);}
   .timeline-track-fill{position:absolute;left:15px;top:8px;width:2px;background:var(--verified);height:100%;transition:height 1.4s ease;}
@@ -211,12 +213,11 @@
   /* footer */
   footer{border-top:1px solid var(--line);padding:48px 0;}
   .foot-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
-  .foot-left{display:flex;align-items:center;gap:14px;}
   .foot-links{display:flex;gap:20px;font-size:14px;}
   .foot-copy{font-size:13px;color:var(--ink-dim);}
 
   /* day/night desk illustration — decorative, loops continuously */
-  .desk-scene{width:64px;height:48px;flex-shrink:0;}
+  .desk-scene{width:100%;max-width:220px;aspect-ratio:64/48;}
   .desk-scene svg{display:block;width:100%;height:100%;}
   .ds-sun,.ds-moon{offset-path:path('M5 44 Q32 6 59 44');offset-rotate:0deg;animation:ds-orbit 14s linear infinite;}
   .ds-moon{animation-delay:-7s;}
@@ -247,6 +248,8 @@
 
   @media (max-width:820px){
     .hero-grid{grid-template-columns:1fr;}
+    .timeline-grid{grid-template-columns:1fr;}
+    .timeline-scene-box{order:-1;}
     .stats-grid{grid-template-columns:repeat(2,1fr);row-gap:24px;}
     .stat{border-left:none;padding-left:0;}
     .proj-grid{grid-template-columns:1fr;}
@@ -303,18 +306,41 @@
 </section>
 
 <section id="timeline-section">
-  <div class="wrap">
-    <div class="section-eyebrow reveal">the build</div>
-    <h2 class="section-title reveal">Nine days, in order</h2>
-    <p class="section-sub reveal">Self-directed AI-assisted work began July 2026. The portfolio below was built in a single concentrated sprint — each repo shipped in the sequence its own dependencies required.</p>
-    <div class="timeline reveal">
-      <div class="timeline-track"></div>
-      <div class="timeline-track-fill" id="track-fill"></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">JUL 2026</div><div class="t-title">Self-directed AI work begins</div><div class="t-desc">First projects, directing AI-assisted implementation end to end.</div></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 6</div><div class="t-title">Reasoning Kernel</div><div class="t-desc">The validation engine — built and eval'd alone for a week before anything else.</div></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 13</div><div class="t-title">Sentry, Review Board &amp; Trust Boundary</div><div class="t-desc">Input detection and deliberation land same day; the coordinator wiring both together follows hours later.</div></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 14</div><div class="t-title">IntentGraph</div><div class="t-desc">Extends the architecture from single-turn validation to conversation-level trajectory tracking.</div></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 15</div><div class="t-title">Warden</div><div class="t-desc">Turns the whole portfolio's operating principle into a tool: audit the agent, don't trust its self-report. On hold as of Aug 16 — the core detector was found to score inverted; redesign in progress.</div></div>
+  <div class="wrap timeline-grid">
+    <div>
+      <div class="section-eyebrow reveal">the build</div>
+      <p class="section-sub reveal">Self-directed AI-assisted work began July 2026. The portfolio below was built in a single concentrated sprint — each repo shipped in the sequence its own dependencies required.</p>
+      <div class="timeline reveal">
+        <div class="timeline-track"></div>
+        <div class="timeline-track-fill" id="track-fill"></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">JUL</div><div class="t-title">Self-directed AI work begins</div><div class="t-desc">First projects, directing AI-assisted implementation end to end.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Reasoning Kernel</div><div class="t-desc">The validation engine — built and eval'd alone for a week before anything else.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Sentry, Review Board &amp; Trust Boundary</div><div class="t-desc">Input detection and deliberation land same day; the coordinator wiring both together follows hours later.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">IntentGraph</div><div class="t-desc">Extends the architecture from single-turn validation to conversation-level trajectory tracking.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Warden</div><div class="t-desc">Turns the whole portfolio's operating principle into a tool: audit the agent, don't trust its self-report. On hold as of Aug 16 — the core detector was found to score inverted; redesign in progress.</div></div>
+      </div>
+    </div>
+    <div class="timeline-scene-box reveal">
+      <div class="desk-scene" aria-hidden="true">
+        <svg viewBox="0 0 64 48">
+          <rect x="0" y="0" width="64" height="48" rx="6" fill="var(--panel)"/>
+          <rect x="0" y="0" width="64" height="34" fill="var(--void)"/>
+          <g class="ds-sun"><circle cx="0" cy="0" r="3.5" fill="var(--flag)"/></g>
+          <g class="ds-moon"><circle cx="0" cy="0" r="3" fill="var(--ink)"/></g>
+          <rect x="0" y="34" width="64" height="14" fill="var(--panel-2)"/>
+          <rect x="16" y="32" width="34" height="3" fill="var(--ink-dim)"/>
+          <rect x="18" y="35" width="3" height="10" fill="var(--ink-dim)"/>
+          <rect x="47" y="35" width="3" height="10" fill="var(--ink-dim)"/>
+          <rect x="29" y="21" width="12" height="9" rx="1" fill="var(--panel-2)" stroke="var(--ink-dim)" stroke-width="1"/>
+          <rect class="ds-screen" x="31" y="23" width="8" height="5" fill="var(--verified)"/>
+          <g class="ds-character">
+            <circle cx="20" cy="25" r="4.5" fill="var(--ink)"/>
+            <rect x="16" y="29" width="9" height="9" rx="2" fill="var(--link-blue)"/>
+            <line x1="17" y1="31" x2="29" y2="25" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <text class="ds-zzz mono" x="6" y="16" font-size="7" fill="var(--ink-muted)">z z z</text>
+        </svg>
+      </div>
     </div>
   </div>
 </section>
@@ -470,29 +496,7 @@
 
 <footer>
   <div class="wrap foot-grid">
-    <div class="foot-left">
-      <div class="desk-scene" aria-hidden="true">
-        <svg viewBox="0 0 64 48">
-          <rect x="0" y="0" width="64" height="48" rx="6" fill="var(--panel)"/>
-          <rect x="0" y="0" width="64" height="34" fill="var(--void)"/>
-          <g class="ds-sun"><circle cx="0" cy="0" r="3.5" fill="var(--flag)"/></g>
-          <g class="ds-moon"><circle cx="0" cy="0" r="3" fill="var(--ink)"/></g>
-          <rect x="0" y="34" width="64" height="14" fill="var(--panel-2)"/>
-          <rect x="16" y="32" width="34" height="3" fill="var(--ink-dim)"/>
-          <rect x="18" y="35" width="3" height="10" fill="var(--ink-dim)"/>
-          <rect x="47" y="35" width="3" height="10" fill="var(--ink-dim)"/>
-          <rect x="29" y="21" width="12" height="9" rx="1" fill="var(--panel-2)" stroke="var(--ink-dim)" stroke-width="1"/>
-          <rect class="ds-screen" x="31" y="23" width="8" height="5" fill="var(--verified)"/>
-          <g class="ds-character">
-            <circle cx="20" cy="25" r="4.5" fill="var(--ink)"/>
-            <rect x="16" y="29" width="9" height="9" rx="2" fill="var(--link-blue)"/>
-            <line x1="17" y1="31" x2="29" y2="25" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
-          </g>
-          <text class="ds-zzz mono" x="6" y="16" font-size="7" fill="var(--ink-muted)">z z z</text>
-        </svg>
-      </div>
-      <div class="foot-copy">Chennai, India — clinpeter@gmail.com</div>
-    </div>
+    <div class="foot-copy">Chennai, India — clinpeter@gmail.com</div>
     <div class="foot-links">
       <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a>
       <a href="Rick_Clinton_Resume.pdf">Resume</a>

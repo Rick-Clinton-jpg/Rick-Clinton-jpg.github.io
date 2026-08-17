@@ -523,10 +523,6 @@
           <span class="cr-label mono">REPOSITORIES</span>
           <span class="cr-num mono" id="cc-repos">0</span>
         </div>
-        <div class="console-row">
-          <span class="cr-label mono">DAYS, FIRST→SIXTH</span>
-          <span class="cr-num mono"><span id="cc-days">0</span>d</span>
-        </div>
         <div class="console-row console-row-bar">
           <span class="cr-label mono">KERNEL EVAL</span>
           <div class="cr-bar-wrap">
@@ -891,14 +887,12 @@ try {
   const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const consoleEl = document.getElementById('hero-console');
   const repos = document.getElementById('cc-repos');
-  const days = document.getElementById('cc-days');
   const kernelBar = document.getElementById('cc-kernel-bar');
   const kernelVal = document.getElementById('cc-kernel-val');
   const wardenBar = document.getElementById('cc-warden-bar');
   const wardenVal = document.getElementById('cc-warden-val');
 
   const REPOS_TARGET = 6;
-  const DAYS_TARGET = 9;
   const KERNEL_NUM = 16, KERNEL_DEN = 16;
   const WARDEN_AUC = 0.332;
 
@@ -918,7 +912,6 @@ try {
   function runConsole(){
     if(reduceMotion){
       repos.textContent = REPOS_TARGET;
-      days.textContent = DAYS_TARGET;
       kernelBar.style.width = '100%';
       kernelVal.textContent = KERNEL_NUM + '/' + KERNEL_DEN;
       wardenBar.style.width = (WARDEN_AUC * 100) + '%';
@@ -926,7 +919,6 @@ try {
       return;
     }
     setTimeout(()=> animateNumber(repos, REPOS_TARGET, 0, 700), 0);
-    setTimeout(()=> animateNumber(days, DAYS_TARGET, 0, 700), 120);
     setTimeout(()=>{
       kernelBar.style.width = '100%';
       animateNumber(null, KERNEL_NUM, 0, 800, (v)=>{ kernelVal.textContent = Math.round(v) + '/' + KERNEL_DEN; });

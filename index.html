@@ -70,17 +70,6 @@
   .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--verified);animation:pulse 2s ease-in-out infinite;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
 
-  /* status strip */
-  .status-strip{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;}
-  .status-chip{
-    display:inline-flex;align-items:center;gap:7px;
-    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:11.5px;
-    color:var(--ink-muted);border:1px solid var(--line);border-radius:0;padding:6px 10px;
-    background:var(--panel-2);
-  }
-  .status-chip .sc-dot{width:6px;height:6px;border-radius:50%;background:var(--verified);flex-shrink:0;}
-  .status-chip.flag .sc-dot{background:var(--flag);}
-  .status-chip b{color:var(--ink);font-weight:600;}
   .hero h1{font-size:44px;line-height:1.12;margin-bottom:20px;}
   .hero h1 em{font-style:normal;color:var(--verified);}
   .hero-sub{font-size:17px;color:var(--ink-muted);max-width:520px;margin-bottom:32px;}
@@ -146,14 +135,30 @@
   .has-js .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease, transform 0.6s ease;}
   .has-js .reveal.in{opacity:1;transform:translateY(0);}
 
-  /* stat strip */
-  .stats{padding:56px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
-  .stat{padding:0 24px;border-left:1px solid var(--line);}
-  .stat:first-child{border-left:none;padding-left:0;}
-  .stat-num{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:34px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;}
-  .stat-num span{color:var(--verified);}
-  .stat-label{font-size:13px;color:var(--ink-muted);margin-top:6px;}
+  /* hero console readout */
+  .console-section{padding:56px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .console-label{font-size:11px;color:var(--flag);letter-spacing:0.08em;margin-bottom:14px;}
+  .console{background:var(--panel);border:1px solid var(--line);max-width:520px;position:relative;}
+  .console-strap{font-size:11px;color:var(--flag);letter-spacing:0.05em;padding:12px 20px;border-bottom:1px solid var(--line);}
+  .console-strap.bottom{border-bottom:none;border-top:1px solid var(--line);}
+  .console-fields{padding:2px 20px;}
+  .console-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px;}
+  .cr-label{color:var(--ink-dim);font-size:11px;letter-spacing:0.03em;flex-shrink:0;}
+  .cr-num{font-size:22px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .cr-bar-wrap{display:flex;align-items:center;gap:10px;flex:1;justify-content:flex-end;}
+  .cr-bar{position:relative;flex:1;max-width:170px;height:8px;background:var(--panel-2);border:1px solid var(--line);}
+  .cr-bar-fill{height:100%;width:0%;transition:width 0.8s cubic-bezier(.2,.7,.2,1);}
+  .cr-bar-fill.verified{background:var(--verified);}
+  .cr-bar-fill.flag{background:var(--flag);}
+  .cr-bar-marker{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);}
+  .cr-bar-value{font-size:12.5px;min-width:48px;text-align:right;font-variant-numeric:tabular-nums;}
+  .cr-bar-value.verified{color:var(--verified);}
+  .cr-bar-value.flag{color:var(--flag);}
+  .console-baseline-note{font-size:10.5px;color:var(--ink-dim);text-align:right;padding:0 0 12px;}
+  @media (max-width:480px){
+    .cr-label{font-size:10px;}
+    .cr-bar{max-width:110px;}
+  }
 
   /* section shared */
   section{padding:80px 0;}
@@ -423,10 +428,12 @@
     .hero-grid{grid-template-columns:1fr;}
     .timeline-grid{grid-template-columns:1fr;}
     .timeline-scene-box{order:-1;}
-    .stats-grid{grid-template-columns:repeat(2,1fr);row-gap:24px;}
-    .stat{border-left:none;padding-left:0;}
     .proj-grid{grid-template-columns:1fr;}
     .hero h1{font-size:32px;}
+  }
+  @media (max-width:640px){
+    .nav-links a{display:none;}
+    .cmdk-trigger{margin-left:0;}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
@@ -506,17 +513,40 @@
   </div>
 </header>
 
-<section class="stats">
+<section class="console-section">
   <div class="wrap">
-    <div class="status-strip reveal">
-      <span class="status-chip"><span class="sc-dot"></span> STATUS: <b>EXTERNALLY VERIFIED</b></span>
-      <span class="status-chip flag"><span class="sc-dot"></span> HUMAN GATE: <b>REVIEWER REQUIRED</b></span>
-    </div>
-    <div class="stats-grid">
-      <div class="stat reveal"><div class="stat-num" data-count="6">0</div><div class="stat-label">repositories, one architecture</div></div>
-      <div class="stat reveal"><div class="stat-num"><span data-count="9">0</span>d</div><div class="stat-label">from first commit to sixth repo</div></div>
-      <div class="stat reveal"><div class="stat-num" data-count="5">0</div><div class="stat-label">real defects found &amp; fixed, documented publicly</div></div>
-      <div class="stat reveal"><div class="stat-num"><span data-count="16">0</span>/16</div><div class="stat-label">reasoning kernel eval accuracy</div></div>
+    <div class="console-label mono reveal">PROBABILISTIC SYSTEM DETECTED</div>
+    <div class="console bracket-frame reveal" id="hero-console">
+      <div class="console-strap mono">EXTERNAL VERIFICATION REQUIRED</div>
+      <div class="console-fields">
+        <div class="console-row">
+          <span class="cr-label mono">REPOSITORIES</span>
+          <span class="cr-num mono" id="cc-repos">0</span>
+        </div>
+        <div class="console-row">
+          <span class="cr-label mono">DAYS, FIRST→SIXTH</span>
+          <span class="cr-num mono"><span id="cc-days">0</span>d</span>
+        </div>
+        <div class="console-row console-row-bar">
+          <span class="cr-label mono">KERNEL EVAL</span>
+          <div class="cr-bar-wrap">
+            <div class="cr-bar" aria-hidden="true"><div class="cr-bar-fill verified" id="cc-kernel-bar"></div></div>
+            <span class="cr-bar-value mono verified" id="cc-kernel-val">0/16</span>
+          </div>
+        </div>
+        <div class="console-row console-row-bar">
+          <span class="cr-label mono">WARDEN AUDIT</span>
+          <div class="cr-bar-wrap">
+            <div class="cr-bar" aria-hidden="true">
+              <div class="cr-bar-fill flag" id="cc-warden-bar"></div>
+              <div class="cr-bar-marker" style="left:50%"></div>
+            </div>
+            <span class="cr-bar-value mono flag" id="cc-warden-val">0.000</span>
+          </div>
+        </div>
+        <div class="console-baseline-note mono">┆ 0.50 random baseline ┆</div>
+      </div>
+      <div class="console-strap bottom mono">STATUS: HUMAN GATE REQUIRED</div>
     </div>
   </div>
 </section>
@@ -856,29 +886,66 @@ if ('IntersectionObserver' in window) {
 // safety net regardless of the branch above: guarantee visibility
 setTimeout(showAll, 2500);
 
-// count-up stats
+// hero console — orchestrated load-in, real values only
 try {
-  const counters = document.querySelectorAll('[data-count]');
-  function runCounter(el){
-    const target = parseInt(el.getAttribute('data-count'),10);
-    let cur = 0;
-    const step = Math.max(1, Math.round(target/24));
-    const tick = ()=>{
-      cur = Math.min(target, cur+step);
-      el.textContent = cur;
-      if(cur < target) requestAnimationFrame(tick);
-    };
-    tick();
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const consoleEl = document.getElementById('hero-console');
+  const repos = document.getElementById('cc-repos');
+  const days = document.getElementById('cc-days');
+  const kernelBar = document.getElementById('cc-kernel-bar');
+  const kernelVal = document.getElementById('cc-kernel-val');
+  const wardenBar = document.getElementById('cc-warden-bar');
+  const wardenVal = document.getElementById('cc-warden-val');
+
+  const REPOS_TARGET = 6;
+  const DAYS_TARGET = 9;
+  const KERNEL_NUM = 16, KERNEL_DEN = 16;
+  const WARDEN_AUC = 0.332;
+
+  function animateNumber(el, target, decimals, duration, onFrame){
+    const start = performance.now();
+    function tick(now){
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = target * eased;
+      if(onFrame) onFrame(val); else el.textContent = decimals ? val.toFixed(decimals) : Math.round(val);
+      if(t < 1) requestAnimationFrame(tick);
+      else { if(onFrame) onFrame(target); else el.textContent = decimals ? target.toFixed(decimals) : target; }
+    }
+    requestAnimationFrame(tick);
   }
-  if ('IntersectionObserver' in window) {
-    const cio = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ runCounter(e.target); cio.unobserve(e.target); } });
-    },{ threshold: 0.5 });
-    counters.forEach(el=>cio.observe(el));
-  } else {
-    counters.forEach(runCounter);
+
+  function runConsole(){
+    if(reduceMotion){
+      repos.textContent = REPOS_TARGET;
+      days.textContent = DAYS_TARGET;
+      kernelBar.style.width = '100%';
+      kernelVal.textContent = KERNEL_NUM + '/' + KERNEL_DEN;
+      wardenBar.style.width = (WARDEN_AUC * 100) + '%';
+      wardenVal.textContent = WARDEN_AUC.toFixed(3);
+      return;
+    }
+    setTimeout(()=> animateNumber(repos, REPOS_TARGET, 0, 700), 0);
+    setTimeout(()=> animateNumber(days, DAYS_TARGET, 0, 700), 120);
+    setTimeout(()=>{
+      kernelBar.style.width = '100%';
+      animateNumber(null, KERNEL_NUM, 0, 800, (v)=>{ kernelVal.textContent = Math.round(v) + '/' + KERNEL_DEN; });
+    }, 260);
+    setTimeout(()=>{
+      wardenBar.style.width = (WARDEN_AUC * 100) + '%';
+      animateNumber(null, WARDEN_AUC, 3, 800, (v)=>{ wardenVal.textContent = v.toFixed(3); });
+    }, 400);
   }
-} catch(e) { console.warn('counters failed', e); }
+
+  if(consoleEl && 'IntersectionObserver' in window){
+    const co = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ runConsole(); co.unobserve(e.target); } });
+    },{ threshold: 0.4 });
+    co.observe(consoleEl);
+  } else if(consoleEl){
+    runConsole();
+  }
+} catch(e) { console.warn('hero console failed', e); }
 
 // timeline draw-in
 try {

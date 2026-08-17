@@ -937,14 +937,25 @@ try {
     }, 400);
   }
 
+  let consoleRan = false;
+  function runConsoleOnce(){
+    if(consoleRan) return;
+    consoleRan = true;
+    runConsole();
+  }
+
   if(consoleEl && 'IntersectionObserver' in window){
     const co = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ runConsole(); co.unobserve(e.target); } });
+      entries.forEach(e=>{ if(e.isIntersecting){ runConsoleOnce(); co.unobserve(e.target); } });
     },{ threshold: 0.4 });
     co.observe(consoleEl);
   } else if(consoleEl){
-    runConsole();
+    runConsoleOnce();
   }
+  // safety net — guarantees the panel never sits stuck at its zero starting
+  // state if the observer's callback is delayed or dropped (e.g. a tab that
+  // loads in the background, where browsers can throttle IntersectionObserver).
+  if(consoleEl) setTimeout(runConsoleOnce, 2500);
 } catch(e) { console.warn('hero console failed', e); }
 
 // timeline draw-in

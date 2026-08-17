@@ -188,16 +188,34 @@
   .proj-stat-flag{color:var(--flag);background:var(--flag-dim);}
   .proj-link{font-size:13px;font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;}
 
-  /* audit log */
-  .audit-list{display:flex;flex-direction:column;}
-  .audit-item{display:flex;gap:20px;padding:16px 0;border-bottom:1px solid var(--line);align-items:baseline;}
-  .audit-item:last-child{border-bottom:none;}
-  .audit-date{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--flag);white-space:nowrap;min-width:110px;}
-  .audit-repo{font-weight:600;color:var(--ink);}
-  .audit-desc{font-size:14px;color:var(--ink-muted);line-height:1.55;}
-  @media (max-width:820px){
-    .audit-item{flex-direction:column;gap:4px;}
+  /* audit log — click-to-expand */
+  .audit-list{display:flex;flex-direction:column;gap:10px;}
+  .audit-item{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden;}
+  .audit-head{
+    width:100%;display:flex;align-items:center;gap:14px;flex-wrap:wrap;text-align:left;
+    background:none;border:none;color:var(--ink);padding:18px 20px;cursor:pointer;
+    font-family:inherit;font-size:14px;
   }
+  .audit-head:hover{background:var(--panel-2);}
+  .audit-date{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:11.5px;color:var(--flag);white-space:nowrap;flex-shrink:0;}
+  .audit-repo{font-weight:600;color:var(--ink);}
+  .audit-label{flex:1;min-width:160px;font-size:14px;}
+  .audit-status{
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:10.5px;font-weight:600;
+    padding:3px 8px;border-radius:5px;flex-shrink:0;white-space:nowrap;
+  }
+  .audit-status.verified{background:var(--verified-dim);color:var(--verified);}
+  .audit-status.flag{background:var(--flag-dim);color:var(--flag);}
+  .audit-chevron{color:var(--ink-dim);flex-shrink:0;transition:transform 0.2s ease;font-size:12px;}
+  .audit-head[aria-expanded="true"] .audit-chevron{transform:rotate(180deg);}
+  .audit-panel{border-top:1px solid var(--line);padding:22px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .audit-sub h4{
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-dim);margin-bottom:6px;
+  }
+  .audit-sub p{font-size:13.5px;color:var(--ink-muted);}
+  .audit-sub code{color:var(--ink);background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-size:12.5px;}
+  @media (max-width:640px){ .audit-panel{grid-template-columns:1fr;} }
 
   /* manifesto */
   .rule0{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--verified);border-radius:0 12px 12px 0;padding:32px 36px;}
@@ -435,30 +453,84 @@
   <div class="wrap">
     <div class="section-eyebrow reveal">disclosure</div>
     <h2 class="section-title reveal">Live audit of failures</h2>
-    <p class="section-sub reveal">A permanent record, not a scrolling ticker. Every entry is pulled from real commit history or an audit trail — dated, attributed, and left up after the fix.</p>
-    <div class="paper-card reveal">
-      <div class="audit-list">
-        <div class="audit-item">
-          <div class="audit-date mono">AUG 9, 2026</div>
-          <div class="audit-desc"><span class="audit-repo">Reasoning Kernel</span> — Rule 3 confidence-ceiling bug: FACT nodes could exist with <code>confidence=None</code>, undermining the integrity check. Found in live eval, fixed same day.</div>
-        </div>
-        <div class="audit-item">
-          <div class="audit-date mono">AUG 13, 2026</div>
-          <div class="audit-desc"><span class="audit-repo">Trust Boundary</span> — Sentry severity check used <code>isinstance(f, dict)</code> against <code>Match</code> dataclass instances; always False, so REJECT could never fire regardless of findings. Fixed same day.</div>
-        </div>
-        <div class="audit-item">
-          <div class="audit-date mono">AUG 13, 2026</div>
-          <div class="audit-desc"><span class="audit-repo">Trust Boundary</span> — Reasoning Kernel integration assumed a <code>Kernel.evaluate()</code> method that doesn't exist; rewired against the real graph/transaction API.</div>
-        </div>
-        <div class="audit-item">
-          <div class="audit-date mono">AUG 15, 2026</div>
-          <div class="audit-desc"><span class="audit-repo">Reasoning Kernel</span> — Rule 8: circular SUPPORTS chains passed validation undetected. Fixed same day.</div>
-        </div>
-        <div class="audit-item">
-          <div class="audit-date mono">AUG 16, 2026</div>
-          <div class="audit-desc"><span class="audit-repo">Warden</span> — Core matcher (word-Jaccard) found to score inverted: AUC 0.332 on a 60-pair hand-labelled set, below the 0.50 random baseline. On hold, redesign in progress.</div>
+    <p class="section-sub reveal">A permanent record, not a scrolling ticker. Every entry is pulled from real commit history or an audit trail — dated, attributed, and left up after the fix. Click any row to expand.</p>
+    <div class="audit-list reveal">
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-1" id="audit-toggle-1">
+          <span class="audit-date mono">AUG 9, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Reasoning Kernel</span> — confidence-ceiling bug</span>
+          <span class="audit-status verified">FIXED SAME DAY</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-1" role="region" aria-labelledby="audit-toggle-1" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>Rule 3 — the confidence-ceiling check — could be undermined by FACT nodes that existed with <code>confidence=None</code>, which the integrity check didn't properly account for.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The rule assumed every FACT node would carry an explicit confidence value if it carried one at all; nodes without one weren't covered by the ceiling comparison.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Found in a live evaluation run, not a synthetic test.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p>Rule 3 now handles a missing confidence value correctly instead of letting it slip past the ceiling check. Fixed the same day it was found.</p></div>
         </div>
       </div>
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-2" id="audit-toggle-2">
+          <span class="audit-date mono">AUG 13, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Trust Boundary</span> — REJECT path never fired</span>
+          <span class="audit-status verified">FIXED SAME DAY</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-2" role="region" aria-labelledby="audit-toggle-2" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>Trust Boundary's severity check used <code>isinstance(f, dict)</code> against Sentry's <code>Match</code> dataclass instances. The check was always <code>False</code>, so REJECT could never fire, regardless of how severe a finding was.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The check was written against an assumed data shape rather than Sentry's real return type.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Found while auditing Trust Boundary's integration against Sentry's real source, rather than trusting the interface as assumed.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p>The severity check was rewritten against the actual <code>Match</code> dataclass. REJECT fires correctly now. Fixed same day.</p></div>
+        </div>
+      </div>
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-3" id="audit-toggle-3">
+          <span class="audit-date mono">AUG 13, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Trust Boundary</span> — integration assumed a method that didn't exist</span>
+          <span class="audit-status verified">FIXED SAME DAY</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-3" role="region" aria-labelledby="audit-toggle-3" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>The Reasoning Kernel integration assumed a <code>Kernel.evaluate()</code> method that doesn't exist on the Kernel's real interface.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The integration was written against an assumed API surface rather than checked against the Reasoning Kernel's actual public interface before the two were wired together.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Surfaced during the same source-level audit that caught the REJECT-path bug above — checking real code instead of assumed docs.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p>Rewired against the real graph/transaction API. Fixed same day.</p></div>
+        </div>
+      </div>
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-4" id="audit-toggle-4">
+          <span class="audit-date mono">AUG 15, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Reasoning Kernel</span> — circular SUPPORTS chains undetected</span>
+          <span class="audit-status verified">FIXED SAME DAY</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-4" role="region" aria-labelledby="audit-toggle-4" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>Rule 8, meant to catch circular reasoning, missed circular <code>SUPPORTS</code> chains — a reasoning graph containing a cycle could pass validation undetected.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The rule's cycle check didn't fully cover chains where a <code>SUPPORTS</code> edge closed a loop across multiple hops.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Found during rule-level testing of the integrity layer.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p>Rule 8 now detects circular <code>SUPPORTS</code> chains regardless of chain length; validation rejects them as it should. Fixed same day.</p></div>
+        </div>
+      </div>
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-5" id="audit-toggle-5">
+          <span class="audit-date mono">AUG 16, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Warden</span> — scoring inversion</span>
+          <span class="audit-status flag">ON HOLD</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-5" role="region" aria-labelledby="audit-toggle-5" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>Warden's core matcher (word-Jaccard) was found to score inverted. On a 60-pair hand-labelled test set it produced an AUC of <strong>0.332</strong>, below the 0.50 random baseline.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The matcher's scoring direction didn't line up with what a genuine match should indicate, so higher scores tracked mismatches more than matches.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Found during an adversarial review — hand-labelling a 60-pair test set and scoring the matcher against it. An AUC below random chance surfaced the inversion.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p><strong>STATUS: ON HOLD — DETECTOR INVERTED.</strong> The matcher is being redesigned rather than patched; it stays flagged here, visible, until the redesign ships.</p></div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -620,6 +692,18 @@ try {
     if(fillEl) fillEl.style.height = '100%';
   }
 } catch(e) { console.warn('timeline failed', e); }
+
+// failure archive accordion
+try {
+  document.querySelectorAll('.audit-head').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      const panel = document.getElementById(btn.getAttribute('aria-controls'));
+      btn.setAttribute('aria-expanded', String(!expanded));
+      if(panel) panel.hidden = expanded;
+    });
+  });
+} catch(e) { console.warn('audit accordion failed', e); }
 </script>
 </body>
 </html>

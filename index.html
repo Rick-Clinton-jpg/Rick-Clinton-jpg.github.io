@@ -155,20 +155,50 @@
   /* pipeline diagram */
   .pipeline{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:40px 32px;margin-bottom:20px;}
   .pipe-row{display:flex;align-items:center;gap:0;flex-wrap:wrap;justify-content:center;}
-  .pipe-node{
+  button.pipe-node{
     background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
-    padding:16px 18px;min-width:130px;text-align:center;cursor:default;
+    padding:16px 18px;min-width:130px;text-align:center;cursor:pointer;
+    font-family:inherit;color:inherit;
     transition:border-color 0.2s ease, transform 0.2s ease;
   }
-  .pipe-node:hover{border-color:var(--verified);transform:translateY(-2px);}
+  .pipe-node:hover,.pipe-node:focus-visible{border-color:var(--verified);transform:translateY(-2px);}
   .pipe-node .pn-name{font-size:14px;font-weight:600;color:var(--ink);}
   .pipe-node .pn-stat{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:11px;color:var(--verified);margin-top:4px;}
   .pipe-arrow{color:var(--ink-dim);font-size:18px;padding:0 14px;}
-  .pipe-coord{
-    text-align:center;margin-top:18px;font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--flag);
-    border-top:1px dashed var(--line);padding-top:18px;
+  button.pipe-coord{
+    display:block;width:100%;text-align:center;margin-top:18px;font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--flag);
+    border-top:1px dashed var(--line);border-left:none;border-right:none;border-bottom:none;background:none;
+    padding-top:18px;cursor:pointer;
   }
+  .pipe-coord:hover,.pipe-coord:focus-visible{color:var(--ink);}
   .ext-row{display:flex;gap:16px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+
+  /* node metadata modal */
+  .node-modal-overlay{
+    position:fixed;inset:0;z-index:100;background:rgba(6,10,18,0.72);
+    display:flex;align-items:center;justify-content:center;padding:24px;
+  }
+  .node-modal-overlay[hidden]{display:none;}
+  .node-modal{
+    background:var(--panel);border:1px solid var(--line);border-radius:14px;
+    max-width:420px;width:100%;padding:28px 30px;position:relative;
+  }
+  .node-modal-close{
+    position:absolute;top:16px;right:16px;background:none;border:1px solid var(--line);
+    border-radius:6px;color:var(--ink-muted);width:28px;height:28px;cursor:pointer;font-size:14px;
+  }
+  .node-modal-close:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .node-modal-status{
+    display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:5px;margin-bottom:14px;
+  }
+  .node-modal-status.verified{background:var(--verified-dim);color:var(--verified);}
+  .node-modal-status.flag{background:var(--flag-dim);color:var(--flag);}
+  .node-modal h3{font-size:20px;margin-bottom:10px;}
+  .node-modal-role{font-size:14px;color:var(--ink-muted);margin-bottom:18px;}
+  .node-modal-row{display:flex;gap:10px;font-size:13px;margin-bottom:10px;align-items:baseline;}
+  .node-modal-row .nm-k{color:var(--ink-dim);font-size:11px;flex-shrink:0;width:52px;}
+  .node-modal-row span:last-child{color:var(--ink-muted);}
+  .node-modal .proj-link{display:inline-block;margin-top:10px;}
 
   /* project grid */
   .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
@@ -388,20 +418,33 @@
     <p class="section-sub reveal">Each tool stays inside the scope it was actually validated for. An earlier unified-graph design was deliberately rejected — repurposing a tool past its proven boundary launders unearned confidence into the result.</p>
     <div class="pipeline reveal">
       <div class="pipe-row">
-        <div class="pipe-node"><div class="pn-name">Sentry</div><div class="pn-stat">22-case test suite</div></div>
+        <button class="pipe-node" data-node="sentry" aria-haspopup="dialog"><div class="pn-name">Sentry</div><div class="pn-stat">22-case test suite</div></button>
         <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pn-name">Reasoning Kernel</div><div class="pn-stat">16/16 · 8/8 honest NEI</div></div>
+        <button class="pipe-node" data-node="kernel" aria-haspopup="dialog"><div class="pn-name">Reasoning Kernel</div><div class="pn-stat">16/16 · 8/8 honest NEI</div></button>
         <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pn-name">Review Board</div><div class="pn-stat">fault-injection tested</div></div>
+        <button class="pipe-node" data-node="review" aria-haspopup="dialog"><div class="pn-name">Review Board</div><div class="pn-stat">fault-injection tested</div></button>
       </div>
-      <div class="pipe-coord">↑ coordinated by Trust Boundary — 2 real integration defects found &amp; fixed ↑</div>
+      <button class="pipe-coord" data-node="trust" aria-haspopup="dialog">↑ coordinated by Trust Boundary — 2 real integration defects found &amp; fixed ↑</button>
       <div class="ext-row">
-        <div class="pipe-node"><div class="pn-name">IntentGraph</div><div class="pn-stat">100% / 0% FP</div></div>
-        <div class="pipe-node"><div class="pn-name">Warden</div><div class="pn-stat" style="color:var(--flag);">on hold — detector inverted</div></div>
+        <button class="pipe-node" data-node="intent" aria-haspopup="dialog"><div class="pn-name">IntentGraph</div><div class="pn-stat">100% / 0% FP</div></button>
+        <button class="pipe-node" data-node="warden" aria-haspopup="dialog"><div class="pn-name">Warden</div><div class="pn-stat" style="color:var(--flag);">on hold — detector inverted</div></button>
       </div>
     </div>
+    <p class="section-sub reveal" style="margin-top:16px;margin-bottom:0;font-size:13px;">Click any node for its real status, test result, and repository link.</p>
   </div>
 </section>
+
+<div class="node-modal-overlay" id="node-modal-overlay" hidden>
+  <div class="node-modal" role="dialog" aria-modal="true" aria-labelledby="node-modal-title">
+    <button class="node-modal-close" id="node-modal-close" aria-label="Close panel">✕</button>
+    <div class="node-modal-status mono" id="node-modal-status"></div>
+    <h3 id="node-modal-title"></h3>
+    <p class="node-modal-role" id="node-modal-role"></p>
+    <div class="node-modal-row"><span class="nm-k mono">TESTS</span><span id="node-modal-tests"></span></div>
+    <div class="node-modal-row"><span class="nm-k mono">STATE</span><span id="node-modal-state"></span></div>
+    <a class="proj-link" id="node-modal-link" href="#" target="_blank" rel="noopener">view repository ↗</a>
+  </div>
+</div>
 
 <section id="work">
   <div class="wrap">
@@ -704,6 +747,92 @@ try {
     });
   });
 } catch(e) { console.warn('audit accordion failed', e); }
+
+// pipeline node metadata panel
+try {
+  const nodeInfo = {
+    sentry: {
+      name: "Sentry", status: "VERIFIED", tone: "verified",
+      role: "Offline, rule-based detector for prompt-injection and adversarial-input patterns.",
+      tests: "22-case test suite · CI × 3 py versions, passing",
+      state: "Live — packaged as an installable Claude Code plugin.",
+      link: "https://github.com/Rick-Clinton-jpg/Sentry"
+    },
+    kernel: {
+      name: "Reasoning Kernel", status: "VERIFIED", tone: "verified",
+      role: "Deterministic 8-rule integrity layer for AI-generated reasoning graphs.",
+      tests: "16/16 correct · 8/8 honest abstentions",
+      state: "Live. Two rule-level bugs found in eval and fixed same day — see the audit log.",
+      link: "https://github.com/Rick-Clinton-jpg/reasoning-kernel"
+    },
+    review: {
+      name: "Review Board", status: "VERIFIED", tone: "verified",
+      role: "Six-stage structured deliberation. An earlier auto-trigger design was tested, found unreliable, and abandoned.",
+      tests: "Fault-injection validated",
+      state: "Live.",
+      link: "https://github.com/Rick-Clinton-jpg/Review-Board"
+    },
+    trust: {
+      name: "Trust Boundary", status: "VERIFIED", tone: "verified",
+      role: "The coordinator. Confirms integration points against real source, not assumed docs.",
+      tests: "2 integration bugs found & fixed — see the audit log",
+      state: "Live.",
+      link: "https://github.com/Rick-Clinton-jpg/trust-boundary"
+    },
+    intent: {
+      name: "IntentGraph", status: "VERIFIED", tone: "verified",
+      role: "Detects when a conversation returns to an objective that already triggered a safety boundary.",
+      tests: "100% detect · 0% false-positive, 15 cases",
+      state: "Live.",
+      link: "https://github.com/Rick-Clinton-jpg/intent-layer"
+    },
+    warden: {
+      name: "Warden", status: "ON HOLD — DETECTOR INVERTED", tone: "flag",
+      role: "External observer for long-running AI coding agents; checks self-reported status against reality.",
+      tests: "Core matcher (word-Jaccard) scored AUC 0.332 on a 60-pair hand-labelled set — below the 0.50 random baseline.",
+      state: "On hold. An adversarial review found the match/drift scoring inverted; redesign in progress, not patched — see the audit log.",
+      link: "https://github.com/Rick-Clinton-jpg/warden"
+    }
+  };
+  const overlay = document.getElementById('node-modal-overlay');
+  const closeBtn = document.getElementById('node-modal-close');
+  const elStatus = document.getElementById('node-modal-status');
+  const elTitle = document.getElementById('node-modal-title');
+  const elRole = document.getElementById('node-modal-role');
+  const elTests = document.getElementById('node-modal-tests');
+  const elState = document.getElementById('node-modal-state');
+  const elLink = document.getElementById('node-modal-link');
+  let lastTrigger = null;
+
+  function openNode(key, trigger){
+    const info = nodeInfo[key];
+    if(!info) return;
+    lastTrigger = trigger;
+    elStatus.textContent = info.status;
+    elStatus.className = 'node-modal-status mono ' + info.tone;
+    elTitle.textContent = info.name;
+    elRole.textContent = info.role;
+    elTests.textContent = info.tests;
+    elState.textContent = info.state;
+    elLink.href = info.link;
+    overlay.hidden = false;
+    closeBtn.focus();
+    document.addEventListener('keydown', onNodeKeydown);
+  }
+  function closeNode(){
+    overlay.hidden = true;
+    document.removeEventListener('keydown', onNodeKeydown);
+    if(lastTrigger) lastTrigger.focus();
+  }
+  function onNodeKeydown(e){
+    if(e.key === 'Escape') closeNode();
+  }
+  document.querySelectorAll('[data-node]').forEach(el=>{
+    el.addEventListener('click', ()=> openNode(el.getAttribute('data-node'), el));
+  });
+  closeBtn.addEventListener('click', closeNode);
+  overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeNode(); });
+} catch(e) { console.warn('node panel failed', e); }
 </script>
 </body>
 </html>

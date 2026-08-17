@@ -200,6 +200,31 @@
   .node-modal-row span:last-child{color:var(--ink-muted);}
   .node-modal .proj-link{display:inline-block;margin-top:10px;}
 
+  /* human gate */
+  .gate-card{
+    background:var(--panel);border:1px solid var(--flag);border-radius:12px;padding:28px 32px;
+    position:relative;
+  }
+  .gate-label{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;
+    font-size:11px;color:var(--flag);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;
+  }
+  .illustrative-tag{
+    display:inline-block;vertical-align:middle;
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;
+    font-size:10.5px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;
+    background:var(--flag-dim);color:var(--flag);border-radius:5px;padding:3px 8px;
+  }
+  .gate-claim{font-size:19px;line-height:1.5;margin-bottom:22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .gate-claim strong{color:var(--ink);}
+  .gate-actions{display:flex;gap:12px;flex-wrap:wrap;}
+  .gate-result{
+    margin-top:20px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:14px;color:var(--verified);
+  }
+  .gate-result[hidden]{display:none;}
+
   /* project grid */
   .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
   .proj-card{
@@ -445,6 +470,21 @@
     <a class="proj-link" id="node-modal-link" href="#" target="_blank" rel="noopener">view repository ↗</a>
   </div>
 </div>
+
+<section id="human-gate">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">a demonstration, not a claim</div>
+    <div class="gate-card reveal">
+      <div class="gate-label">AUTONOMOUS RECOMMENDATION</div>
+      <div class="gate-claim">Portfolio appears <strong>HIGHLY CREDIBLE</strong> — Confidence: <span class="mono" data-illustrative="true">92%</span> <span class="illustrative-tag" data-illustrative="true">ILLUSTRATIVE — NOT A REAL SCORE</span></div>
+      <div class="gate-actions">
+        <button class="btn btn-ghost" id="gate-accept">ACCEPT</button>
+        <button class="btn btn-primary" id="gate-verify">VERIFY YOURSELF</button>
+      </div>
+      <p class="gate-result mono" id="gate-result" hidden></p>
+    </div>
+  </div>
+</section>
 
 <section id="work">
   <div class="wrap">
@@ -833,6 +873,25 @@ try {
   closeBtn.addEventListener('click', closeNode);
   overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeNode(); });
 } catch(e) { console.warn('node panel failed', e); }
+
+// human gate
+try {
+  const gateResult = document.getElementById('gate-result');
+  const gateAccept = document.getElementById('gate-accept');
+  const gateVerify = document.getElementById('gate-verify');
+  gateAccept.addEventListener('click', ()=>{
+    gateResult.style.color = 'var(--ink-muted)';
+    gateResult.textContent = 'Okay — moving on.';
+    gateResult.hidden = false;
+  });
+  gateVerify.addEventListener('click', ()=>{
+    gateResult.style.color = 'var(--verified)';
+    gateResult.textContent = 'Good. Never trust a system merely because it sounds confident.';
+    gateResult.hidden = false;
+    const work = document.getElementById('work');
+    if(work) setTimeout(()=> work.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
+  });
+} catch(e) { console.warn('human gate failed', e); }
 </script>
 </body>
 </html>

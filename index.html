@@ -220,23 +220,26 @@
   .node-modal-overlay[hidden]{display:none;}
   .node-modal{
     background:var(--panel);border:1px solid var(--line);border-radius:0;
-    max-width:420px;width:100%;padding:28px 30px;position:relative;
+    max-width:420px;width:100%;padding:18px 20px;position:relative;
   }
   .node-modal-close{
-    position:absolute;top:16px;right:16px;background:none;border:1px solid var(--line);
-    border-radius:0;color:var(--ink-muted);width:28px;height:28px;cursor:pointer;font-size:14px;
+    position:absolute;top:12px;right:12px;background:none;border:1px solid var(--line);
+    border-radius:0;color:var(--ink-muted);width:24px;height:24px;cursor:pointer;font-size:13px;
   }
   .node-modal-close:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .node-modal h3{font-size:18px;margin:0 32px 12px 0;}
+  .node-modal-fields{border-top:1px solid var(--line);}
+  .node-modal-row{display:flex;gap:14px;font-size:12.5px;padding:9px 0;border-bottom:1px solid var(--line);align-items:baseline;}
+  .node-modal-row .nm-k{
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;
+    color:var(--ink-dim);font-size:10.5px;letter-spacing:0.04em;flex-shrink:0;width:56px;
+  }
+  .node-modal-row span:last-child{color:var(--ink-muted);line-height:1.5;}
   .node-modal-status{
-    display:inline-block;font-size:11px;font-weight:600;padding:3px 9px;border-radius:0;margin-bottom:14px;
+    display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:0;
   }
   .node-modal-status.verified{background:var(--verified-dim);color:var(--verified);}
   .node-modal-status.flag{background:var(--flag-dim);color:var(--flag);}
-  .node-modal h3{font-size:20px;margin-bottom:10px;}
-  .node-modal-role{font-size:14px;color:var(--ink-muted);margin-bottom:18px;}
-  .node-modal-row{display:flex;gap:10px;font-size:13px;margin-bottom:10px;align-items:baseline;}
-  .node-modal-row .nm-k{color:var(--ink-dim);font-size:11px;flex-shrink:0;width:52px;}
-  .node-modal-row span:last-child{color:var(--ink-muted);}
   .node-modal .proj-link{display:inline-block;margin-top:10px;}
 
   /* human gate */
@@ -304,14 +307,22 @@
   .audit-status.flag{background:var(--flag-dim);color:var(--flag);}
   .audit-chevron{color:var(--ink-dim);flex-shrink:0;transition:transform 0.2s ease;font-size:12px;}
   .audit-head[aria-expanded="true"] .audit-chevron{transform:rotate(180deg);}
-  .audit-panel{border-top:1px solid var(--line);padding:22px 20px 24px;display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .audit-panel{border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;}
+  .audit-panel[hidden]{display:none;}
+  .audit-sub{padding:12px 18px;border-bottom:1px solid var(--line);}
+  .audit-sub:nth-child(odd){border-right:1px solid var(--line);}
+  .audit-sub:nth-child(3),.audit-sub:nth-child(4){border-bottom:none;}
   .audit-sub h4{
-    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:11px;
-    text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-dim);margin-bottom:6px;
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-dim);margin-bottom:4px;
   }
-  .audit-sub p{font-size:13.5px;color:var(--ink-muted);}
+  .audit-sub p{font-size:13px;color:var(--ink-muted);line-height:1.5;}
   .audit-sub code{color:var(--ink);background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:0;font-size:12.5px;}
-  @media (max-width:640px){ .audit-panel{grid-template-columns:1fr;} }
+  @media (max-width:640px){
+    .audit-panel{grid-template-columns:1fr;}
+    .audit-sub{border-right:none !important;border-bottom:1px solid var(--line);}
+    .audit-sub:last-child{border-bottom:none;}
+  }
 
   /* manifesto */
   .rule0{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--verified);border-radius:0;padding:32px 36px;}
@@ -576,12 +587,14 @@
 <div class="node-modal-overlay" id="node-modal-overlay" hidden>
   <div class="node-modal" role="dialog" aria-modal="true" aria-labelledby="node-modal-title">
     <button class="node-modal-close" id="node-modal-close" aria-label="Close panel">✕</button>
-    <div class="node-modal-status mono" id="node-modal-status"></div>
     <h3 id="node-modal-title"></h3>
-    <p class="node-modal-role" id="node-modal-role"></p>
-    <div class="node-modal-row"><span class="nm-k mono">TESTS</span><span id="node-modal-tests"></span></div>
-    <div class="node-modal-row"><span class="nm-k mono">STATE</span><span id="node-modal-state"></span></div>
-    <a class="proj-link" id="node-modal-link" href="#" target="_blank" rel="noopener">view repository ↗</a>
+    <div class="node-modal-fields">
+      <div class="node-modal-row"><span class="nm-k mono">STATUS</span><span class="node-modal-status mono" id="node-modal-status"></span></div>
+      <div class="node-modal-row"><span class="nm-k mono">ROLE</span><span id="node-modal-role"></span></div>
+      <div class="node-modal-row"><span class="nm-k mono">TESTS</span><span id="node-modal-tests"></span></div>
+      <div class="node-modal-row"><span class="nm-k mono">STATE</span><span id="node-modal-state"></span></div>
+    </div>
+    <a class="proj-link" id="node-modal-link" href="#" target="_blank" rel="noopener" style="display:inline-block;margin-top:12px;">view repository ↗</a>
   </div>
 </div>
 

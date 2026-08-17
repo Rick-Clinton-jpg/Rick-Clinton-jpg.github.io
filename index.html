@@ -69,6 +69,18 @@
   }
   .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--verified);animation:pulse 2s ease-in-out infinite;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+
+  /* status strip */
+  .status-strip{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px;}
+  .status-chip{
+    display:inline-flex;align-items:center;gap:7px;
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:11.5px;
+    color:var(--ink-muted);border:1px solid var(--line);border-radius:6px;padding:6px 10px;
+    background:var(--panel-2);
+  }
+  .status-chip .sc-dot{width:6px;height:6px;border-radius:50%;background:var(--verified);flex-shrink:0;}
+  .status-chip.flag .sc-dot{background:var(--flag);}
+  .status-chip b{color:var(--ink);font-weight:600;}
   .hero h1{font-size:44px;line-height:1.12;margin-bottom:20px;}
   .hero h1 em{font-style:normal;color:var(--verified);}
   .hero-sub{font-size:17px;color:var(--ink-muted);max-width:520px;margin-bottom:32px;}
@@ -297,11 +309,17 @@
 </header>
 
 <section class="stats">
-  <div class="wrap stats-grid">
-    <div class="stat reveal"><div class="stat-num" data-count="6">0</div><div class="stat-label">repositories, one architecture</div></div>
-    <div class="stat reveal"><div class="stat-num"><span data-count="9">0</span>d</div><div class="stat-label">from first commit to sixth repo</div></div>
-    <div class="stat reveal"><div class="stat-num" data-count="5">0</div><div class="stat-label">real defects found &amp; fixed, documented publicly</div></div>
-    <div class="stat reveal"><div class="stat-num"><span data-count="16">0</span>/16</div><div class="stat-label">reasoning kernel eval accuracy</div></div>
+  <div class="wrap">
+    <div class="status-strip reveal">
+      <span class="status-chip"><span class="sc-dot"></span> STATUS: <b>EXTERNALLY VERIFIED</b></span>
+      <span class="status-chip flag"><span class="sc-dot"></span> HUMAN GATE: <b>REVIEWER REQUIRED</b></span>
+    </div>
+    <div class="stats-grid">
+      <div class="stat reveal"><div class="stat-num" data-count="6">0</div><div class="stat-label">repositories, one architecture</div></div>
+      <div class="stat reveal"><div class="stat-num"><span data-count="9">0</span>d</div><div class="stat-label">from first commit to sixth repo</div></div>
+      <div class="stat reveal"><div class="stat-num" data-count="5">0</div><div class="stat-label">real defects found &amp; fixed, documented publicly</div></div>
+      <div class="stat reveal"><div class="stat-num"><span data-count="16">0</span>/16</div><div class="stat-label">reasoning kernel eval accuracy</div></div>
+    </div>
   </div>
 </section>
 

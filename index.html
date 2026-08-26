@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Rick Clinton — Independent AI governance & safety researcher. Six repositories, one thesis: verify a model's or agent's account of itself externally.">
+<meta name="description" content="Rick Clinton — Independent AI governance & safety researcher building deterministic trust boundaries, evaluation systems, and external agent oversight.">
 <title>Rick Clinton — AI Governance &amp; Safety Research</title>
 <style>
   :root{
@@ -29,6 +29,7 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
+  #line-ripple{position:fixed;inset:0;width:100%;height:100%;z-index:-2;opacity:.34;pointer-events:none;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
   h1,h2,h3{font-family:"Avenir Next","Century Gothic","Segoe UI",system-ui,sans-serif;font-weight:600;letter-spacing:-0.01em;}
   .mono{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;}
@@ -424,8 +425,12 @@
     100%{opacity:0;}
   }
 
-  @media (max-width:820px){
+  @media (max-width:1040px){
     .hero-grid{grid-template-columns:1fr;}
+    .ticker-card{max-width:680px;}
+    .nav-links a:nth-child(n+3){display:none;}
+  }
+  @media (max-width:820px){
     .timeline-grid{grid-template-columns:1fr;}
     .timeline-scene-box{order:-1;}
     .proj-grid{grid-template-columns:1fr;}
@@ -443,6 +448,7 @@
 </head>
 <body>
 <script>document.documentElement.classList.add('has-js');</script>
+<canvas id="line-ripple" aria-hidden="true"></canvas>
 <div class="bg-grid"></div>
 
 <nav>
@@ -465,7 +471,7 @@
       <input type="text" id="cmdk-input" class="cmdk-input mono" placeholder="type a command and press enter…" aria-label="Command input" autocomplete="off">
     </div>
     <div class="cmdk-list" id="cmdk-list">
-      <button class="cmdk-item" data-cmd="systems">/systems <span>→ six repositories</span></button>
+      <button class="cmdk-item" data-cmd="systems">/systems <span>→ research &amp; applied systems</span></button>
       <button class="cmdk-item" data-cmd="failures">/failures <span>→ failure audit log</span></button>
       <button class="cmdk-item" data-cmd="thesis">/thesis <span>→ rule zero</span></button>
       <button class="cmdk-item" data-cmd="research">/research <span>→ working papers</span></button>
@@ -480,7 +486,7 @@
     <div>
       <div class="eyebrow">available for AI governance &amp; policy roles</div>
       <h1>Deterministic checks<br>for probabilistic systems<br>— and the agents that run them<em>.</em></h1>
-      <p class="hero-sub">Independent AI governance &amp; safety researcher. Six repositories, one thesis: don't trust a model's — or an agent's — account of itself. Verify it externally.</p>
+      <p class="hero-sub">Independent AI governance &amp; safety researcher. Ten public repositories, one operating principle: don't trust a model's — or an agent's — account of itself. Verify it externally.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#work">View the work</a>
         <a class="btn btn-ghost" href="Rick_Clinton_Resume.pdf">Download resume</a>
@@ -520,7 +526,7 @@
       <div class="console-strap mono">EXTERNAL VERIFICATION REQUIRED</div>
       <div class="console-fields">
         <div class="console-row">
-          <span class="cr-label mono">REPOSITORIES</span>
+          <span class="cr-label mono">PUBLIC REPOSITORIES</span>
           <span class="cr-num mono" id="cc-repos">0</span>
         </div>
         <div class="console-row console-row-bar">
@@ -560,6 +566,7 @@
         <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Sentry, Review Board &amp; Trust Boundary</div><div class="t-desc">Input detection and deliberation land same day; the coordinator wiring both together follows hours later.</div></div>
         <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">IntentGraph</div><div class="t-desc">Extends the architecture from single-turn validation to conversation-level trajectory tracking.</div></div>
         <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Warden</div><div class="t-desc">Turns the whole portfolio's operating principle into a tool: audit the agent, don't trust its self-report. On hold as of Aug 16 — the core detector was found to score inverted; redesign in progress.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Applied systems</div><div class="t-desc">Quorum, Boundary Memory, Lex, and AI Kavach extend the verification-first approach into agent fleets, durable memory, public services, and air-gapped defense.</div></div>
       </div>
     </div>
     <div class="timeline-scene-box reveal">
@@ -642,8 +649,8 @@
 <section id="work">
   <div class="wrap">
     <div class="section-eyebrow reveal">the portfolio</div>
-    <h2 class="section-title reveal">Six repositories</h2>
-    <p class="section-sub reveal">Every result below is drawn from the actual eval output and commit history — including the runs that found real bugs.</p>
+    <h2 class="section-title reveal">Core research systems</h2>
+    <p class="section-sub reveal">Every result below is drawn from repository evidence — including the runs that found real bugs and the project currently on hold.</p>
     <div class="proj-grid">
       <div class="proj-card reveal">
         <div class="proj-top"><div class="proj-name">Reasoning Kernel</div><div class="proj-date mono">AUG 6</div></div>
@@ -680,6 +687,38 @@
         <div class="proj-desc">External observer for long-running AI coding agents. On hold: an adversarial review found the core detector's match/drift scoring is inverted (AUC 0.332, below random) — redesign in progress.</div>
         <div class="proj-stat proj-stat-flag">ON HOLD — detector inverted</div><br>
         <a class="proj-link" href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">view source ↗</a>
+      </div>
+      <div class="proj-card reveal">
+        <div class="proj-top"><div class="proj-name">Boundary Memory</div><div class="proj-date mono">AUG 2026</div></div>
+        <div class="proj-desc">CockroachDB and AWS integration that gives Trust Boundary and IntentGraph durable, queryable memory. Bedrock generates a separate 1,536-dimensional semantic-recall vector without misrepresenting IntentGraph's offline embeddings.</div>
+        <div class="proj-stat">source-verified adapters · limitations disclosed</div><br>
+        <a class="proj-link" href="https://github.com/Rick-Clinton-jpg/Boundary-Memory-" target="_blank" rel="noopener">view source ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="applied-work">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">applied builds &amp; competitions</div>
+    <h2 class="section-title reveal">Verification under external deadlines</h2>
+    <p class="section-sub reveal">Three systems shipped across separate August 2026 challenges, applying the same external-proof principle to distinct operating environments.</p>
+    <div class="proj-grid">
+      <div class="proj-card reveal">
+        <div class="proj-top"><div class="proj-name">Quorum</div><div class="proj-date mono">GOOGLE</div></div>
+        <div class="proj-desc">A gated enterprise agent-fleet coordinator deployed to Cloud Run. A Gemini worker proposes patches; independent deterministic verifiers return PASS, REJECT, or ESCALATE before any pull request is opened.</div>
+        <div class="proj-stat">34 local gate tests · live Cloud Run build</div><br>
+        <a class="proj-link" href="https://github.com/Rick-Clinton-jpg/Quorum" target="_blank" rel="noopener">view source ↗</a>
+      </div>
+      <div class="proj-card reveal">
+        <div class="proj-top"><div class="proj-name">Lex</div><div class="proj-date mono">OPENAI × INDIA</div></div>
+        <div class="proj-desc">A fully offline, bilingual EPFO claim-clarity tool that explains Form 31/10C rejection paths in plain language, with redacted audit logging and explainability on every verdict.</div>
+        <div class="proj-stat">offline · Hindi/English · three journeys</div>
+      </div>
+      <div class="proj-card reveal">
+        <div class="proj-top"><div class="proj-name">AI Kavach</div><div class="proj-date mono">CYBER QUEST 3.0</div></div>
+        <div class="proj-desc">A lightweight deterministic verification wrapper for locally run LLMs inside an air-gapped defense sandbox, extending external proof over model self-report into a national-security context.</div>
+        <div class="proj-stat">air-gapped · local-model compatible</div>
       </div>
     </div>
   </div>
@@ -827,13 +866,54 @@
     <div class="foot-copy">Chennai, India — clinpeter@gmail.com</div>
     <div class="foot-links">
       <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a>
-      <a href="Rick_Clinton_Resume.pdf">Resume</a>
+      <a href="Rick_Clinton_Resume.pdf">Resume PDF</a>
+      <a href="Rick_Clinton_Resume.docx">Resume DOCX</a>
       <a href="mailto:clinpeter@gmail.com">Email</a>
     </div>
   </div>
 </footer>
 
 <script>
+// OriginKit-selected visual direction: line-ripple / reactive-lines.
+// This lightweight canvas implementation keeps the static GitHub Pages build dependency-free.
+try {
+  const canvas = document.getElementById('line-ripple');
+  const ctx = canvas.getContext('2d');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let width = 0, height = 0, dpr = 1, raf = 0, time = 0;
+  const pointer = { x: -9999, y: -9999 };
+  function resizeRipple(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth; height = window.innerHeight;
+    canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function drawRipple(){
+    ctx.clearRect(0, 0, width, height);
+    const gap = width < 700 ? 34 : 46;
+    ctx.lineWidth = 1;
+    for(let y = -gap; y < height + gap; y += gap){
+      ctx.beginPath();
+      for(let x = -20; x <= width + 20; x += 12){
+        const dx = x - pointer.x, dy = y - pointer.y;
+        const influence = Math.max(0, 1 - Math.hypot(dx, dy) / 260);
+        const wave = Math.sin(x * .012 + time + y * .006) * (4 + influence * 16);
+        const py = y + wave + (influence * dy * .06);
+        if(x === -20) ctx.moveTo(x, py); else ctx.lineTo(x, py);
+      }
+      const fade = 0.035 + 0.055 * (1 - Math.abs(y - height * .38) / height);
+      ctx.strokeStyle = `rgba(62,207,142,${Math.max(.025, fade)})`;
+      ctx.stroke();
+    }
+    time += .012;
+    if(!reduced) raf = requestAnimationFrame(drawRipple);
+  }
+  window.addEventListener('resize', resizeRipple, { passive:true });
+  window.addEventListener('pointermove', e=>{ pointer.x=e.clientX; pointer.y=e.clientY; }, { passive:true });
+  window.addEventListener('pointerleave', ()=>{ pointer.x=-9999; pointer.y=-9999; }, { passive:true });
+  resizeRipple(); drawRipple();
+} catch(e) { console.warn('line ripple failed', e); }
+
 // audit ticker — real verified facts, typed line by line
 try {
   const facts = [
@@ -846,6 +926,7 @@ try {
     { ts: "08.15", tag: "BUILT", tone: "verified", txt: "warden: agent drift audit, MATCH/DRIFT/UNCLEAR/DIVERGENT" },
     { ts: "08.15", tag: "VERIFIED", tone: "verified", txt: "sentry claim cross-checked live against github, confirmed" },
     { ts: "08.16", tag: "FLAG", tone: "flag", txt: "warden: core matcher found inverted, AUC 0.332 vs 0.50 baseline — on hold" },
+    { ts: "08.20", tag: "BUILT", tone: "verified", txt: "boundary-memory: CockroachDB + Bedrock adapters, assumptions disclosed" },
   ];
   const tickerEl = document.getElementById('ticker');
   let fi = 0;
@@ -892,7 +973,7 @@ try {
   const wardenBar = document.getElementById('cc-warden-bar');
   const wardenVal = document.getElementById('cc-warden-val');
 
-  const REPOS_TARGET = 6;
+  const REPOS_TARGET = 10;
   const KERNEL_NUM = 16, KERNEL_DEN = 16;
   const WARDEN_AUC = 0.332;
 

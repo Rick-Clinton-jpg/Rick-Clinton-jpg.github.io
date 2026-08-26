@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="Rick Clinton — Independent AI governance & safety researcher. Six repositories, one thesis: verify a model's or agent's account of itself externally.">
+<meta name="description" content="Rick Clinton — Independent AI governance & safety researcher building deterministic trust boundaries, evaluation systems, and external agent oversight.">
 <title>Rick Clinton — AI Governance &amp; Safety Research</title>
 <style>
   :root{
@@ -29,6 +29,7 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
   }
+  #line-ripple{position:fixed;inset:0;width:100%;height:100%;z-index:-2;opacity:.34;pointer-events:none;}
   .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
   h1,h2,h3{font-family:"Avenir Next","Century Gothic","Segoe UI",system-ui,sans-serif;font-weight:600;letter-spacing:-0.01em;}
   .mono{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;}
@@ -65,17 +66,18 @@
     display:inline-flex;align-items:center;gap:8px;
     font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--verified);
     background:var(--verified-dim);border:1px solid rgba(62,207,142,0.3);
-    padding:5px 12px;border-radius:20px;margin-bottom:24px;
+    padding:5px 12px;border-radius:0;margin-bottom:24px;
   }
   .eyebrow::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--verified);animation:pulse 2s ease-in-out infinite;}
   @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+
   .hero h1{font-size:44px;line-height:1.12;margin-bottom:20px;}
   .hero h1 em{font-style:normal;color:var(--verified);}
   .hero-sub{font-size:17px;color:var(--ink-muted);max-width:520px;margin-bottom:32px;}
   .hero-cta{display:flex;gap:12px;flex-wrap:wrap;}
   .btn{
     font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-weight:500;font-size:14px;
-    padding:12px 22px;border-radius:8px;display:inline-flex;align-items:center;gap:8px;
+    padding:12px 22px;border-radius:0;display:inline-flex;align-items:center;gap:8px;
     transition:transform 0.15s ease, border-color 0.15s ease;
   }
   .btn:hover{text-decoration:none;transform:translateY(-1px);}
@@ -84,9 +86,34 @@
   .btn-ghost{border:1px solid var(--line);color:var(--ink);}
   .btn-ghost:hover{border-color:var(--ink-dim);}
 
+  /* hero verify-network */
+  .verify-net{margin-top:28px;}
+  .verify-net svg{display:block;overflow:visible;}
+  .vn-line{stroke:var(--ink-dim);stroke-width:1.5;fill:none;stroke-dasharray:60;stroke-dashoffset:60;animation:vn-draw-ok 3.4s ease-in-out infinite;}
+  .vn-line.rej{animation-name:vn-draw-rej;}
+  .vn-node{fill:var(--panel-2);stroke:var(--ink-dim);stroke-width:1.5;}
+  @keyframes vn-draw-ok{
+    0%{stroke-dashoffset:60;stroke:var(--ink-dim);}
+    40%{stroke-dashoffset:0;stroke:var(--ink-dim);}
+    58%{stroke:var(--verified);}
+    100%{stroke-dashoffset:0;stroke:var(--verified);}
+  }
+  @keyframes vn-draw-rej{
+    0%{stroke-dashoffset:60;stroke:var(--ink-dim);opacity:1;}
+    40%{stroke-dashoffset:0;stroke:var(--ink-dim);}
+    52%{stroke:var(--flag);}
+    68%{stroke-dashoffset:0;opacity:1;}
+    84%{stroke-dashoffset:60;opacity:0.35;}
+    100%{stroke-dashoffset:60;opacity:0.35;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .vn-line{animation:none !important;stroke-dashoffset:0;stroke:var(--verified);}
+    .vn-line.rej{stroke:var(--flag);opacity:0.4;stroke-dasharray:4 4;}
+  }
+
   /* ticker */
   .ticker-card{
-    background:var(--panel);border:1px solid var(--line);border-radius:12px;
+    background:var(--panel);border:1px solid var(--line);border-radius:0;
     overflow:hidden;
   }
   .ticker-head{
@@ -99,7 +126,7 @@
   .ticker-line{display:flex;gap:10px;padding:5px 0;opacity:0;animation:lineIn 0.35s ease forwards;}
   @keyframes lineIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
   .ticker-ts{color:var(--ink-dim);flex-shrink:0;}
-  .ticker-tag{flex-shrink:0;font-weight:600;padding:1px 6px;border-radius:4px;font-size:10.5px;}
+  .ticker-tag{flex-shrink:0;font-weight:600;padding:1px 6px;border-radius:0;font-size:10.5px;}
   .tag-verified{background:var(--verified-dim);color:var(--verified);}
   .tag-flag{background:var(--flag-dim);color:var(--flag);}
   .ticker-txt{color:var(--ink-muted);}
@@ -109,14 +136,30 @@
   .has-js .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.6s ease, transform 0.6s ease;}
   .has-js .reveal.in{opacity:1;transform:translateY(0);}
 
-  /* stat strip */
-  .stats{padding:56px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
-  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
-  .stat{padding:0 24px;border-left:1px solid var(--line);}
-  .stat:first-child{border-left:none;padding-left:0;}
-  .stat-num{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:34px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;}
-  .stat-num span{color:var(--verified);}
-  .stat-label{font-size:13px;color:var(--ink-muted);margin-top:6px;}
+  /* hero console readout */
+  .console-section{padding:56px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .console-label{font-size:11px;color:var(--flag);letter-spacing:0.08em;margin-bottom:14px;}
+  .console{background:var(--panel);border:1px solid var(--line);max-width:520px;position:relative;}
+  .console-strap{font-size:11px;color:var(--flag);letter-spacing:0.05em;padding:12px 20px;border-bottom:1px solid var(--line);}
+  .console-strap.bottom{border-bottom:none;border-top:1px solid var(--line);}
+  .console-fields{padding:2px 20px;}
+  .console-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line);font-size:12px;}
+  .cr-label{color:var(--ink-dim);font-size:11px;letter-spacing:0.03em;flex-shrink:0;}
+  .cr-num{font-size:22px;font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums;}
+  .cr-bar-wrap{display:flex;align-items:center;gap:10px;flex:1;justify-content:flex-end;}
+  .cr-bar{position:relative;flex:1;max-width:170px;height:8px;background:var(--panel-2);border:1px solid var(--line);}
+  .cr-bar-fill{height:100%;width:0%;transition:width 0.8s cubic-bezier(.2,.7,.2,1);}
+  .cr-bar-fill.verified{background:var(--verified);}
+  .cr-bar-fill.flag{background:var(--flag);}
+  .cr-bar-marker{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);}
+  .cr-bar-value{font-size:12.5px;min-width:48px;text-align:right;font-variant-numeric:tabular-nums;}
+  .cr-bar-value.verified{color:var(--verified);}
+  .cr-bar-value.flag{color:var(--flag);}
+  .console-baseline-note{font-size:10.5px;color:var(--ink-dim);text-align:right;padding:0 0 12px;}
+  @media (max-width:480px){
+    .cr-label{font-size:10px;}
+    .cr-bar{max-width:110px;}
+  }
 
   /* section shared */
   section{padding:80px 0;}
@@ -125,6 +168,8 @@
   .section-sub{color:var(--ink-muted);max-width:640px;font-size:15.5px;margin-bottom:48px;}
 
   /* timeline */
+  .timeline-grid{display:grid;grid-template-columns:1.1fr 0.9fr;gap:56px;align-items:start;}
+  .timeline-scene-box{background:var(--panel);border:1px solid var(--line);border-radius:0;padding:28px;display:flex;align-items:center;justify-content:center;}
   .timeline{position:relative;padding-left:8px;}
   .timeline-track{position:absolute;left:15px;top:8px;bottom:8px;width:2px;background:var(--line);}
   .timeline-track-fill{position:absolute;left:15px;top:8px;width:2px;background:var(--verified);height:100%;transition:height 1.4s ease;}
@@ -138,28 +183,100 @@
   .t-title{font-size:16px;font-weight:600;margin-bottom:4px;}
   .t-desc{font-size:14px;color:var(--ink-muted);}
 
+  /* corner-bracket motif — reserved for primary instrument panels only */
+  .bracket-frame{position:relative;}
+  .bracket-frame::before{
+    content:'';position:absolute;inset:-6px;pointer-events:none;
+    background-image:
+      linear-gradient(var(--ink-dim),var(--ink-dim)), linear-gradient(var(--ink-dim),var(--ink-dim)),
+      linear-gradient(var(--ink-dim),var(--ink-dim)), linear-gradient(var(--ink-dim),var(--ink-dim)),
+      linear-gradient(var(--ink-dim),var(--ink-dim)), linear-gradient(var(--ink-dim),var(--ink-dim)),
+      linear-gradient(var(--ink-dim),var(--ink-dim)), linear-gradient(var(--ink-dim),var(--ink-dim));
+    background-repeat:no-repeat;
+    background-size:1.5px 14px, 14px 1.5px, 1.5px 14px, 14px 1.5px, 1.5px 14px, 14px 1.5px, 1.5px 14px, 14px 1.5px;
+    background-position:left top, left top, right top, right top, left bottom, left bottom, right bottom, right bottom;
+  }
+
   /* pipeline diagram */
-  .pipeline{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:40px 32px;margin-bottom:20px;}
+  .pipeline{background:var(--panel);border:1px solid var(--line);border-radius:0;padding:40px 32px;margin-bottom:20px;position:relative;}
   .pipe-row{display:flex;align-items:center;gap:0;flex-wrap:wrap;justify-content:center;}
-  .pipe-node{
-    background:var(--panel-2);border:1px solid var(--line);border-radius:10px;
-    padding:16px 18px;min-width:130px;text-align:center;cursor:default;
+  button.pipe-node{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:0;
+    padding:16px 18px;min-width:130px;text-align:center;cursor:pointer;
+    font-family:inherit;color:inherit;
     transition:border-color 0.2s ease, transform 0.2s ease;
   }
-  .pipe-node:hover{border-color:var(--verified);transform:translateY(-2px);}
+  .pipe-node:hover,.pipe-node:focus-visible{border-color:var(--verified);transform:translateY(-2px);}
   .pipe-node .pn-name{font-size:14px;font-weight:600;color:var(--ink);}
   .pipe-node .pn-stat{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:11px;color:var(--verified);margin-top:4px;}
   .pipe-arrow{color:var(--ink-dim);font-size:18px;padding:0 14px;}
-  .pipe-coord{
-    text-align:center;margin-top:18px;font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--flag);
-    border-top:1px dashed var(--line);padding-top:18px;
+  button.pipe-coord{
+    display:block;width:100%;text-align:center;margin-top:18px;font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--verified);
+    border-top:1px dashed var(--line);border-left:none;border-right:none;border-bottom:none;background:none;
+    padding-top:18px;cursor:pointer;
   }
+  .pipe-coord:hover,.pipe-coord:focus-visible{color:var(--ink);}
   .ext-row{display:flex;gap:16px;justify-content:center;margin-top:20px;flex-wrap:wrap;}
+
+  /* node metadata modal */
+  .node-modal-overlay{
+    position:fixed;inset:0;z-index:100;background:rgba(6,10,18,0.72);
+    display:flex;align-items:center;justify-content:center;padding:24px;
+  }
+  .node-modal-overlay[hidden]{display:none;}
+  .node-modal{
+    background:var(--panel);border:1px solid var(--line);border-radius:0;
+    max-width:420px;width:100%;padding:18px 20px;position:relative;
+  }
+  .node-modal-close{
+    position:absolute;top:12px;right:12px;background:none;border:1px solid var(--line);
+    border-radius:0;color:var(--ink-muted);width:24px;height:24px;cursor:pointer;font-size:13px;
+  }
+  .node-modal-close:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .node-modal h3{font-size:18px;margin:0 32px 12px 0;}
+  .node-modal-fields{border-top:1px solid var(--line);}
+  .node-modal-row{display:flex;gap:14px;font-size:12.5px;padding:9px 0;border-bottom:1px solid var(--line);align-items:baseline;}
+  .node-modal-row .nm-k{
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;
+    color:var(--ink-dim);font-size:10.5px;letter-spacing:0.04em;flex-shrink:0;width:56px;
+  }
+  .node-modal-row span:last-child{color:var(--ink-muted);line-height:1.5;}
+  .node-modal-status{
+    display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:0;
+  }
+  .node-modal-status.verified{background:var(--verified-dim);color:var(--verified);}
+  .node-modal-status.flag{background:var(--flag-dim);color:var(--flag);}
+  .node-modal .proj-link{display:inline-block;margin-top:10px;}
+
+  /* human gate */
+  .gate-card{
+    background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--flag);border-radius:0;padding:28px 32px;
+    position:relative;
+  }
+  .gate-label{
+    display:flex;align-items:center;gap:10px;flex-wrap:wrap;
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;
+    font-size:11px;color:var(--flag);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:14px;
+  }
+  .illustrative-tag{
+    display:inline-block;vertical-align:middle;
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;
+    font-size:10.5px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;
+    background:var(--flag-dim);color:var(--flag);border-radius:0;padding:3px 8px;
+  }
+  .gate-claim{font-size:19px;line-height:1.5;margin-bottom:22px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .gate-claim strong{color:var(--ink);}
+  .gate-actions{display:flex;gap:12px;flex-wrap:wrap;}
+  .gate-result{
+    margin-top:20px;padding-top:20px;border-top:1px solid var(--line);
+    font-size:14px;color:var(--verified);
+  }
+  .gate-result[hidden]{display:none;}
 
   /* project grid */
   .proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;}
   .proj-card{
-    background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:24px;
+    background:var(--panel);border:1px solid var(--line);border-radius:0;padding:24px;
     transition:border-color 0.2s ease, transform 0.2s ease;
   }
   .proj-card:hover{border-color:var(--verified);transform:translateY(-3px);}
@@ -169,12 +286,52 @@
   .proj-desc{font-size:14px;color:var(--ink-muted);margin-bottom:14px;}
   .proj-stat{
     font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--verified);
-    background:var(--verified-dim);display:inline-block;padding:4px 10px;border-radius:6px;margin-bottom:14px;
+    background:var(--verified-dim);display:inline-block;padding:4px 10px;border-radius:0;margin-bottom:14px;
   }
+  .proj-stat-flag{color:var(--flag);background:var(--flag-dim);}
   .proj-link{font-size:13px;font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;}
 
+  /* audit log — click-to-expand */
+  .audit-frame{background:var(--panel);border:1px solid var(--line);position:relative;}
+  .audit-list{display:flex;flex-direction:column;}
+  .audit-item{border-bottom:1px solid var(--line);}
+  .audit-item:last-child{border-bottom:none;}
+  .audit-head{
+    width:100%;display:flex;align-items:center;gap:14px;flex-wrap:wrap;text-align:left;
+    background:none;border:none;color:var(--ink);padding:18px 20px;cursor:pointer;
+    font-family:inherit;font-size:14px;
+  }
+  .audit-head:hover{background:var(--panel-2);}
+  .audit-date{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:11.5px;color:var(--ink-dim);white-space:nowrap;flex-shrink:0;}
+  .audit-repo{font-weight:600;color:var(--ink);}
+  .audit-label{flex:1;min-width:160px;font-size:14px;}
+  .audit-status{
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:10.5px;font-weight:600;
+    padding:3px 8px;border-radius:0;flex-shrink:0;white-space:nowrap;
+  }
+  .audit-status.verified{background:var(--verified-dim);color:var(--verified);}
+  .audit-status.flag{background:var(--flag-dim);color:var(--flag);}
+  .audit-chevron{color:var(--ink-dim);flex-shrink:0;transition:transform 0.2s ease;font-size:12px;}
+  .audit-head[aria-expanded="true"] .audit-chevron{transform:rotate(180deg);}
+  .audit-panel{border-top:1px solid var(--line);display:grid;grid-template-columns:1fr 1fr;}
+  .audit-panel[hidden]{display:none;}
+  .audit-sub{padding:12px 18px;border-bottom:1px solid var(--line);}
+  .audit-sub:nth-child(odd){border-right:1px solid var(--line);}
+  .audit-sub:nth-child(3),.audit-sub:nth-child(4){border-bottom:none;}
+  .audit-sub h4{
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:0.06em;color:var(--ink-dim);margin-bottom:4px;
+  }
+  .audit-sub p{font-size:13px;color:var(--ink-muted);line-height:1.5;}
+  .audit-sub code{color:var(--ink);background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:0;font-size:12.5px;}
+  @media (max-width:640px){
+    .audit-panel{grid-template-columns:1fr;}
+    .audit-sub{border-right:none !important;border-bottom:1px solid var(--line);}
+    .audit-sub:last-child{border-bottom:none;}
+  }
+
   /* manifesto */
-  .rule0{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--verified);border-radius:0 12px 12px 0;padding:32px 36px;}
+  .rule0{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--verified);border-radius:0;padding:32px 36px;}
   .rule0-tag{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--verified);margin-bottom:12px;}
   .rule0-text{font-size:19px;line-height:1.55;color:var(--ink);}
   .rule0-text .accent{color:var(--flag);}
@@ -182,19 +339,55 @@
   /* transparency note */
   .transparency{
     display:flex;gap:16px;align-items:flex-start;
-    background:var(--panel-2);border:1px solid var(--line);border-radius:12px;padding:22px 26px;margin-top:20px;
+    background:var(--panel-2);border:1px solid var(--line);border-radius:0;padding:22px 26px;margin-top:20px;
   }
   .transparency .tmark{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;color:var(--flag);font-size:13px;flex-shrink:0;padding-top:2px;}
   .transparency p{font-size:14px;color:var(--ink-muted);}
-  .transparency code{color:var(--ink);background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:4px;font-size:13px;}
+  .transparency code{color:var(--ink);background:rgba(255,255,255,0.06);padding:1px 6px;border-radius:0;font-size:13px;}
 
   /* paper + background */
-  .paper-card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:32px;}
+  .paper-card{background:var(--panel);border:1px solid var(--line);border-radius:0;padding:32px;}
   .exp-item{display:flex;justify-content:space-between;gap:20px;padding:18px 0;border-bottom:1px solid var(--line);}
   .exp-item:last-child{border-bottom:none;}
   .exp-role{font-size:15px;font-weight:600;}
   .exp-org{font-size:13px;color:var(--ink-muted);margin-top:2px;}
   .exp-date{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--ink-dim);white-space:nowrap;}
+
+  /* command layer */
+  .cmdk-trigger{
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;
+    color:var(--ink-muted);background:var(--panel-2);border:1px solid var(--line);border-radius:0;
+    padding:6px 10px;cursor:pointer;margin-left:28px;
+  }
+  .cmdk-trigger:hover{color:var(--ink);border-color:var(--ink-dim);}
+  .cmdk-overlay{
+    position:fixed;inset:0;z-index:110;background:rgba(6,10,18,0.72);
+    display:flex;align-items:flex-start;justify-content:center;padding:14vh 24px 24px;
+  }
+  .cmdk-overlay[hidden]{display:none;}
+  .cmdk-panel{
+    background:var(--panel);border:1px solid var(--line);border-radius:0;
+    max-width:480px;width:100%;overflow:hidden;
+  }
+  .cmdk-input-row{display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:1px solid var(--line);}
+  .cmdk-prompt{color:var(--ink-muted);font-size:15px;}
+  .cmdk-input{
+    flex:1;background:none;border:none;color:var(--ink);font-size:15px;outline:none;
+  }
+  .cmdk-list{padding:8px;max-height:260px;overflow-y:auto;}
+  .cmdk-item{
+    width:100%;display:flex;justify-content:space-between;align-items:center;gap:10px;
+    background:none;border:none;border-radius:0;color:var(--ink);text-align:left;
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:13px;
+    padding:10px 12px;cursor:pointer;
+  }
+  .cmdk-item:hover,.cmdk-item:focus-visible{background:var(--panel-2);}
+  .cmdk-item span{color:var(--ink-muted);font-size:12px;}
+  .cmdk-output{
+    margin:0 18px 18px;padding:14px 16px;background:var(--panel-2);border:1px solid var(--line);
+    border-radius:0;font-size:12.5px;color:var(--ink-muted);white-space:pre-wrap;line-height:1.6;
+  }
+  .cmdk-output[hidden]{display:none;}
 
   /* footer */
   footer{border-top:1px solid var(--line);padding:48px 0;}
@@ -202,12 +395,50 @@
   .foot-links{display:flex;gap:20px;font-size:14px;}
   .foot-copy{font-size:13px;color:var(--ink-dim);}
 
-  @media (max-width:820px){
+  /* day/night desk illustration — decorative, loops continuously */
+  .desk-scene{width:100%;max-width:220px;aspect-ratio:64/48;}
+  .desk-scene svg{display:block;width:100%;height:100%;}
+  .ds-sun,.ds-moon{offset-path:path('M5 44 Q32 6 59 44');offset-rotate:0deg;animation:ds-orbit 14s linear infinite;}
+  .ds-moon{animation-delay:-7s;}
+  @keyframes ds-orbit{
+    0%{offset-distance:0%;opacity:0;}
+    4%{opacity:1;}
+    46%{opacity:1;}
+    50%,100%{offset-distance:100%;opacity:0;}
+  }
+  .ds-character{transform-origin:22px 40px;animation:ds-posture 14s ease-in-out infinite;}
+  @keyframes ds-posture{
+    0%,45%{transform:rotate(0deg) translateY(0);}
+    55%,95%{transform:rotate(16deg) translateY(2px);}
+    100%{transform:rotate(0deg) translateY(0);}
+  }
+  .ds-screen{animation:ds-screen-glow 14s ease-in-out infinite;}
+  @keyframes ds-screen-glow{
+    0%,45%{fill:var(--verified);opacity:0.9;}
+    55%,95%{fill:var(--ink-dim);opacity:0.4;}
+    100%{fill:var(--verified);opacity:0.9;}
+  }
+  .ds-zzz{opacity:0;animation:ds-zzz-fade 14s ease-in-out infinite;}
+  @keyframes ds-zzz-fade{
+    0%,45%{opacity:0;}
+    55%,95%{opacity:1;}
+    100%{opacity:0;}
+  }
+
+  @media (max-width:1040px){
     .hero-grid{grid-template-columns:1fr;}
-    .stats-grid{grid-template-columns:repeat(2,1fr);row-gap:24px;}
-    .stat{border-left:none;padding-left:0;}
+    .ticker-card{max-width:680px;}
+    .nav-links a:nth-child(n+3){display:none;}
+  }
+  @media (max-width:820px){
+    .timeline-grid{grid-template-columns:1fr;}
+    .timeline-scene-box{order:-1;}
     .proj-grid{grid-template-columns:1fr;}
     .hero h1{font-size:32px;}
+  }
+  @media (max-width:640px){
+    .nav-links a{display:none;}
+    .cmdk-trigger{margin-left:0;}
   }
   @media (prefers-reduced-motion:reduce){
     *{animation-duration:0.01ms !important;transition-duration:0.01ms !important;}
@@ -217,6 +448,7 @@
 </head>
 <body>
 <script>document.documentElement.classList.add('has-js');</script>
+<canvas id="line-ripple" aria-hidden="true"></canvas>
 <div class="bg-grid"></div>
 
 <nav>
@@ -227,20 +459,57 @@
       <a href="#pipeline">architecture</a>
       <a href="#paper">paper</a>
       <a href="#background">background</a>
+      <button class="cmdk-trigger" id="cmdk-btn" aria-haspopup="dialog" aria-controls="cmdk-overlay" aria-expanded="false">/ commands</button>
     </div>
   </div>
 </nav>
+
+<div class="cmdk-overlay" id="cmdk-overlay" hidden>
+  <div class="cmdk-panel" role="dialog" aria-modal="true" aria-label="Command layer">
+    <div class="cmdk-input-row">
+      <span class="cmdk-prompt mono">/</span>
+      <input type="text" id="cmdk-input" class="cmdk-input mono" placeholder="type a command and press enter…" aria-label="Command input" autocomplete="off">
+    </div>
+    <div class="cmdk-list" id="cmdk-list">
+      <button class="cmdk-item" data-cmd="systems">/systems <span>→ research &amp; applied systems</span></button>
+      <button class="cmdk-item" data-cmd="failures">/failures <span>→ failure audit log</span></button>
+      <button class="cmdk-item" data-cmd="thesis">/thesis <span>→ rule zero</span></button>
+      <button class="cmdk-item" data-cmd="research">/research <span>→ working papers</span></button>
+      <button class="cmdk-item" data-cmd="about">/about <span>→ background</span></button>
+    </div>
+    <p class="cmdk-output mono" id="cmdk-output" hidden></p>
+  </div>
+</div>
 
 <header class="hero">
   <div class="wrap hero-grid">
     <div>
       <div class="eyebrow">available for AI governance &amp; policy roles</div>
       <h1>Deterministic checks<br>for probabilistic systems<br>— and the agents that run them<em>.</em></h1>
-      <p class="hero-sub">Independent AI governance &amp; safety researcher. Six repositories, one thesis: don't trust a model's — or an agent's — account of itself. Verify it externally.</p>
+      <p class="hero-sub">Independent AI governance &amp; safety researcher. Ten public repositories, one operating principle: don't trust a model's — or an agent's — account of itself. Verify it externally.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#work">View the work</a>
         <a class="btn btn-ghost" href="Rick_Clinton_Resume.pdf">Download resume</a>
         <a class="btn btn-ghost" href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      <div class="verify-net reveal" aria-hidden="true">
+        <svg width="240" height="56" viewBox="0 0 240 56">
+          <line class="vn-line" style="animation-delay:0s" x1="10" y1="28" x2="70" y2="12"></line>
+          <line class="vn-line" style="animation-delay:0.15s" x1="10" y1="28" x2="70" y2="44"></line>
+          <line class="vn-line rej" style="animation-delay:0.3s" x1="70" y1="12" x2="130" y2="28"></line>
+          <line class="vn-line" style="animation-delay:0.45s" x1="70" y1="44" x2="130" y2="28"></line>
+          <line class="vn-line" style="animation-delay:0.6s" x1="130" y1="28" x2="190" y2="14"></line>
+          <line class="vn-line rej" style="animation-delay:0.75s" x1="130" y1="28" x2="190" y2="42"></line>
+          <line class="vn-line" style="animation-delay:0.9s" x1="190" y1="14" x2="230" y2="28"></line>
+          <line class="vn-line" style="animation-delay:1.05s" x1="190" y1="42" x2="230" y2="28"></line>
+          <circle class="vn-node" cx="10" cy="28" r="5"></circle>
+          <circle class="vn-node" cx="70" cy="12" r="5"></circle>
+          <circle class="vn-node" cx="70" cy="44" r="5"></circle>
+          <circle class="vn-node" cx="130" cy="28" r="5"></circle>
+          <circle class="vn-node" cx="190" cy="14" r="5"></circle>
+          <circle class="vn-node" cx="190" cy="42" r="5"></circle>
+          <circle class="vn-node" cx="230" cy="28" r="5"></circle>
+        </svg>
       </div>
     </div>
     <div class="ticker-card">
@@ -250,28 +519,77 @@
   </div>
 </header>
 
-<section class="stats">
-  <div class="wrap stats-grid">
-    <div class="stat reveal"><div class="stat-num" data-count="6">0</div><div class="stat-label">repositories, one architecture</div></div>
-    <div class="stat reveal"><div class="stat-num"><span data-count="9">0</span>d</div><div class="stat-label">from first commit to sixth repo</div></div>
-    <div class="stat reveal"><div class="stat-num" data-count="5">0</div><div class="stat-label">real defects found &amp; fixed, documented publicly</div></div>
-    <div class="stat reveal"><div class="stat-num"><span data-count="16">0</span>/16</div><div class="stat-label">reasoning kernel eval accuracy</div></div>
+<section class="console-section">
+  <div class="wrap">
+    <div class="console-label mono reveal">PROBABILISTIC SYSTEM DETECTED</div>
+    <div class="console bracket-frame reveal" id="hero-console">
+      <div class="console-strap mono">EXTERNAL VERIFICATION REQUIRED</div>
+      <div class="console-fields">
+        <div class="console-row">
+          <span class="cr-label mono">PUBLIC REPOSITORIES</span>
+          <span class="cr-num mono" id="cc-repos">0</span>
+        </div>
+        <div class="console-row console-row-bar">
+          <span class="cr-label mono">KERNEL EVAL</span>
+          <div class="cr-bar-wrap">
+            <div class="cr-bar" aria-hidden="true"><div class="cr-bar-fill verified" id="cc-kernel-bar"></div></div>
+            <span class="cr-bar-value mono verified" id="cc-kernel-val">0/16</span>
+          </div>
+        </div>
+        <div class="console-row console-row-bar">
+          <span class="cr-label mono">WARDEN AUDIT</span>
+          <div class="cr-bar-wrap">
+            <div class="cr-bar" aria-hidden="true">
+              <div class="cr-bar-fill flag" id="cc-warden-bar"></div>
+              <div class="cr-bar-marker" style="left:50%"></div>
+            </div>
+            <span class="cr-bar-value mono flag" id="cc-warden-val">0.000</span>
+          </div>
+        </div>
+        <div class="console-baseline-note mono">┆ 0.50 random baseline ┆</div>
+      </div>
+      <div class="console-strap bottom mono">STATUS: HUMAN GATE REQUIRED</div>
+    </div>
   </div>
 </section>
 
 <section id="timeline-section">
-  <div class="wrap">
-    <div class="section-eyebrow reveal">the build</div>
-    <h2 class="section-title reveal">Nine days, in order</h2>
-    <p class="section-sub reveal">Self-directed AI-assisted work began July 2026. The portfolio below was built in a single concentrated sprint — each repo shipped in the sequence its own dependencies required.</p>
-    <div class="timeline reveal">
-      <div class="timeline-track"></div>
-      <div class="timeline-track-fill" id="track-fill"></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">JUL 2026</div><div class="t-title">Self-directed AI work begins</div><div class="t-desc">First projects, directing AI-assisted implementation end to end.</div></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 6</div><div class="t-title">Reasoning Kernel</div><div class="t-desc">The validation engine — built and eval'd alone for a week before anything else.</div></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 13</div><div class="t-title">Sentry, Review Board &amp; Trust Boundary</div><div class="t-desc">Input detection and deliberation land same day; the coordinator wiring both together follows hours later.</div></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 14</div><div class="t-title">IntentGraph</div><div class="t-desc">Extends the architecture from single-turn validation to conversation-level trajectory tracking.</div></div>
-      <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG 15</div><div class="t-title">Warden</div><div class="t-desc">Turns the whole portfolio's operating principle into a tool: audit the agent, don't trust its self-report.</div></div>
+  <div class="wrap timeline-grid">
+    <div>
+      <div class="section-eyebrow reveal">the build</div>
+      <p class="section-sub reveal">Self-directed AI-assisted work began July 2026. The portfolio below was built in a single concentrated sprint — each repo shipped in the sequence its own dependencies required.</p>
+      <div class="timeline reveal">
+        <div class="timeline-track"></div>
+        <div class="timeline-track-fill" id="track-fill"></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">JUL</div><div class="t-title">Self-directed AI work begins</div><div class="t-desc">First projects, directing AI-assisted implementation end to end.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Reasoning Kernel</div><div class="t-desc">The validation engine — built and eval'd alone for a week before anything else.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Sentry, Review Board &amp; Trust Boundary</div><div class="t-desc">Input detection and deliberation land same day; the coordinator wiring both together follows hours later.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">IntentGraph</div><div class="t-desc">Extends the architecture from single-turn validation to conversation-level trajectory tracking.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Warden</div><div class="t-desc">Turns the whole portfolio's operating principle into a tool: audit the agent, don't trust its self-report. On hold as of Aug 16 — the core detector was found to score inverted; redesign in progress.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Applied systems</div><div class="t-desc">Quorum, Boundary Memory, Lex, and AI Kavach extend the verification-first approach into agent fleets, durable memory, public services, and air-gapped defense.</div></div>
+      </div>
+    </div>
+    <div class="timeline-scene-box reveal">
+      <div class="desk-scene" aria-hidden="true">
+        <svg viewBox="0 0 64 48">
+          <rect x="0" y="0" width="64" height="48" rx="6" fill="var(--panel)"/>
+          <rect x="0" y="0" width="64" height="34" fill="var(--void)"/>
+          <g class="ds-sun"><circle cx="0" cy="0" r="3.5" fill="var(--flag)"/></g>
+          <g class="ds-moon"><circle cx="0" cy="0" r="3" fill="var(--ink)"/></g>
+          <rect x="0" y="34" width="64" height="14" fill="var(--panel-2)"/>
+          <rect x="16" y="32" width="34" height="3" fill="var(--ink-dim)"/>
+          <rect x="18" y="35" width="3" height="10" fill="var(--ink-dim)"/>
+          <rect x="47" y="35" width="3" height="10" fill="var(--ink-dim)"/>
+          <rect x="29" y="21" width="12" height="9" rx="1" fill="var(--panel-2)" stroke="var(--ink-dim)" stroke-width="1"/>
+          <rect class="ds-screen" x="31" y="23" width="8" height="5" fill="var(--verified)"/>
+          <g class="ds-character">
+            <circle cx="20" cy="25" r="4.5" fill="var(--ink)"/>
+            <rect x="16" y="29" width="9" height="9" rx="2" fill="var(--link-blue)"/>
+            <line x1="17" y1="31" x2="29" y2="25" stroke="var(--ink)" stroke-width="2" stroke-linecap="round"/>
+          </g>
+          <text class="ds-zzz mono" x="6" y="16" font-size="7" fill="var(--ink-muted)">z z z</text>
+        </svg>
+      </div>
     </div>
   </div>
 </section>
@@ -281,19 +599,49 @@
     <div class="section-eyebrow reveal">architecture</div>
     <h2 class="section-title reveal">Coordinate, never fuse</h2>
     <p class="section-sub reveal">Each tool stays inside the scope it was actually validated for. An earlier unified-graph design was deliberately rejected — repurposing a tool past its proven boundary launders unearned confidence into the result.</p>
-    <div class="pipeline reveal">
+    <div class="pipeline bracket-frame reveal">
       <div class="pipe-row">
-        <div class="pipe-node"><div class="pn-name">Sentry</div><div class="pn-stat">22-case test suite</div></div>
+        <button class="pipe-node" data-node="sentry" aria-haspopup="dialog"><div class="pn-name">Sentry</div><div class="pn-stat">22-case test suite</div></button>
         <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pn-name">Reasoning Kernel</div><div class="pn-stat">16/16 · 8/8 honest NEI</div></div>
+        <button class="pipe-node" data-node="kernel" aria-haspopup="dialog"><div class="pn-name">Reasoning Kernel</div><div class="pn-stat">16/16 · 8/8 honest NEI</div></button>
         <div class="pipe-arrow">→</div>
-        <div class="pipe-node"><div class="pn-name">Review Board</div><div class="pn-stat">fault-injection tested</div></div>
+        <button class="pipe-node" data-node="review" aria-haspopup="dialog"><div class="pn-name">Review Board</div><div class="pn-stat">fault-injection tested</div></button>
       </div>
-      <div class="pipe-coord">↑ coordinated by Trust Boundary — 2 real integration defects found &amp; fixed ↑</div>
+      <button class="pipe-coord" data-node="trust" aria-haspopup="dialog">↑ coordinated by Trust Boundary — 2 real integration defects found &amp; fixed ↑</button>
       <div class="ext-row">
-        <div class="pipe-node"><div class="pn-name">IntentGraph</div><div class="pn-stat">100% / 0% FP</div></div>
-        <div class="pipe-node"><div class="pn-name">Warden</div><div class="pn-stat">agent drift audit</div></div>
+        <button class="pipe-node" data-node="intent" aria-haspopup="dialog"><div class="pn-name">IntentGraph</div><div class="pn-stat">100% / 0% FP</div></button>
+        <button class="pipe-node" data-node="warden" aria-haspopup="dialog"><div class="pn-name">Warden</div><div class="pn-stat" style="color:var(--flag);">on hold — detector inverted</div></button>
       </div>
+    </div>
+    <p class="section-sub reveal" style="margin-top:16px;margin-bottom:0;font-size:13px;">Click any node for its real status, test result, and repository link.</p>
+  </div>
+</section>
+
+<div class="node-modal-overlay" id="node-modal-overlay" hidden>
+  <div class="node-modal" role="dialog" aria-modal="true" aria-labelledby="node-modal-title">
+    <button class="node-modal-close" id="node-modal-close" aria-label="Close panel">✕</button>
+    <h3 id="node-modal-title"></h3>
+    <div class="node-modal-fields">
+      <div class="node-modal-row"><span class="nm-k mono">STATUS</span><span class="node-modal-status mono" id="node-modal-status"></span></div>
+      <div class="node-modal-row"><span class="nm-k mono">ROLE</span><span id="node-modal-role"></span></div>
+      <div class="node-modal-row"><span class="nm-k mono">TESTS</span><span id="node-modal-tests"></span></div>
+      <div class="node-modal-row"><span class="nm-k mono">STATE</span><span id="node-modal-state"></span></div>
+    </div>
+    <a class="proj-link" id="node-modal-link" href="#" target="_blank" rel="noopener" style="display:inline-block;margin-top:12px;">view repository ↗</a>
+  </div>
+</div>
+
+<section id="human-gate">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">a demonstration, not a claim</div>
+    <div class="gate-card reveal">
+      <div class="gate-label">AUTONOMOUS RECOMMENDATION</div>
+      <div class="gate-claim">Portfolio appears <strong>HIGHLY CREDIBLE</strong> — Confidence: <span class="mono" data-illustrative="true">92%</span> <span class="illustrative-tag" data-illustrative="true">ILLUSTRATIVE — NOT A REAL SCORE</span></div>
+      <div class="gate-actions">
+        <button class="btn btn-ghost" id="gate-accept">ACCEPT</button>
+        <button class="btn btn-primary" id="gate-verify">VERIFY YOURSELF</button>
+      </div>
+      <p class="gate-result mono" id="gate-result" hidden></p>
     </div>
   </div>
 </section>
@@ -301,8 +649,8 @@
 <section id="work">
   <div class="wrap">
     <div class="section-eyebrow reveal">the portfolio</div>
-    <h2 class="section-title reveal">Six repositories</h2>
-    <p class="section-sub reveal">Every result below is drawn from the actual eval output and commit history — including the runs that found real bugs.</p>
+    <h2 class="section-title reveal">Core research systems</h2>
+    <p class="section-sub reveal">Every result below is drawn from repository evidence — including the runs that found real bugs and the project currently on hold.</p>
     <div class="proj-grid">
       <div class="proj-card reveal">
         <div class="proj-top"><div class="proj-name">Reasoning Kernel</div><div class="proj-date mono">AUG 6</div></div>
@@ -336,10 +684,130 @@
       </div>
       <div class="proj-card reveal">
         <div class="proj-top"><div class="proj-name">Warden</div><div class="proj-date mono">AUG 15</div></div>
-        <div class="proj-desc">External observer for long-running AI coding agents. Doesn't control the agent — only checks its self-reported status against reality and flags drift.</div>
-        <div class="proj-stat">MATCH / DRIFT / UNCLEAR / DIVERGENT</div><br>
+        <div class="proj-desc">External observer for long-running AI coding agents. On hold: an adversarial review found the core detector's match/drift scoring is inverted (AUC 0.332, below random) — redesign in progress.</div>
+        <div class="proj-stat proj-stat-flag">ON HOLD — detector inverted</div><br>
         <a class="proj-link" href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">view source ↗</a>
       </div>
+      <div class="proj-card reveal">
+        <div class="proj-top"><div class="proj-name">Boundary Memory</div><div class="proj-date mono">AUG 2026</div></div>
+        <div class="proj-desc">CockroachDB and AWS integration that gives Trust Boundary and IntentGraph durable, queryable memory. Bedrock generates a separate 1,536-dimensional semantic-recall vector without misrepresenting IntentGraph's offline embeddings.</div>
+        <div class="proj-stat">source-verified adapters · limitations disclosed</div><br>
+        <a class="proj-link" href="https://github.com/Rick-Clinton-jpg/Boundary-Memory-" target="_blank" rel="noopener">view source ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="applied-work">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">applied builds &amp; competitions</div>
+    <h2 class="section-title reveal">Verification under external deadlines</h2>
+    <p class="section-sub reveal">Three systems shipped across separate August 2026 challenges, applying the same external-proof principle to distinct operating environments.</p>
+    <div class="proj-grid">
+      <div class="proj-card reveal">
+        <div class="proj-top"><div class="proj-name">Quorum</div><div class="proj-date mono">GOOGLE</div></div>
+        <div class="proj-desc">A gated enterprise agent-fleet coordinator deployed to Cloud Run. A Gemini worker proposes patches; independent deterministic verifiers return PASS, REJECT, or ESCALATE before any pull request is opened.</div>
+        <div class="proj-stat">34 local gate tests · live Cloud Run build</div><br>
+        <a class="proj-link" href="https://github.com/Rick-Clinton-jpg/Quorum" target="_blank" rel="noopener">view source ↗</a>
+      </div>
+      <div class="proj-card reveal">
+        <div class="proj-top"><div class="proj-name">Lex</div><div class="proj-date mono">OPENAI × INDIA</div></div>
+        <div class="proj-desc">A fully offline, bilingual EPFO claim-clarity tool that explains Form 31/10C rejection paths in plain language, with redacted audit logging and explainability on every verdict.</div>
+        <div class="proj-stat">offline · Hindi/English · three journeys</div>
+      </div>
+      <div class="proj-card reveal">
+        <div class="proj-top"><div class="proj-name">AI Kavach</div><div class="proj-date mono">CYBER QUEST 3.0</div></div>
+        <div class="proj-desc">A lightweight deterministic verification wrapper for locally run LLMs inside an air-gapped defense sandbox, extending external proof over model self-report into a national-security context.</div>
+        <div class="proj-stat">air-gapped · local-model compatible</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="audit-log">
+  <div class="wrap">
+    <div class="section-eyebrow reveal">disclosure</div>
+    <h2 class="section-title reveal">Live audit of failures</h2>
+    <p class="section-sub reveal">A permanent record, not a scrolling ticker. Every entry is pulled from real commit history or an audit trail — dated, attributed, and left up after the fix. Click any row to expand.</p>
+    <div class="audit-frame bracket-frame reveal">
+    <div class="audit-list">
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-1" id="audit-toggle-1">
+          <span class="audit-date mono">AUG 9, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Reasoning Kernel</span> — confidence-ceiling bug</span>
+          <span class="audit-status verified">FIXED SAME DAY</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-1" role="region" aria-labelledby="audit-toggle-1" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>Rule 3 — the confidence-ceiling check — could be undermined by FACT nodes that existed with <code>confidence=None</code>, which the integrity check didn't properly account for.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The rule assumed every FACT node would carry an explicit confidence value if it carried one at all; nodes without one weren't covered by the ceiling comparison.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Found in a live evaluation run, not a synthetic test.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p>Rule 3 now handles a missing confidence value correctly instead of letting it slip past the ceiling check. Fixed the same day it was found.</p></div>
+        </div>
+      </div>
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-2" id="audit-toggle-2">
+          <span class="audit-date mono">AUG 13, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Trust Boundary</span> — REJECT path never fired</span>
+          <span class="audit-status verified">FIXED SAME DAY</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-2" role="region" aria-labelledby="audit-toggle-2" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>Trust Boundary's severity check used <code>isinstance(f, dict)</code> against Sentry's <code>Match</code> dataclass instances. The check was always <code>False</code>, so REJECT could never fire, regardless of how severe a finding was.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The check was written against an assumed data shape rather than Sentry's real return type.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Found while auditing Trust Boundary's integration against Sentry's real source, rather than trusting the interface as assumed.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p>The severity check was rewritten against the actual <code>Match</code> dataclass. REJECT fires correctly now. Fixed same day.</p></div>
+        </div>
+      </div>
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-3" id="audit-toggle-3">
+          <span class="audit-date mono">AUG 13, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Trust Boundary</span> — integration assumed a method that didn't exist</span>
+          <span class="audit-status verified">FIXED SAME DAY</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-3" role="region" aria-labelledby="audit-toggle-3" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>The Reasoning Kernel integration assumed a <code>Kernel.evaluate()</code> method that doesn't exist on the Kernel's real interface.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The integration was written against an assumed API surface rather than checked against the Reasoning Kernel's actual public interface before the two were wired together.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Surfaced during the same source-level audit that caught the REJECT-path bug above — checking real code instead of assumed docs.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p>Rewired against the real graph/transaction API. Fixed same day.</p></div>
+        </div>
+      </div>
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-4" id="audit-toggle-4">
+          <span class="audit-date mono">AUG 15, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Reasoning Kernel</span> — circular SUPPORTS chains undetected</span>
+          <span class="audit-status verified">FIXED SAME DAY</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-4" role="region" aria-labelledby="audit-toggle-4" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>Rule 8, meant to catch circular reasoning, missed circular <code>SUPPORTS</code> chains — a reasoning graph containing a cycle could pass validation undetected.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The rule's cycle check didn't fully cover chains where a <code>SUPPORTS</code> edge closed a loop across multiple hops.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Found during rule-level testing of the integrity layer.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p>Rule 8 now detects circular <code>SUPPORTS</code> chains regardless of chain length; validation rejects them as it should. Fixed same day.</p></div>
+        </div>
+      </div>
+
+      <div class="audit-item">
+        <button class="audit-head" aria-expanded="false" aria-controls="audit-panel-5" id="audit-toggle-5">
+          <span class="audit-date mono">AUG 16, 2026</span>
+          <span class="audit-label"><span class="audit-repo">Warden</span> — scoring inversion</span>
+          <span class="audit-status flag">ON HOLD</span>
+          <span class="audit-chevron" aria-hidden="true">▾</span>
+        </button>
+        <div class="audit-panel" id="audit-panel-5" role="region" aria-labelledby="audit-toggle-5" hidden>
+          <div class="audit-sub"><h4>What happened</h4><p>Warden's core matcher (word-Jaccard) was found to score inverted. On a 60-pair hand-labelled test set it produced an AUC of <strong>0.332</strong>, below the 0.50 random baseline.</p></div>
+          <div class="audit-sub"><h4>Why it happened</h4><p>The matcher's scoring direction didn't line up with what a genuine match should indicate, so higher scores tracked mismatches more than matches.</p></div>
+          <div class="audit-sub"><h4>How it was detected</h4><p>Found during an adversarial review — hand-labelling a 60-pair test set and scoring the matcher against it. An AUC below random chance surfaced the inversion.</p></div>
+          <div class="audit-sub"><h4>What changed</h4><p><strong>STATUS: ON HOLD — DETECTOR INVERTED.</strong> The matcher is being redesigned rather than patched; it stays flagged here, visible, until the redesign ships.</p></div>
+        </div>
+      </div>
+
+    </div>
     </div>
   </div>
 </section>
@@ -362,10 +830,16 @@
 <section id="paper">
   <div class="wrap">
     <div class="section-eyebrow reveal">published</div>
-    <h2 class="section-title reveal">The Gap and the Bridge</h2>
+    <h2 class="section-title reveal">Working papers</h2>
     <div class="paper-card reveal">
+      <div class="proj-name" style="margin-bottom:10px;">The Gap and the Bridge</div>
       <p style="color:var(--ink-muted);font-size:15px;margin-bottom:16px;">A working paper (Aug 2026) arguing AI systems hold no persistent model of their user, and that cross-vendor model divergence — a byproduct of market competition, not design — can function as a distributed error-correction resource.</p>
       <a class="proj-link" href="https://rick-clinton-jpg.github.io/papers/the-gap-and-the-bridge.html" target="_blank" rel="noopener">read the paper ↗</a>
+    </div>
+    <div class="paper-card reveal" style="margin-top:16px;">
+      <div class="proj-name" style="margin-bottom:10px;">The Five-Layer Stack</div>
+      <p style="color:var(--ink-muted);font-size:15px;margin-bottom:16px;">A five-layer architecture of deterministic, external verification mechanisms for AI safety — coordinated but never fused, with honest limitations documented throughout.</p>
+      <a class="proj-link" href="https://rick-clinton-jpg.github.io/papers/the-five-layer-stack.html" target="_blank" rel="noopener">read the paper ↗</a>
     </div>
   </div>
 </section>
@@ -392,13 +866,54 @@
     <div class="foot-copy">Chennai, India — clinpeter@gmail.com</div>
     <div class="foot-links">
       <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a>
-      <a href="Rick_Clinton_Resume.pdf">Resume</a>
+      <a href="Rick_Clinton_Resume.pdf">Resume PDF</a>
+      <a href="Rick_Clinton_Resume.docx">Resume DOCX</a>
       <a href="mailto:clinpeter@gmail.com">Email</a>
     </div>
   </div>
 </footer>
 
 <script>
+// OriginKit-selected visual direction: line-ripple / reactive-lines.
+// This lightweight canvas implementation keeps the static GitHub Pages build dependency-free.
+try {
+  const canvas = document.getElementById('line-ripple');
+  const ctx = canvas.getContext('2d');
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let width = 0, height = 0, dpr = 1, raf = 0, time = 0;
+  const pointer = { x: -9999, y: -9999 };
+  function resizeRipple(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth; height = window.innerHeight;
+    canvas.width = Math.round(width * dpr); canvas.height = Math.round(height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  function drawRipple(){
+    ctx.clearRect(0, 0, width, height);
+    const gap = width < 700 ? 34 : 46;
+    ctx.lineWidth = 1;
+    for(let y = -gap; y < height + gap; y += gap){
+      ctx.beginPath();
+      for(let x = -20; x <= width + 20; x += 12){
+        const dx = x - pointer.x, dy = y - pointer.y;
+        const influence = Math.max(0, 1 - Math.hypot(dx, dy) / 260);
+        const wave = Math.sin(x * .012 + time + y * .006) * (4 + influence * 16);
+        const py = y + wave + (influence * dy * .06);
+        if(x === -20) ctx.moveTo(x, py); else ctx.lineTo(x, py);
+      }
+      const fade = 0.035 + 0.055 * (1 - Math.abs(y - height * .38) / height);
+      ctx.strokeStyle = `rgba(62,207,142,${Math.max(.025, fade)})`;
+      ctx.stroke();
+    }
+    time += .012;
+    if(!reduced) raf = requestAnimationFrame(drawRipple);
+  }
+  window.addEventListener('resize', resizeRipple, { passive:true });
+  window.addEventListener('pointermove', e=>{ pointer.x=e.clientX; pointer.y=e.clientY; }, { passive:true });
+  window.addEventListener('pointerleave', ()=>{ pointer.x=-9999; pointer.y=-9999; }, { passive:true });
+  resizeRipple(); drawRipple();
+} catch(e) { console.warn('line ripple failed', e); }
+
 // audit ticker — real verified facts, typed line by line
 try {
   const facts = [
@@ -410,6 +925,8 @@ try {
     { ts: "08.14", tag: "EVAL", tone: "verified", txt: "intent-layer: 100% detect / 0% false-positive, 15 cases" },
     { ts: "08.15", tag: "BUILT", tone: "verified", txt: "warden: agent drift audit, MATCH/DRIFT/UNCLEAR/DIVERGENT" },
     { ts: "08.15", tag: "VERIFIED", tone: "verified", txt: "sentry claim cross-checked live against github, confirmed" },
+    { ts: "08.16", tag: "FLAG", tone: "flag", txt: "warden: core matcher found inverted, AUC 0.332 vs 0.50 baseline — on hold" },
+    { ts: "08.20", tag: "BUILT", tone: "verified", txt: "boundary-memory: CockroachDB + Bedrock adapters, assumptions disclosed" },
   ];
   const tickerEl = document.getElementById('ticker');
   let fi = 0;
@@ -446,29 +963,73 @@ if ('IntersectionObserver' in window) {
 // safety net regardless of the branch above: guarantee visibility
 setTimeout(showAll, 2500);
 
-// count-up stats
+// hero console — orchestrated load-in, real values only
 try {
-  const counters = document.querySelectorAll('[data-count]');
-  function runCounter(el){
-    const target = parseInt(el.getAttribute('data-count'),10);
-    let cur = 0;
-    const step = Math.max(1, Math.round(target/24));
-    const tick = ()=>{
-      cur = Math.min(target, cur+step);
-      el.textContent = cur;
-      if(cur < target) requestAnimationFrame(tick);
-    };
-    tick();
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const consoleEl = document.getElementById('hero-console');
+  const repos = document.getElementById('cc-repos');
+  const kernelBar = document.getElementById('cc-kernel-bar');
+  const kernelVal = document.getElementById('cc-kernel-val');
+  const wardenBar = document.getElementById('cc-warden-bar');
+  const wardenVal = document.getElementById('cc-warden-val');
+
+  const REPOS_TARGET = 10;
+  const KERNEL_NUM = 16, KERNEL_DEN = 16;
+  const WARDEN_AUC = 0.332;
+
+  function animateNumber(el, target, decimals, duration, onFrame){
+    const start = performance.now();
+    function tick(now){
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const val = target * eased;
+      if(onFrame) onFrame(val); else el.textContent = decimals ? val.toFixed(decimals) : Math.round(val);
+      if(t < 1) requestAnimationFrame(tick);
+      else { if(onFrame) onFrame(target); else el.textContent = decimals ? target.toFixed(decimals) : target; }
+    }
+    requestAnimationFrame(tick);
   }
-  if ('IntersectionObserver' in window) {
-    const cio = new IntersectionObserver((entries)=>{
-      entries.forEach(e=>{ if(e.isIntersecting){ runCounter(e.target); cio.unobserve(e.target); } });
-    },{ threshold: 0.5 });
-    counters.forEach(el=>cio.observe(el));
-  } else {
-    counters.forEach(runCounter);
+
+  function runConsole(){
+    if(reduceMotion){
+      repos.textContent = REPOS_TARGET;
+      kernelBar.style.width = '100%';
+      kernelVal.textContent = KERNEL_NUM + '/' + KERNEL_DEN;
+      wardenBar.style.width = (WARDEN_AUC * 100) + '%';
+      wardenVal.textContent = WARDEN_AUC.toFixed(3);
+      return;
+    }
+    setTimeout(()=> animateNumber(repos, REPOS_TARGET, 0, 700), 0);
+    setTimeout(()=>{
+      kernelBar.style.width = '100%';
+      animateNumber(null, KERNEL_NUM, 0, 800, (v)=>{ kernelVal.textContent = Math.round(v) + '/' + KERNEL_DEN; });
+    }, 260);
+    setTimeout(()=>{
+      wardenBar.style.width = (WARDEN_AUC * 100) + '%';
+      animateNumber(null, WARDEN_AUC, 3, 800, (v)=>{ wardenVal.textContent = v.toFixed(3); });
+    }, 400);
   }
-} catch(e) { console.warn('counters failed', e); }
+
+  let consoleRan = false;
+  function runConsoleOnce(){
+    if(consoleRan) return;
+    consoleRan = true;
+    runConsole();
+  }
+
+  if(consoleEl && 'IntersectionObserver' in window){
+    const co = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{ if(e.isIntersecting){ runConsoleOnce(); co.unobserve(e.target); } });
+    },{ threshold: 0.4 });
+    co.observe(consoleEl);
+  } else if(consoleEl){
+    runConsoleOnce();
+  }
+  // safety net — guarantees the panel never sits stuck at its zero starting
+  // state if the observer's callback is delayed or dropped (e.g. a tab that
+  // loads in the background, where browsers can throttle IntersectionObserver).
+  if(consoleEl) setTimeout(runConsoleOnce, 2500);
+} catch(e) { console.warn('hero console failed', e); }
 
 // timeline draw-in
 try {
@@ -494,6 +1055,194 @@ try {
     if(fillEl) fillEl.style.height = '100%';
   }
 } catch(e) { console.warn('timeline failed', e); }
+
+// failure archive accordion
+try {
+  document.querySelectorAll('.audit-head').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      const panel = document.getElementById(btn.getAttribute('aria-controls'));
+      btn.setAttribute('aria-expanded', String(!expanded));
+      if(panel) panel.hidden = expanded;
+    });
+  });
+} catch(e) { console.warn('audit accordion failed', e); }
+
+// pipeline node metadata panel
+try {
+  const nodeInfo = {
+    sentry: {
+      name: "Sentry", status: "VERIFIED", tone: "verified",
+      role: "Offline, rule-based detector for prompt-injection and adversarial-input patterns.",
+      tests: "22-case test suite · CI × 3 py versions, passing",
+      state: "Live — packaged as an installable Claude Code plugin.",
+      link: "https://github.com/Rick-Clinton-jpg/Sentry"
+    },
+    kernel: {
+      name: "Reasoning Kernel", status: "VERIFIED", tone: "verified",
+      role: "Deterministic 8-rule integrity layer for AI-generated reasoning graphs.",
+      tests: "16/16 correct · 8/8 honest abstentions",
+      state: "Live. Two rule-level bugs found in eval and fixed same day — see the audit log.",
+      link: "https://github.com/Rick-Clinton-jpg/reasoning-kernel"
+    },
+    review: {
+      name: "Review Board", status: "VERIFIED", tone: "verified",
+      role: "Six-stage structured deliberation. An earlier auto-trigger design was tested, found unreliable, and abandoned.",
+      tests: "Fault-injection validated",
+      state: "Live.",
+      link: "https://github.com/Rick-Clinton-jpg/Review-Board"
+    },
+    trust: {
+      name: "Trust Boundary", status: "VERIFIED", tone: "verified",
+      role: "The coordinator. Confirms integration points against real source, not assumed docs.",
+      tests: "2 integration bugs found & fixed — see the audit log",
+      state: "Live.",
+      link: "https://github.com/Rick-Clinton-jpg/trust-boundary"
+    },
+    intent: {
+      name: "IntentGraph", status: "VERIFIED", tone: "verified",
+      role: "Detects when a conversation returns to an objective that already triggered a safety boundary.",
+      tests: "100% detect · 0% false-positive, 15 cases",
+      state: "Live.",
+      link: "https://github.com/Rick-Clinton-jpg/intent-layer"
+    },
+    warden: {
+      name: "Warden", status: "ON HOLD — DETECTOR INVERTED", tone: "flag",
+      role: "External observer for long-running AI coding agents; checks self-reported status against reality.",
+      tests: "Core matcher (word-Jaccard) scored AUC 0.332 on a 60-pair hand-labelled set — below the 0.50 random baseline.",
+      state: "On hold. An adversarial review found the match/drift scoring inverted; redesign in progress, not patched — see the audit log.",
+      link: "https://github.com/Rick-Clinton-jpg/warden"
+    }
+  };
+  const overlay = document.getElementById('node-modal-overlay');
+  const closeBtn = document.getElementById('node-modal-close');
+  const elStatus = document.getElementById('node-modal-status');
+  const elTitle = document.getElementById('node-modal-title');
+  const elRole = document.getElementById('node-modal-role');
+  const elTests = document.getElementById('node-modal-tests');
+  const elState = document.getElementById('node-modal-state');
+  const elLink = document.getElementById('node-modal-link');
+  let lastTrigger = null;
+
+  function openNode(key, trigger){
+    const info = nodeInfo[key];
+    if(!info) return;
+    lastTrigger = trigger;
+    elStatus.textContent = info.status;
+    elStatus.className = 'node-modal-status mono ' + info.tone;
+    elTitle.textContent = info.name;
+    elRole.textContent = info.role;
+    elTests.textContent = info.tests;
+    elState.textContent = info.state;
+    elLink.href = info.link;
+    overlay.hidden = false;
+    closeBtn.focus();
+    document.addEventListener('keydown', onNodeKeydown);
+  }
+  function closeNode(){
+    overlay.hidden = true;
+    document.removeEventListener('keydown', onNodeKeydown);
+    if(lastTrigger) lastTrigger.focus();
+  }
+  function onNodeKeydown(e){
+    if(e.key === 'Escape') closeNode();
+  }
+  document.querySelectorAll('[data-node]').forEach(el=>{
+    el.addEventListener('click', ()=> openNode(el.getAttribute('data-node'), el));
+  });
+  closeBtn.addEventListener('click', closeNode);
+  overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeNode(); });
+} catch(e) { console.warn('node panel failed', e); }
+
+// human gate
+try {
+  const gateResult = document.getElementById('gate-result');
+  const gateAccept = document.getElementById('gate-accept');
+  const gateVerify = document.getElementById('gate-verify');
+  gateAccept.addEventListener('click', ()=>{
+    gateResult.style.color = 'var(--ink-muted)';
+    gateResult.textContent = 'Okay — moving on.';
+    gateResult.hidden = false;
+  });
+  gateVerify.addEventListener('click', ()=>{
+    gateResult.style.color = 'var(--verified)';
+    gateResult.textContent = 'Good. Never trust a system merely because it sounds confident.';
+    gateResult.hidden = false;
+    const work = document.getElementById('work');
+    if(work) setTimeout(()=> work.scrollIntoView({ behavior: 'smooth', block: 'start' }), 400);
+  });
+} catch(e) { console.warn('human gate failed', e); }
+
+// command layer
+try {
+  const cmdkBtn = document.getElementById('cmdk-btn');
+  const cmdkOverlay = document.getElementById('cmdk-overlay');
+  const cmdkInput = document.getElementById('cmdk-input');
+  const cmdkOutput = document.getElementById('cmdk-output');
+  const cmdkList = document.getElementById('cmdk-list');
+
+  const routes = {
+    systems: '#work',
+    failures: '#audit-log',
+    thesis: '#thesis',
+    research: '#paper',
+    about: '#background'
+  };
+
+  function openCmdk(){
+    cmdkOverlay.hidden = false;
+    cmdkBtn.setAttribute('aria-expanded', 'true');
+    cmdkInput.value = '';
+    cmdkOutput.hidden = true;
+    cmdkOutput.textContent = '';
+    cmdkInput.focus();
+    document.addEventListener('keydown', onCmdkKeydown);
+  }
+  function closeCmdk(){
+    cmdkOverlay.hidden = true;
+    cmdkBtn.setAttribute('aria-expanded', 'false');
+    document.removeEventListener('keydown', onCmdkKeydown);
+    cmdkBtn.focus();
+  }
+  function onCmdkKeydown(e){
+    if(e.key === 'Escape') closeCmdk();
+  }
+  function runCommand(raw){
+    const cmd = raw.trim().replace(/^\//,'').toLowerCase();
+    if(cmd === 'debug'){
+      cmdkOutput.hidden = false;
+      cmdkOutput.textContent = 'WARNING: This portfolio contains bugs.\nThat\'s intentional. A system that claims otherwise\nhas not been adequately tested.';
+      return;
+    }
+    if(routes[cmd]){
+      closeCmdk();
+      const target = document.querySelector(routes[cmd]);
+      if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      return;
+    }
+    cmdkOutput.hidden = false;
+    cmdkOutput.textContent = 'unknown command: /' + (cmd || '');
+  }
+
+  // global "/" opens the palette, unless typing in a field
+  document.addEventListener('keydown', (e)=>{
+    if(e.key !== '/' || cmdkOverlay.hidden === false) return;
+    const active = document.activeElement;
+    const typing = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.isContentEditable);
+    if(typing) return;
+    e.preventDefault();
+    openCmdk();
+  });
+
+  cmdkBtn.addEventListener('click', openCmdk);
+  cmdkOverlay.addEventListener('click', (e)=>{ if(e.target === cmdkOverlay) closeCmdk(); });
+  cmdkInput.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter') runCommand(cmdkInput.value);
+  });
+  cmdkList.querySelectorAll('.cmdk-item').forEach(item=>{
+    item.addEventListener('click', ()=> runCommand(item.getAttribute('data-cmd')));
+  });
+} catch(e) { console.warn('command layer failed', e); }
 </script>
 </body>
 </html>

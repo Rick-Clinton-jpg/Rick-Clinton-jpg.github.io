@@ -522,7 +522,7 @@
     <div>
       <div class="eyebrow">available for AI governance &amp; policy roles</div>
       <h1>Deterministic checks<br>for <span class="gradient-word">probabilistic systems</span><br>— and the agents that run them<em>.</em></h1>
-      <p class="hero-sub">Independent AI governance &amp; safety researcher. Ten public repositories, one operating principle: don't trust a model's — or an agent's — account of itself. Verify it externally.</p>
+      <p class="hero-sub">Independent AI governance &amp; safety researcher. Eleven public repositories, one operating principle: don't trust a model's — or an agent's — account of itself. Verify it externally.</p>
       <div class="hero-cta">
         <a class="btn btn-primary" href="#work">View the work</a>
         <a class="btn btn-ghost" href="Rick_Clinton_Resume.pdf">Download resume</a>
@@ -602,6 +602,7 @@
         <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Sentry, Review Board &amp; Trust Boundary</div><div class="t-desc">Input detection and deliberation land same day; the coordinator wiring both together follows hours later.</div></div>
         <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">IntentGraph</div><div class="t-desc">Extends the architecture from single-turn validation to conversation-level trajectory tracking.</div></div>
         <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Warden</div><div class="t-desc">Turns the whole portfolio's operating principle into a tool: audit the agent, don't trust its self-report. On hold as of Aug 16 — the core detector was found to score inverted; redesign in progress.</div></div>
+        <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Armour</div><div class="t-desc">Extracts a deterministic authorization boundary for AI-agent actions: proposals are approved, rejected, or routed to an explicit human gate before execution.</div></div>
         <div class="t-item"><div class="t-dot"></div><div class="t-date mono">AUG</div><div class="t-title">Applied systems</div><div class="t-desc">Quorum, Boundary Memory, Lex, and AI Kavach extend the verification-first approach into agent fleets, durable memory, public services, and air-gapped defense.</div></div>
       </div>
     </div>
@@ -646,6 +647,7 @@
       <button class="pipe-coord" data-node="trust" aria-haspopup="dialog">↑ coordinated by Trust Boundary — 2 real integration defects found &amp; fixed ↑</button>
       <div class="ext-row">
         <button class="pipe-node" data-node="intent" aria-haspopup="dialog"><div class="pn-name">IntentGraph</div><div class="pn-stat">100% / 0% FP</div></button>
+        <button class="pipe-node" data-node="armour" aria-haspopup="dialog"><div class="pn-name">Armour</div><div class="pn-stat">28 tests · fail closed</div></button>
         <button class="pipe-node" data-node="warden" aria-haspopup="dialog"><div class="pn-name">Warden</div><div class="pn-stat" style="color:var(--flag);">on hold — detector inverted</div></button>
       </div>
     </div>
@@ -694,6 +696,12 @@
       <button class="filter-btn" data-filter="paused">on hold</button>
     </div>
     <div class="proj-grid">
+      <div class="proj-card reveal" data-group="core">
+        <div class="proj-top"><div class="proj-name">Armour</div><div class="proj-date mono">AUG 27</div></div>
+        <div class="proj-desc">A deterministic safety boundary for AI agents. The agent proposes an action; Armour checks policy and returns authorized, rejected, or explicit human approval required before any execution.</div>
+        <div class="proj-stat">28 tests · fail-closed research prototype</div><br>
+        <a class="proj-link" href="https://github.com/Rick-Clinton-jpg/Armour" target="_blank" rel="noopener">view source ↗</a>
+      </div>
       <div class="proj-card reveal" data-group="core">
         <div class="proj-top"><div class="proj-name">Reasoning Kernel</div><div class="proj-date mono">AUG 6</div></div>
         <div class="proj-desc">Deterministic 8-rule integrity layer for AI-generated reasoning graphs. Facts without provenance are demoted, never deleted; a conclusion can't outrank what supports it.</div>
@@ -883,11 +891,6 @@
       <p style="color:var(--ink-muted);font-size:15px;margin-bottom:16px;">A five-layer architecture of deterministic, external verification mechanisms for AI safety — coordinated but never fused, with honest limitations documented throughout.</p>
       <a class="proj-link" href="https://rick-clinton-jpg.github.io/papers/the-five-layer-stack.html" target="_blank" rel="noopener">read the paper ↗</a>
     </div>
-    <div class="paper-card reveal" style="margin-top:16px;">
-      <div class="proj-name" style="margin-bottom:10px;">Build First, Learn Backward</div>
-      <p style="color:var(--ink-muted);font-size:15px;margin-bottom:16px;">A personal baseline record (Phase 0, Aug 2026) — not a formal study — documenting implementation-knowledge decoupling and knowledge debt after directing multiple technical systems while unable to independently read most of the resulting code.</p>
-      <a class="proj-link" href="https://rick-clinton-jpg.github.io/papers/build-first-learn-backward.html" target="_blank" rel="noopener">read the paper ↗</a>
-    </div>
   </div>
 </section>
 
@@ -1031,6 +1034,7 @@ try {
     { ts: "08.15", tag: "VERIFIED", tone: "verified", txt: "sentry claim cross-checked live against github, confirmed" },
     { ts: "08.16", tag: "FLAG", tone: "flag", txt: "warden: core matcher found inverted, AUC 0.332 vs 0.50 baseline — on hold" },
     { ts: "08.20", tag: "BUILT", tone: "verified", txt: "boundary-memory: CockroachDB + Bedrock adapters, assumptions disclosed" },
+    { ts: "08.27", tag: "BUILT", tone: "verified", txt: "armour: deterministic action gate, 28 tests, fail-closed prototype" },
   ];
   const tickerEl = document.getElementById('ticker');
   let fi = 0;
@@ -1077,7 +1081,7 @@ try {
   const wardenBar = document.getElementById('cc-warden-bar');
   const wardenVal = document.getElementById('cc-warden-val');
 
-  const REPOS_TARGET = 10;
+  const REPOS_TARGET = 11;
   const KERNEL_NUM = 16, KERNEL_DEN = 16;
   const WARDEN_AUC = 0.332;
 
@@ -1209,6 +1213,13 @@ try {
       tests: "100% detect · 0% false-positive, 15 cases",
       state: "Live.",
       link: "https://github.com/Rick-Clinton-jpg/intent-layer"
+    },
+    armour: {
+      name: "Armour", status: "EARLY PROTOTYPE", tone: "verified",
+      role: "Deterministic authorization boundary between an AI agent's proposed action and execution.",
+      tests: "28 tests on the current main branch · unknown actions fail closed",
+      state: "Research prototype, not a production security boundary. Handlers remain trusted and OS-level isolation is out of scope.",
+      link: "https://github.com/Rick-Clinton-jpg/Armour"
     },
     warden: {
       name: "Warden", status: "ON HOLD — DETECTOR INVERTED", tone: "flag",

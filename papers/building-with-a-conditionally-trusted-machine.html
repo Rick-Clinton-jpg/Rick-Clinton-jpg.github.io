@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Building With a Conditionally Trusted Machine — Rick Clinton</title>
+<meta name="description" content="What a builder without formal software engineering training can discover with AI without granting it unearned authority.">
+<link rel="stylesheet" href="paper.css">
+</head>
+<body>
+<nav class="paper-nav"><a href="../index.html#papers">← back to rick-clinton.dev</a></nav>
+
+<article class="paper-wrap">
+  <div class="paper-tags"><span class="tag">personal working paper</span></div>
+
+  <h1>Building With a Conditionally Trusted Machine</h1>
+  <p class="paper-subtitle">What a builder without formal software engineering training can discover with AI without granting it unearned authority</p>
+  <p class="paper-byline">Rick Clinton — 2026</p>
+
+  <div class="paper-abstract">
+    <b>ABSTRACT</b>
+    <p style="margin:0">Artificial intelligence is often presented as a force that allows people without formal software engineering training to perform technical work. That is true, but incomplete. The more important question is what happens when the person using AI does not automatically trust its answers.</p>
+    <p style="margin:12px 0 0">This paper describes my experience using AI to investigate, design, implement, test, and refine a growing portfolio of software and research ideas without formal software engineering training. My work started with a simple discovery: AI can produce confident answers without having checked whether those answers are true, complete, current, or safe. Each later project emerged from a specific failure I encountered while working with AI. The central argument is not that AI replaces technical expertise — it's that AI can give a non-traditional builder access to unusually powerful exploration and implementation capabilities, while retained human direction prevents those capabilities from becoming blind leading the blind. I did not learn to distrust AI. I learned to trust it conditionally.</p>
+  </div>
+
+  <div class="paper-body">
+
+    <h2>1. Introduction: the tool was close at hand</h2>
+    <p>There is a powerful tool close at hand for people who do not consider themselves technical. Many are already using it to answer questions, write text, summarize documents, and generate code — often only along the most obvious paths: ask for an answer, receive a confident response, and move on. That can be efficient, but it can also stop the learning process at the point where the answer arrives.</p>
+    <p>My experience began differently. I did not begin with a mature understanding of artificial intelligence, software engineering, or AI safety. I began by trying to get things done — tightening YouTube scripts, generating images, improving edits. Each use exposed another possibility. When the system gave me an answer, I followed the direction I understood, then questioned what the answer revealed about the system. That uncertainty became productive.</p>
+
+    <h2>2. A different relationship with AI</h2>
+    <p>The shift wasn't refusing to use AI's answers — it was refusing to treat a fluent answer as a verified one. A confident explanation and a correct explanation are not the same object, even when they read identically. Distinguishing them required building things that could fail in an observable way, rather than only asking questions that could be answered in prose.</p>
+
+    <h2>3. Failure became a curriculum</h2>
+    <p>Each repository in the portfolio began with a concrete issue. The projects are not separate inventions assembled after the fact into a theory — they are a record of failure-driven learning. Three carry most of the explanatory weight; the others extend the same method into new boundaries.</p>
+
+    <h3>Reasoning Kernel: claims need structure</h3>
+    <p>The first major problem was that model-generated reasoning could make unsupported statements look like established facts. A model might distinguish retrieved evidence, assumption, and conclusion in prose — but prose alone does not enforce the distinction. Reasoning Kernel represented reasoning as typed nodes and edges: provenance became immutable, contradictions were preserved rather than silently removed, and confidence could not appear without support. The lesson: a model's explanation of its reasoning is evidence about the reasoning, not proof of it.</p>
+
+    <h3>Sentry: text can manipulate the system reading it</h3>
+    <p>The next problem was prompt and agent manipulation — instructions hidden in comments, framed as harmless additions, or written to bypass confirmation. Sentry became a deliberately narrow deterministic detector for structural warning signs, without asking a probabilistic model to judge whether a potentially manipulative input is safe.</p>
+
+    <h3>Judge: the first replacement for unreliable similarity</h3>
+    <p>Several systems in the portfolio used embeddings or semantic similarity. Useful, but they kept failing in ways that were difficult to inspect. A common safety design compares an agent's proposed action with the agent's own stated objective — but the same agent controls both texts, and can phrase an unsafe action so it appears similar to a harmless objective. Judge removes the objective from the judgment entirely: it evaluates only the proposed action against a fixed, pre-authored policy, reworded into multiple variants, each judged independently, requiring unanimous approval. Ambiguity, malformed output, or disagreement fails closed.</p>
+    <p>The remaining projects extend this same pattern: Intent Layer and Boundary Memory address temporal context and durable safety history. Armour addresses deterministic authorization and execution. Chainmail and Quorum address governance and independent agreement for multi-agent systems. Warden is deliberately retained as a negative result — its detector produced an inverted result and the project was placed on hold. That hold matters as much as the successful projects: a system should not gain authority because its intended role sounds plausible; it should gain authority only after independently specified tests support it.</p>
+
+    <h3>Armour: authorization must be deterministic</h3>
+    <p>Semantic judgment is not the same as authorization. Even if an action appears policy-compliant in text, the system still needs to decide whether the actor, tool, resource, path, effect, and risk are actually authorized. The model may propose an action; it cannot decide the action is harmless by labeling it harmless.</p>
+
+    <h3>Chainmail and Quorum: one decision is not always enough</h3>
+    <p>Long-running multi-agent systems introduce identity, delegation, budgets, replay, persistence, and coordination problems. These projects extended the basic question from "is this answer correct?" to "who is allowed to cause this transition, under what authority, and what independent evidence is required before it happens?"</p>
+
+    <h2>4. The MSRC investigation: directing AI instead of obeying it</h2>
+    <p>One of the clearest examples of this method occurred while investigating potential security issues for Microsoft's Security Response Center. At first, the AI rejected the idea that it could meaningfully help find bugs in the target code — it explained this was difficult, unreliable, not straightforward. Those statements sounded reasonable. I did not accept them.</p>
+    <p>The investigation continued for approximately six hours. Instead of asking the model for a generic vulnerability search, I redirected it toward concrete signals: directories that had recently received bug fixes, areas heavily modified and therefore easy to overlook, nearby code paths where one fix might reveal a related weakness, and differences between a stated resolution and its actual security implications.</p>
+    <div class="callout">The human contribution was not merely clicking "try again." It was maintaining a hypothesis about where the model's search strategy was weak, rejecting premature closure, and supplying a more focused investigation method. AI's initial judgment that the task was not possible was not a reliable conclusion about what was worth investigating.</div>
+
+    <h2>5. What the portfolio demonstrates</h2>
+    <p>The portfolio does not demonstrate that someone without formal software engineering training can independently perform every task of a trained engineer. It demonstrates something more precise: a person can use AI to enter unfamiliar territory, develop direction through practice, and build increasingly rigorous mechanisms without waiting to complete a conventional technical roadmap first — enter technical problem spaces quickly, produce working prototypes, inspect and revise code, create adversarial tests, discover weaknesses in an AI-assisted design, and turn repeated failures into reusable components.</p>
+    <p>The limiting skill was not memorizing every technical concept before beginning. It was learning to ask what would count as evidence while continuing to explore beyond the first answer.</p>
+
+    <h2>6. A practical method for builders without formal software engineering training</h2>
+    <ol>
+      <li><b>Treat every answer as a proposal.</b> A starting point, not a verified result — especially when the answer is fluent or confident.</li>
+      <li><b>Ask what the model actually checked.</b> Did it search, run the code, inspect the relevant files, compare against a source, test edge cases?</li>
+      <li><b>Convert vague claims into observable tests.</b> Replace "this should work" with a test that could fail; replace "this is safe" with an explicit rule.</li>
+      <li><b>Look for the first invalid state.</b> When a final result is wrong, find the earliest point where unsupported or unauthorized information entered the pipeline.</li>
+      <li><b>Challenge the method, not only the output.</b> Ask how the system could be fooled — paraphrases, omissions, reordered inputs, adversarial instructions.</li>
+      <li><b>Preserve negative results.</b> A failed approach isn't wasted work if it identifies a boundary.</li>
+      <li><b>Keep authority outside the model where possible.</b> Let the model propose, translate, or explain — but not silently become the final authority on its own compliance.</li>
+    </ol>
+
+    <h2>7. What conditional trust does and does not solve</h2>
+    <p>Conditional trust is not a substitute for technical expertise. It does not automatically reveal hidden bugs, guarantee correct policies, or eliminate the need for domain experts — and it can become unproductive if every answer is rejected without a plan for testing it. The useful form of skepticism is procedural, not emotional: what is the claim, what evidence supports it, what assumptions were introduced, what could make the result wrong, what independent check can distinguish those possibilities?</p>
+    <p>Deterministic systems have limits too. A deterministic checker can faithfully enforce a bad rule. A policy can be incomplete. Multiple judges can share correlated errors. A system can pass every encoded test while leaving important risks unmodeled. The goal is not a perfect machine — it's making the machine's scope, assumptions, failures, and authority visible.</p>
+    <p>The method works best when a direction can be identified and a requirement translated into an observable test. It is weaker when the task depends on values, tacit expertise, or open-world judgment for which no clear external check is available. In those cases conditional trust preserves awareness of uncertainty, but it cannot manufacture the missing authority.</p>
+
+    <h2>8. Conclusion</h2>
+    <p>AI made it possible for me to enter technical work before I possessed the conventional background that normally precedes it. But access alone was not enough — the system's failures became my curriculum. I learned that AI can hallucinate because it can generate an answer without checking whether the answer is true. I learned that semantic similarity can be useful while still being too fragile to carry authority. I learned that a model can help investigate a security problem while initially insisting the investigation is not possible.</p>
+    <p>The response was not to stop using AI. It was to build better questions, stronger tests, narrower contracts, explicit boundaries, and mechanisms that could take over specific jobs from unreliable probabilistic signals. I did not learn to distrust AI, and I did not learn to surrender to it. I learned to trust it conditionally — and to use that trust to discover what might be possible next.</p>
+
+    <div class="refs">
+      Portfolio references:
+      <ul style="list-style:none; padding:0; margin-top: 10px;">
+        <li><a href="https://github.com/Rick-Clinton-jpg/reasoning-kernel">reasoning-kernel</a></li>
+        <li><a href="https://github.com/Rick-Clinton-jpg/Sentry">Sentry</a></li>
+        <li><a href="https://github.com/Rick-Clinton-jpg/intent-layer">intent-layer</a></li>
+        <li><a href="https://github.com/Rick-Clinton-jpg/Boundary-Memory-">Boundary-Memory-</a></li>
+        <li><a href="https://github.com/Rick-Clinton-jpg/Armour">Armour</a></li>
+        <li><a href="https://github.com/Rick-Clinton-jpg/Chainmail">Chainmail</a></li>
+        <li><a href="https://github.com/Rick-Clinton-jpg/Quorum">Quorum</a></li>
+        <li><a href="https://github.com/Rick-Clinton-jpg/Review-Board">Review-Board</a></li>
+        <li><a href="https://github.com/Rick-Clinton-jpg/trust-boundary">trust-boundary</a></li>
+      </ul>
+    </div>
+  </div>
+</article>
+</body>
+</html>

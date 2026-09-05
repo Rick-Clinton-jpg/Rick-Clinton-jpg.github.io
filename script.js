@@ -48,6 +48,22 @@ document.addEventListener("DOMContentLoaded", () => {
   const y = document.getElementById("year");
   if (y) y.textContent = new Date().getFullYear();
 
+  // mobile nav toggle
+  const menuBtn = document.getElementById("rail-menu-btn");
+  const railNav = document.getElementById("rail-nav");
+  if (menuBtn && railNav) {
+    menuBtn.addEventListener("click", () => {
+      const isOpen = railNav.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", String(isOpen));
+    });
+    railNav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        railNav.classList.remove("open");
+        menuBtn.setAttribute("aria-expanded", "false");
+      });
+    });
+  }
+
   // filter buttons for systems grid
   const filterButtons = document.querySelectorAll(".filter-btn");
   const cards = document.querySelectorAll(".grid .card");

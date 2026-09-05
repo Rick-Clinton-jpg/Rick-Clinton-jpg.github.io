@@ -162,6 +162,35 @@
           <a class="card-link" href="#spotlight">full breakdown ↓</a>
         </article>
 
+        <article class="card" data-status="verified" data-category="core">
+          <div class="card-top"><span class="card-name">Judge</span><span class="card-date">SEP 3</span></div>
+          <p class="card-desc">policy-judge: blind-judges one proposed action against a fixed policy — structurally never shown the agent's stated objective, closing the hole where a dishonest agent controls both sides of an objective-similarity check.</p>
+          <p class="paper-desc" style="font-size:11.5px; color:var(--text-faint); margin:0;">Distinct from the <a href="papers/judge.html">JUDGE paper</a> — same name, different artifact.</p>
+          <span class="card-result">unanimous-pass across 3 reworded variants</span>
+          <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Judge" target="_blank" rel="noopener">view source ↗</a>
+        </article>
+
+        <article class="card" data-status="verified" data-category="core">
+          <div class="card-top"><span class="card-name">Mirror Constitution</span><span class="card-date">SEP 5</span></div>
+          <p class="card-desc">Six executable containment invariants for agent sandboxes — authority, weave, confidentiality, evaluator-trust, channel non-emergence, and delegation — each independently checkable, backed by a real kernel-hardened sandbox, not just curated fixtures.</p>
+          <span class="card-result">kernel-enforced · adversarial agents actually killed by seccomp</span>
+          <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Mirror-Constitution" target="_blank" rel="noopener">view source ↗</a>
+        </article>
+
+        <article class="card" data-status="verified" data-category="core">
+          <div class="card-top"><span class="card-name">Neural Node Swarm</span><span class="card-date">SEP 5</span></div>
+          <p class="card-desc">Schema-first runtime for disposable agent nodes. Execution is short-lived and fires for exactly three rounds; the only durable continuity is validated output plus explicit references into persistent memory — no predecessor process state is ever carried forward.</p>
+          <span class="card-result">closed-schema trust boundary · 42 commits</span>
+          <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Neural-Node-Swarm-" target="_blank" rel="noopener">view source ↗</a>
+        </article>
+
+        <article class="card" data-status="verified" data-category="core">
+          <div class="card-top"><span class="card-name">Safety Genome</span><span class="card-date">SEP 2</span></div>
+          <p class="card-desc">Decides whether a "repaired" candidate still carries the specific defect that got an earlier candidate rejected — by re-running the actual rule that fired, not by measuring similarity, and cross-checking against decoy rejections to catch a rule that's quietly over-triggering.</p>
+          <span class="card-result">rule-based, not embedding-based · adaptive ledger</span>
+          <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Safety-Genome" target="_blank" rel="noopener">view source ↗</a>
+        </article>
+
         <article class="card" data-status="applied" data-category="applied">
           <div class="card-top"><span class="card-name">Quorum</span><span class="card-date">GOOGLE</span></div>
           <p class="card-desc">A gated enterprise agent-fleet coordinator deployed to Cloud Run. A Gemini worker proposes patches; independent deterministic verifiers return PASS, REJECT, or ESCALATE before any pull request opens.</p>
@@ -380,6 +409,7 @@ execution_boundary   Action
             <div class="paper-title">JUDGE</div>
             <div class="paper-meta">Rick Clinton — position paper, 2026</div>
             <p class="paper-desc">A five-layer architecture that converts model behavior into explicit claims and subjects those claims to deterministic, externally replayable gates before an action is accepted — extending the Five-Layer Stack into a specific, falsifiable experimental agenda comparing self-report, model-based judging, and deterministic external verification.</p>
+            <p class="paper-desc" style="margin-top:8px; font-size:12.5px; color:var(--text-faint);">The <code>policy-judge</code> module is a related but separate repo — see it in <a href="#systems">systems</a>.</p>
           </div>
           <a class="paper-link card-link" href="papers/judge.html">read the paper ↗</a>
         </div>

@@ -358,6 +358,16 @@ section:last-of-type { border-bottom: none; }
 
 .card-link { font-size: 12.5px; margin-top: 4px; }
 
+/* live evidence: latest commit + CI status, per repo-linked card */
+.card-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; font-size: 10.5px; }
+.card-meta a { color: var(--text-faint); }
+.card-meta a[href]:hover { color: var(--verified); text-decoration: none; }
+.card-meta .loading { opacity: 0.55; }
+.card-meta .err { color: var(--danger); }
+.card-meta .ci-pass { color: var(--verified); }
+.card-meta .ci-fail { color: var(--danger); }
+.card-meta .ci-neutral { color: var(--text-faint); }
+
 /* ---------- spotlight (Armour / Chainmail) ---------- */
 
 .spotlight-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); }

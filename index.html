@@ -99,49 +99,49 @@
 
       <div class="grid">
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/reasoning-kernel">
           <div class="card-top"><span class="card-name">Reasoning Kernel</span><span class="card-date">AUG 6</span></div>
           <p class="card-desc">Deterministic 8-rule integrity layer for AI-generated reasoning graphs. Facts without provenance are demoted, never deleted; a conclusion can't outrank what supports it.</p>
           <span class="card-result">16/16 correct · 8/8 honest abstentions</span>
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/reasoning-kernel" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/Sentry">
           <div class="card-top"><span class="card-name">Sentry</span><span class="card-date">AUG 13</span></div>
           <p class="card-desc">Offline, rule-based detector for prompt-injection and adversarial-input patterns. Six detection rules, packaged as an installable Claude Code plugin.</p>
           <span class="card-result">22-case suite · CI × 3 py versions</span>
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Sentry" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/Review-Board">
           <div class="card-top"><span class="card-name">Review Board</span><span class="card-date">AUG 13</span></div>
           <p class="card-desc">Six-stage structured deliberation gate. An earlier auto-trigger design was tested, found unreliable under adversarial testing, and deliberately abandoned rather than tuned.</p>
           <span class="card-result">fault-injection validated</span>
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Review-Board" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/trust-boundary">
           <div class="card-top"><span class="card-name">Trust Boundary</span><span class="card-date">AUG 13</span></div>
           <p class="card-desc">The coordinator layer. While confirming integration points against real source instead of assumed docs, found and fixed two genuine defects.</p>
           <span class="card-result">2 integration bugs found & fixed</span>
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/trust-boundary" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/intent-layer">
           <div class="card-top"><span class="card-name">IntentGraph</span><span class="card-date">AUG 14</span></div>
           <p class="card-desc">Detects when a conversation returns to an objective that already triggered a safety boundary — invisible to classifiers that only evaluate the current message.</p>
           <span class="card-result">100% detect · 0% false-positive</span>
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/intent-layer" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="hold" data-category="hold">
+        <article class="card" data-status="hold" data-category="hold" data-repo="Rick-Clinton-jpg/warden">
           <div class="card-top"><span class="card-name">Warden</span><span class="card-date">AUG 15</span></div>
           <p class="card-desc">External observer for long-running AI coding agents. An adversarial review found the core detector's match/drift scoring is inverted — redesign in progress.</p>
           <span class="card-result">ON HOLD — AUC 0.332, below random</span>
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/Boundary-Memory-">
           <div class="card-top"><span class="card-name">Boundary Memory</span><span class="card-date">AUG 2026</span></div>
           <p class="card-desc">CockroachDB and AWS integration giving Trust Boundary and IntentGraph durable, queryable memory. Bedrock generates a separate semantic-recall vector without misrepresenting IntentGraph's offline embeddings.</p>
           <span class="card-result">source-verified adapters</span>
@@ -162,7 +162,7 @@
           <a class="card-link" href="#spotlight">full breakdown ↓</a>
         </article>
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/Judge">
           <div class="card-top"><span class="card-name">Judge</span><span class="card-date">SEP 3</span></div>
           <p class="card-desc">policy-judge: blind-judges one proposed action against a fixed policy — structurally never shown the agent's stated objective, closing the hole where a dishonest agent controls both sides of an objective-similarity check.</p>
           <p class="paper-desc" style="font-size:11.5px; color:var(--text-faint); margin:0;">Distinct from the <a href="papers/judge.html">JUDGE paper</a> — same name, different artifact.</p>
@@ -170,28 +170,28 @@
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Judge" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/Mirror-Constitution">
           <div class="card-top"><span class="card-name">Mirror Constitution</span><span class="card-date">SEP 5</span></div>
           <p class="card-desc">Six executable containment invariants for agent sandboxes — authority, weave, confidentiality, evaluator-trust, channel non-emergence, and delegation — each independently checkable, backed by a real kernel-hardened sandbox, not just curated fixtures.</p>
           <span class="card-result">kernel-enforced · adversarial agents actually killed by seccomp</span>
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Mirror-Constitution" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/Neural-Node-Swarm-">
           <div class="card-top"><span class="card-name">Neural Node Swarm</span><span class="card-date">SEP 5</span></div>
           <p class="card-desc">Schema-first runtime for disposable agent nodes. Execution is short-lived and fires for exactly three rounds; the only durable continuity is validated output plus explicit references into persistent memory — no predecessor process state is ever carried forward.</p>
           <span class="card-result">closed-schema trust boundary · 42 commits</span>
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Neural-Node-Swarm-" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="verified" data-category="core">
+        <article class="card" data-status="verified" data-category="core" data-repo="Rick-Clinton-jpg/Safety-Genome">
           <div class="card-top"><span class="card-name">Safety Genome</span><span class="card-date">SEP 2</span></div>
           <p class="card-desc">Decides whether a "repaired" candidate still carries the specific defect that got an earlier candidate rejected — by re-running the actual rule that fired, not by measuring similarity, and cross-checking against decoy rejections to catch a rule that's quietly over-triggering.</p>
           <span class="card-result">rule-based, not embedding-based · adaptive ledger</span>
           <a class="card-link" href="https://github.com/Rick-Clinton-jpg/Safety-Genome" target="_blank" rel="noopener">view source ↗</a>
         </article>
 
-        <article class="card" data-status="applied" data-category="applied">
+        <article class="card" data-status="applied" data-category="applied" data-repo="Rick-Clinton-jpg/Quorum">
           <div class="card-top"><span class="card-name">Quorum</span><span class="card-date">GOOGLE</span></div>
           <p class="card-desc">A gated enterprise agent-fleet coordinator deployed to Cloud Run. A Gemini worker proposes patches; independent deterministic verifiers return PASS, REJECT, or ESCALATE before any pull request opens.</p>
           <span class="card-result">34 local gate tests · live Cloud Run build</span>

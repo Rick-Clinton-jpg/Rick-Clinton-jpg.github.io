@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A Practitioner's Architecture for External AI Safety Verification — Rick Clinton, working paper, August 2026.">
+<title>The Five-Layer Stack — Rick Clinton</title>
+<style>
+  :root{
+    --void:#0B1220;
+    --panel:#121B2E;
+    --panel-2:#0E1728;
+    --line:rgba(124,138,165,0.14);
+    --ink:#E8ECF3;
+    --ink-muted:#7C8AA5;
+    --ink-dim:#4E5C79;
+    --verified:#3ECF8E;
+    --verified-dim:rgba(62,207,142,0.14);
+    --flag:#F5A623;
+    --flag-dim:rgba(245,166,35,0.14);
+    --link-blue:#4C7EFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  .article-wrap{max-width:760px;margin:0 auto;padding:0 32px;}
+  h1,h2,h3{font-family:"Avenir Next","Century Gothic","Segoe UI",system-ui,sans-serif;font-weight:600;letter-spacing:-0.01em;}
+  .mono{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;}
+  a{color:var(--link-blue);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--verified);outline-offset:3px;}
+  ::selection{background:var(--verified-dim);color:var(--verified);}
+
+  .bg-grid{
+    position:fixed;inset:0;z-index:-1;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+            mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,0.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .nav-mark{font-family:"Avenir Next","Century Gothic","Segoe UI",system-ui,sans-serif;font-weight:700;font-size:16px;color:var(--ink);}
+  .nav-mark span{color:var(--verified);}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--ink-muted);}
+  .nav-links a{color:var(--ink-muted);margin-left:28px;}
+  .nav-links a:first-child{margin-left:0;}
+  .nav-links a:hover{color:var(--ink);text-decoration:none;}
+
+  .paper-hero{padding:72px 0 44px;border-bottom:1px solid var(--line);}
+  .paper-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--verified);
+    background:var(--verified-dim);border:1px solid rgba(62,207,142,0.3);
+    padding:5px 12px;border-radius:20px;margin-bottom:24px;
+  }
+  .paper-title{font-size:32px;line-height:1.25;margin-bottom:14px;}
+  .paper-sub{font-size:17px;font-style:italic;color:var(--ink-muted);margin-bottom:22px;}
+  .paper-byline{font-size:14px;color:var(--ink-muted);}
+  .paper-byline strong{color:var(--ink);font-weight:600;}
+  .paper-byline .mono{color:var(--ink-dim);margin-left:10px;}
+  .paper-source{margin-top:10px;font-size:13px;}
+  .paper-source .mono{color:var(--ink-dim);}
+
+  main.article-wrap{padding:48px 0 96px;}
+  .prose h2{font-size:23px;margin:52px 0 18px;}
+  .prose h2:first-of-type{margin-top:0;}
+  .prose h3{font-size:18px;margin:34px 0 12px;color:var(--ink);}
+  .prose p{font-size:15.5px;color:var(--ink-muted);margin-bottom:18px;}
+  .prose p strong{color:var(--ink);font-weight:600;}
+  .prose hr{border:none;border-top:1px solid var(--line);margin:40px 0;}
+  .prose ul,.prose ol{color:var(--ink-muted);font-size:15.5px;margin:0 0 18px 22px;}
+  .prose li{margin-bottom:8px;}
+  .prose li strong{color:var(--ink);}
+  .field{font-size:15.5px;color:var(--ink-muted);margin-bottom:10px;}
+  .field strong{color:var(--ink);font-weight:600;}
+
+  .note{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:12px;
+    padding:22px 26px;margin:28px 0;font-size:14.5px;color:var(--ink-muted);
+  }
+  .note strong{color:var(--ink);}
+
+  .callout{
+    background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--flag);border-radius:0 12px 12px 0;
+    padding:22px 26px;margin:28px 0;
+  }
+  .callout-tag{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:11px;color:var(--flag);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:10px;}
+  .callout p{font-size:14.5px;color:var(--ink-muted);margin-bottom:0;}
+
+  .table-wrap{overflow-x:auto;margin:24px 0;border:1px solid var(--line);border-radius:12px;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;background:var(--panel);}
+  thead th{
+    text-align:left;font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;
+    font-size:11px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:0.06em;
+    padding:12px 16px;border-bottom:1px solid var(--line);background:var(--panel-2);white-space:nowrap;
+  }
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--line);color:var(--ink-muted);vertical-align:top;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody td:first-child{color:var(--ink);font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12.5px;white-space:nowrap;}
+  .sev-high{color:var(--flag);font-weight:600;}
+  .sev-medium{color:var(--ink-muted);font-weight:600;}
+
+  .status-tag{
+    display:inline-block;font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;
+    font-size:11px;padding:2px 8px;border-radius:4px;white-space:nowrap;
+  }
+  .status-published{background:var(--verified-dim);color:var(--verified);}
+  .status-progress{background:var(--flag-dim);color:var(--flag);}
+
+  .refs{font-size:13.5px;color:var(--ink-muted);margin:0;padding-left:20px;}
+  .refs li{margin-bottom:10px;}
+
+  .paper-footer-note{
+    margin-top:56px;padding-top:28px;border-top:1px solid var(--line);
+    font-size:13px;color:var(--ink-dim);
+  }
+
+  footer{border-top:1px solid var(--line);padding:48px 0;}
+  .foot-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  .foot-links{display:flex;gap:20px;font-size:14px;}
+  .foot-copy{font-size:13px;color:var(--ink-dim);}
+
+  @media (max-width:720px){
+    .paper-title{font-size:25px;}
+    table{font-size:12.5px;}
+    thead th,tbody td{padding:9px 10px;}
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="nav-mark" href="../index.html">rick clinton <span>/</span> governance</a>
+    <div class="nav-links">
+      <a href="../index.html#paper">papers</a>
+      <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<header class="paper-hero">
+  <div class="article-wrap">
+    <div class="paper-eyebrow">published working paper</div>
+    <h1 class="paper-title">The Five-Layer Stack: A Practitioner's Architecture for External AI Safety Verification</h1>
+    <p class="paper-byline"><strong>Rick Clinton</strong><span class="mono">Working paper — August 2026</span></p>
+    <p class="paper-source">Source: <a class="mono" href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg</a></p>
+  </div>
+</header>
+
+<main class="article-wrap prose">
+
+  <h2>Abstract</h2>
+  <p>Current AI safety architectures rely on models to evaluate their own outputs — a probabilistic system adjudicating its own trust boundaries. This paper proposes an alternative: a five-layer stack of deterministic, external verification mechanisms, each addressing a distinct failure mode, coordinated but never fused. The stack is built from direct observation of real failure modes encountered during independent adversarial testing, evaluated against invented-entity test cases to eliminate prior-knowledge confounds, and documented with honest limitations rather than favorable findings.</p>
+
+  <hr>
+
+  <h2>1. The Core Problem: Self-Adjudication Fails Silently</h2>
+  <p>A language model optimizing for the best next token has no persistent model of the person it is speaking to, no structural memory of what it previously refused, and no external check on whether its confidence is earned or merely well-articulated. When a user hits a safety boundary, diverts to benign conversation, and later returns to the same objective through reformulated phrasing, a turn-level classifier evaluates the current request in isolation and treats it as new.</p>
+  <p>This is not a hypothetical. It was encountered during independent jailbreak testing of conversational AI systems in early 2026: a model would hold firm against a direct request, then respond to the same objective rephrased after an intervening topic shift as though encountering it for the first time. The failure was not in the model's reasoning about a single message. It was in the absence of any system evaluating the conversation as a whole.</p>
+  <p>The thesis of this work is simple: probabilistic models should not adjudicate their own trust boundaries. Deterministic external checks should.</p>
+
+  <hr>
+
+  <h2>2. The Five-Layer Stack</h2>
+  <p>Each layer addresses a distinct failure mode. Each is validated independently. None is trusted to validate the others.</p>
+
+  <h3>Layer 1: Sentry — Input Integrity</h3>
+  <p class="field"><strong>Failure mode addressed:</strong> Prompt injection, agent manipulation, malicious framing.</p>
+  <p class="field"><strong>What it does:</strong> Inspects every input before it reaches the model. Uses explicit regex patterns to flag inputs designed to override system instructions or extract unintended behavior.</p>
+  <p class="field"><strong>Why deterministic:</strong> A probabilistic filter judging another probabilistic filter creates a circular trust problem. Sentry uses explicit, inspectable rules.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Rule</th><th>Severity</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td>agent_directed_address</td><td class="sev-high">HIGH</td><td>Direct addressing of AI agent in content</td></tr>
+        <tr><td>hidden_channel_instruction</td><td class="sev-high">HIGH</td><td>Imperative instructions buried in HTML/code comments</td></tr>
+        <tr><td>scope_expansion_phrase</td><td class="sev-medium">MEDIUM</td><td>Scope expansion phrasing suggesting hidden tasks</td></tr>
+        <tr><td>confirmation_bypass_claim</td><td class="sev-high">HIGH</td><td>Claims that bypass normal confirmation requirements</td></tr>
+        <tr><td>env_exfil_pattern</td><td class="sev-high">HIGH</td><td>Environment variable access or serialization — potential exfil vector</td></tr>
+        <tr><td>network_exfil_pattern</td><td class="sev-high">HIGH</td><td>Network request containing serialized environment data</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="field"><strong>Status:</strong> Early-stage. The current ruleset is small and deliberately conservative; false negatives are expected. Available as both a CLI tool and a Claude Code plugin (sentry-scan).</p>
+  <p class="field"><strong>Repository:</strong> <a class="mono" href="https://github.com/Rick-Clinton-jpg/Sentry" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/Sentry</a></p>
+
+  <h3>Layer 2: Reasoning Kernel — Structural Validation</h3>
+  <p class="field"><strong>Failure mode addressed:</strong> Unverified facts treated as established, overconfident conclusions exceeding their support, fabricated claims with no provenance.</p>
+  <p class="field"><strong>What it does:</strong> Represents reasoning as typed nodes (FACT, ASSUMPTION, CONCLUSION, etc.) connected by typed edges (SUPPORTS, CONTRADICTS, INCONCLUSIVE, DEPENDS_ON). Enforces eight deterministic rules before any change commits:</p>
+  <ol>
+    <li>Facts without verifiable provenance are demoted to assumptions, not deleted.</li>
+    <li>Unknowns cannot carry confidence values.</li>
+    <li>Confidence cannot be asserted from nowhere; a conclusion cannot exceed the confidence of what supports it.</li>
+    <li>Provenance, once attached, is immutable.</li>
+    <li>Every conclusion must be traceable to something.</li>
+    <li>Contradictions are preserved and marked, never silently deleted.</li>
+    <li>Node identity is stable — ids can never be reused or changed.</li>
+    <li>Grounding cannot be circular: a conclusion's support can never trace back to itself, whether through a direct dependency loop or a chain of claims that support each other in a closed circle.</li>
+  </ol>
+
+  <div class="callout">
+    <div class="callout-tag">Correction — checked against source, Aug 16</div>
+    <p>Rule 8 previously read "every mutation is logged; nothing changes without an event" — that describes the Kernel's general audit-logging behavior, not Rule 8 specifically. The actual Rule 8 in kernel.py is cycle detection: no node's justification may trace back to itself, directly or through a loop of SUPPORTS/DEPENDS_ON relationships. This rule itself had a real defect, found and fixed Aug 15: cycle detection originally only walked DEPENDS_ON edges, so two nodes citing each other in a loop purely via SUPPORTS edges passed validation undetected. The check now covers both edge types.</p>
+  </div>
+
+  <p class="field"><strong>Three severities, not just pass/fail:</strong> REJECT (refused), REPAIR (admitted in a downgraded form), WARN (admitted and flagged).</p>
+  <p class="field"><strong>Evaluation:</strong> 24 cases built from invented entities (so correct answers required reading the source, not prior knowledge). Result: 16/16 accuracy on resolvable cases, 8/8 honest "not enough information" abstentions against Claude Sonnet 4.6. Two real defects in the kernel's own logic were found and fixed during evaluation and subsequent audit — both documented publicly.</p>
+  <p class="field"><strong>Status:</strong> Published. Available as a Claude Code plugin (reasoning-kernel-check).</p>
+  <p class="field"><strong>Repository:</strong> <a class="mono" href="https://github.com/Rick-Clinton-jpg/reasoning-kernel" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/reasoning-kernel</a></p>
+
+  <h3>Layer 3: IntentGraph — Trajectory Persistence</h3>
+  <p class="field"><strong>Failure mode addressed:</strong> Reformulated re-entry to previously refused objectives across multi-turn conversations.</p>
+  <p class="field"><strong>What it does:</strong> Maintains a persistent graph of conversational intentions across a session. Each turn becomes an intent node (embedding, domain label, confidence, direction, safety_boundary flag). Edges link nodes by escalation, de-escalation, boundary_encounter, reformulation, and re-entry. A re-entry scorer computes risk based on:</p>
+  <ul>
+    <li>Similarity to prior boundary intent (confidence-weighted)</li>
+    <li>Boundary history in the intent's lineage</li>
+    <li>Reformulation signals</li>
+    <li>Escalation score</li>
+    <li>Normal context continuity (reduces risk for benign topic returns)</li>
+  </ul>
+  <p class="field"><strong>Hard constraints implemented in code:</strong></p>
+  <ol>
+    <li>Confidence weights, never gates. Low-confidence extractions reduce their contribution rather than being trusted or discarded.</li>
+    <li>No elevation without real boundary history. Risk can never rise above LOW unless there is an actual prior safety_boundary=TRUE node in the same lineage. Re-entry or similarity alone, without boundary history, always resolves to LOW.</li>
+  </ol>
+  <p class="field"><strong>Evaluation:</strong> 15 synthetic trajectories across 8 categories. 100% detection on 6 re-entry cases, 0% false positives on 9 LOW cases. Honest documented limitations: small dataset, lexical fallback embedding, weak escalation signal.</p>
+  <p class="field"><strong>Status:</strong> Prototype complete.</p>
+  <p class="field"><strong>Repository:</strong> <a class="mono" href="https://github.com/Rick-Clinton-jpg/intent-layer" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/intent-layer</a></p>
+
+  <h3>Layer 4: Review Board — Structured Deliberation</h3>
+  <p class="field"><strong>Failure mode addressed:</strong> Premature implementation without adequate review, groupthink, unchecked wrong scores.</p>
+  <p class="field"><strong>What it does:</strong> A six-stage protocol requiring explicit human approval before implementation:</p>
+  <ol>
+    <li>Restate objective</li>
+    <li>Map every solution path</li>
+    <li>Run independently-worded second-pass prior-art check</li>
+    <li>Score options against disclosed criteria</li>
+    <li>Gather six-angle review</li>
+    <li>Stop for explicit approval</li>
+  </ol>
+  <p class="field"><strong>Validation:</strong> Fault injection on two independent builds confirmed the review stage catches and corrects wrong scores — not merely confirms correct ones. Four rounds of adversarial testing across three versions documented in reports/.</p>
+  <p class="field"><strong>Design philosophy:</strong> Manual invocation only. Auto-triggering was abandoned after adversarial testing showed it misfired — reliability of deliberation when invoked outweighs convenience of ambient firing.</p>
+  <p class="field"><strong>Status:</strong> Published as Claude Code skill. Available via plugin marketplace.</p>
+  <p class="field"><strong>Repository:</strong> <a class="mono" href="https://github.com/Rick-Clinton-jpg/Review-Board" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/Review-Board</a></p>
+
+  <h3>Layer 5: Trust Boundary — Coordination Without Fusion</h3>
+  <p class="field"><strong>Failure mode addressed:</strong> Scope creep, over-validation, tools exceeding the boundaries they were actually tested for.</p>
+  <p class="field"><strong>What it does:</strong> Orchestrates the four layers above under a "coordinate, not fuse" principle. An earlier unified-graph design was deliberately rejected because it would have allowed any layer to silently overstep its validated scope. The coordinator routes inputs to the right layer, preserves layer boundaries, and logs every handoff.</p>
+  <p class="field"><strong>Key design decision:</strong> These tools do not fuse into a single graph. Each stays inside the boundary it was actually built and tested for. Reasoning Kernel's rules are proven for validating whether a reasoning graph's conclusions are supported by evidence, not for generic workflow gating. Review-Board is deliberately never auto-triggered.</p>
+  <p class="field"><strong>Status:</strong> Core wiring complete against both tools' confirmed real APIs — read from actual source, not assumed from documentation. pipeline.py's two original integration TODOs are both resolved.</p>
+
+  <div class="callout">
+    <div class="callout-tag">Correction — checked against source, Aug 16</div>
+    <p>Previously stated as "end-to-end tests confirmed against actual installed packages" (plural) and "architecture in progress." That overstates the Reasoning Kernel side: end-to-end tests are confirmed only against the real, installed Sentry package. No equivalent live test exists yet for Reasoning Kernel, because that repo has no pyproject.toml / setup.py and isn't currently pip-installable — the Kernel side of the pipeline is wired correctly at the code level but untested end-to-end in this repo. This is an open item tracked in the repo's own documentation, not a defect discovered here, and not something that should read as further along than it is.</p>
+  </div>
+
+  <p class="field"><strong>Repository:</strong> <a class="mono" href="https://github.com/Rick-Clinton-jpg/trust-boundary" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/trust-boundary</a></p>
+
+  <hr>
+
+  <h2>3. Warden — Agent Drift Detection (Beyond the Stack)</h2>
+  <p class="field"><strong>Failure mode addressed:</strong> Long-running AI coding agents drifting from their original objective without the user noticing.</p>
+  <p class="field"><strong>What it does:</strong> Warden is an external observer for long-running AI coding agents (Claude Code, Codex, and others). It does not control, rewrite, or interrupt the agent. It only collects a single-line status the agent emits every N minutes, compares that status to the original objective, tags it MATCH / DRIFT / UNCLEAR / DIVERGENT, and writes a short note to an append-only NDJSON audit trail.</p>
+  <p class="field"><strong>Core principle:</strong> Observe only. Never intervene.</p>
+  <p class="field"><strong>Matching (dual-rater):</strong> Two structurally independent raters each vote MATCH / UNCLEAR / DRIFT:</p>
+  <ul>
+    <li><strong>Rater A — word overlap.</strong> Jaccard similarity over stemmed keywords, with camelCase/PascalCase compounds split before comparison.</li>
+    <li><strong>Rater B — character trigrams.</strong> Jaccard similarity over 3-character substrings of the raw text.</li>
+  </ul>
+  <p>When raters agree, that tag is logged. When they disagree, Warden logs DIVERGENT — the disagreement itself is the signal that needs a human.</p>
+  <p class="field"><strong>Status:</strong> Working CLI + multi-session daemon + Claude Code / Codex file watchers + dual-rater matcher + audit. Tests cover matcher, audit, and status extraction. Current package version: 0.1.1, verified against setup.py.</p>
+  <p class="field"><strong>Repository:</strong> <a class="mono" href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/warden</a></p>
+
+  <hr>
+
+  <h2>4. Design Principles</h2>
+  <ul>
+    <li><strong>Deterministic over probabilistic.</strong> Wherever possible, use explicit rules rather than model judgment. A model judging another model's output inherits the same failure modes.</li>
+    <li><strong>External over internal.</strong> The check must sit outside the system being checked. A safety classifier inside the model has no memory of prior turns.</li>
+    <li><strong>Coordinate over fuse.</strong> Each layer validates independently. No layer's scope expands to cover another's job. Fusion creates single points of failure.</li>
+    <li><strong>Honest over impressive.</strong> Document limitations openly. A small evaluated prototype with known gaps is more useful than a large unevaluated system with hidden ones.</li>
+    <li><strong>Observe over intervene.</strong> Warden's principle: awareness without enforcement. The user decides what to do with drift notes.</li>
+  </ul>
+
+  <hr>
+
+  <h2>5. Honest Limitations</h2>
+  <ul>
+    <li><strong>No production deployment.</strong> All layers are prototypes or research artifacts. Scale, latency, and integration testing are minimal or absent.</li>
+    <li><strong>Small evaluation sets.</strong> Reasoning Kernel: 24 cases. IntentGraph: 15 trajectories. Neither is adversarially tested at volume.</li>
+    <li><strong>AI-assisted implementation.</strong> Code is directed, not hand-written. The evaluation discipline and architectural decisions are the actual contribution.</li>
+    <li><strong>No live LLM in the loop.</strong> IntentGraph uses embeddings and keyword matching, not model judgment. This keeps it inspectable but limits coverage of novel phrasing.</li>
+    <li><strong>Cross-layer integration untested.</strong> Each layer is validated independently. How they behave in combination under real adversarial pressure is unknown.</li>
+    <li><strong>Warden's matcher is intentionally crude.</strong> Dual-rater Jaccard similarity is dependency-free but will miss semantic drift that embeddings would catch. An upgrade path is documented but not implemented.</li>
+    <li><strong>Sentry's ruleset is small and conservative.</strong> False negatives are expected. The tool is a starting point, not a comprehensive filter.</li>
+  </ul>
+
+  <hr>
+
+  <h2>6. Positioning Relative to Prior Work</h2>
+  <p>The AI Alignment Foundation's work on reason-based deception (2024) demonstrates that refusal training creates a false sense of security by teaching models to hide reasoning behind polite refusals. Their solution addresses the model's reasoning process. This work addresses a complementary problem: the interaction-level dynamics that arise when users strategically exploit the gap between a model's surface refusal and its underlying capabilities. Even a model trained to produce explicit rebuttals can be circumvented across multiple turns if the safety system evaluates each turn in isolation.</p>
+  <p>ArgLLM (Freedman et al., 2024) provides rigorous confidence propagation over argument structure using DF-QuAD gradual semantics. The Reasoning Kernel's min/product approach is a less formal, more enforceable version suited to deterministic runtime validation rather than probabilistic reasoning.</p>
+
+  <hr>
+
+  <h2>7. Conclusion</h2>
+  <p>A safe response is not sufficient evidence of a safe trajectory. A model can change its apparent behavior without the underlying conversational objective disappearing. Safety systems should evaluate not only the current output, but the persistent trajectory of intent across the interaction — and they should do so with deterministic, external, inspectable mechanisms rather than trusting the model to judge itself.</p>
+  <p>This five-layer stack, together with Warden as an external observer for long-running agents, is an attempt to operationalize that principle. It is not proven at scale. It is not a product. It is a set of mechanisms, honestly evaluated, openly documented, offered as a practitioner's contribution to a problem that will not be solved by training alone.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Component</th><th>Repository</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Sentry (Layer 1)</td><td><a class="mono" href="https://github.com/Rick-Clinton-jpg/Sentry" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/Sentry</a></td><td><span class="status-tag status-progress">Early-stage</span></td></tr>
+        <tr><td>Reasoning Kernel (Layer 2)</td><td><a class="mono" href="https://github.com/Rick-Clinton-jpg/reasoning-kernel" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/reasoning-kernel</a></td><td><span class="status-tag status-published">Published</span></td></tr>
+        <tr><td>IntentGraph (Layer 3)</td><td><a class="mono" href="https://github.com/Rick-Clinton-jpg/intent-layer" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/intent-layer</a></td><td><span class="status-tag status-progress">Prototype</span></td></tr>
+        <tr><td>Review Board (Layer 4)</td><td><a class="mono" href="https://github.com/Rick-Clinton-jpg/Review-Board" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/Review-Board</a></td><td><span class="status-tag status-published">Published</span></td></tr>
+        <tr><td>Trust Boundary (Layer 5)</td><td><a class="mono" href="https://github.com/Rick-Clinton-jpg/trust-boundary" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/trust-boundary</a></td><td><span class="status-tag status-progress">Wired · 1 open item</span></td></tr>
+        <tr><td>Warden</td><td><a class="mono" href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">github.com/Rick-Clinton-jpg/warden</a></td><td><span class="status-tag status-progress">Working v0.1.1</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr>
+
+  <h2>References</h2>
+  <ol class="refs">
+    <li>AI Alignment Foundation. (2024). Rethinking Harmless Refusals When Fine-Tuning Foundation Models: Reason-Based Deception and the False Sense of Safety.</li>
+    <li>Freedman, R., et al. (2024). ArgLLM: Argumentation-Based Reasoning with Large Language Models. arXiv:2405.02079.</li>
+    <li>Tack, J., et al. (2026). LLMs Get Lost in Evolving User Intent. arXiv:2607.20734.</li>
+    <li>Clinton, R. (2026). The Gap and the Bridge: A Practitioner's Synthesis on AI Cognition, Model Divergence, and Scoped Intermediation. Working paper.</li>
+  </ol>
+
+  <p class="paper-footer-note">This work was built with AI-assisted implementation. The architecture, evaluation design, problem identification, and limitation analysis are the author's. Technical claims in this revision were checked directly against each repository's live source on GitHub (Aug 16, 2026); two corrections are marked inline above where the original text no longer matched current code.</p>
+
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-copy">Rick Clinton — Chennai, India</div>
+    <div class="foot-links">
+      <a href="../index.html">← portfolio</a>
+      <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:clinpeter@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

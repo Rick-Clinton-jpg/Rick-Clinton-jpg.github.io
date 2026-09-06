@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Build First, Learn Backward — Phase 0 Baseline. A personal baseline record of implementation-knowledge decoupling and knowledge debt — Rick Clinton, August 2026.">
+<title>Build First, Learn Backward — Rick Clinton</title>
+<style>
+  :root{
+    --void:#0B1220;
+    --panel:#121B2E;
+    --panel-2:#0E1728;
+    --line:rgba(124,138,165,0.14);
+    --ink:#E8ECF3;
+    --ink-muted:#7C8AA5;
+    --ink-dim:#4E5C79;
+    --verified:#3ECF8E;
+    --verified-dim:rgba(62,207,142,0.14);
+    --flag:#F5A623;
+    --flag-dim:rgba(245,166,35,0.14);
+    --link-blue:#4C7EFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 32px;}
+  .article-wrap{max-width:760px;margin:0 auto;padding:0 32px;}
+  h1,h2,h3{font-family:"Avenir Next","Century Gothic","Segoe UI",system-ui,sans-serif;font-weight:600;letter-spacing:-0.01em;}
+  .mono{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;}
+  a{color:var(--link-blue);text-decoration:none;}
+  a:hover{text-decoration:underline;}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--verified);outline-offset:3px;}
+  ::selection{background:var(--verified-dim);color:var(--verified);}
+
+  .bg-grid{
+    position:fixed;inset:0;z-index:-1;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:64px 64px;
+    -webkit-mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+            mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, #000 40%, transparent 100%);
+  }
+
+  nav{position:sticky;top:0;z-index:50;background:rgba(11,18,32,0.85);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;}
+  .nav-mark{font-family:"Avenir Next","Century Gothic","Segoe UI",system-ui,sans-serif;font-weight:700;font-size:16px;color:var(--ink);}
+  .nav-mark span{color:var(--verified);}
+  .nav-links{display:flex;gap:28px;font-size:14px;color:var(--ink-muted);}
+  .nav-links a{color:var(--ink-muted);margin-left:28px;}
+  .nav-links a:first-child{margin-left:0;}
+  .nav-links a:hover{color:var(--ink);text-decoration:none;}
+
+  .paper-hero{padding:72px 0 44px;border-bottom:1px solid var(--line);}
+  .paper-eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:12px;color:var(--flag);
+    background:var(--flag-dim);border:1px solid rgba(245,166,35,0.3);
+    padding:5px 12px;border-radius:20px;margin-bottom:24px;
+  }
+  .paper-title{font-size:34px;line-height:1.2;margin-bottom:14px;}
+  .paper-sub{font-size:17px;font-style:italic;color:var(--ink-muted);margin-bottom:22px;}
+  .paper-byline{font-size:14px;color:var(--ink-muted);}
+  .paper-byline strong{color:var(--ink);font-weight:600;}
+  .paper-byline .mono{color:var(--ink-dim);margin-left:10px;}
+
+  main.article-wrap{padding:48px 0 96px;}
+  .prose h2{font-size:23px;margin:52px 0 18px;}
+  .prose h2:first-of-type{margin-top:0;}
+  .prose h3{font-size:18px;margin:34px 0 12px;color:var(--ink);}
+  .prose p{font-size:15.5px;color:var(--ink-muted);margin-bottom:18px;}
+  .prose p strong{color:var(--ink);font-weight:600;}
+  .prose ul{margin:0 0 18px 20px;color:var(--ink-muted);font-size:15.5px;}
+  .prose li{margin-bottom:8px;}
+  .prose hr{border:none;border-top:1px solid var(--line);margin:40px 0;}
+  .flow{font-family:ui-monospace,"SF Mono","Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:13.5px;color:var(--verified);background:var(--panel-2);border:1px solid var(--line);padding:14px 18px;margin:0 0 18px;overflow-x:auto;}
+
+  .note{
+    background:var(--panel-2);border:1px solid var(--line);border-radius:12px;
+    padding:22px 26px;margin:28px 0;font-size:14.5px;color:var(--ink-muted);
+  }
+  .note strong{color:var(--ink);}
+  .note em{color:var(--ink-muted);}
+
+  .prose table{width:100%;border-collapse:collapse;margin:0 0 18px;font-size:14.5px;}
+  .prose th,.prose td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--line);color:var(--ink-muted);}
+  .prose th{color:var(--ink);font-weight:600;}
+
+  footer{border-top:1px solid var(--line);padding:48px 0;}
+  .foot-grid{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+  .foot-links{display:flex;gap:20px;font-size:14px;}
+  .foot-copy{font-size:13px;color:var(--ink-dim);}
+
+  @media (max-width:720px){
+    .paper-title{font-size:26px;}
+  }
+</style>
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<nav>
+  <div class="wrap">
+    <a class="nav-mark" href="../index.html">rick clinton <span>/</span> governance</a>
+    <div class="nav-links">
+      <a href="../index.html#paper">papers</a>
+      <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<header class="paper-hero">
+  <div class="article-wrap">
+    <div class="paper-eyebrow">personal baseline record — not a formal study</div>
+    <h1 class="paper-title">Build First, Learn Backward</h1>
+    <p class="paper-sub">Implementation-Knowledge Decoupling and Knowledge Debt — Phase 0, Baseline Record</p>
+    <p class="paper-byline"><strong>Rick Clinton</strong><span class="mono">Independent Researcher — August 2026</span></p>
+  </div>
+</header>
+
+<main class="article-wrap prose">
+
+  <h2>What this is</h2>
+  <p>This is not a formal study. It is a deliberate baseline record of a specific state.</p>
+  <p>Between roughly June and August 2026 I went from having almost no practical programming knowledge to directing the construction of multiple working technical systems. Those systems concern reasoning verification, intent preservation, autonomous-agent governance, and execution safety. They include Armour, Quorum, and the surrounding portfolio.</p>
+  <p>I could identify the problems, decide they mattered, formulate the desired logic and constraints, reject unsuitable architectures, and force the systems into existence. I could not independently read or reproduce large parts of the resulting source code.</p>
+  <p>I am writing this down now, before I begin deliberately closing that gap, so the starting point is not lost to later learning or retrospective smoothing. This document freezes the baseline. Paper 1 will begin the process of learning the implementation layer.</p>
+
+  <h2>Starting point</h2>
+  <p>I began the relevant period without practical programming experience. I did not know what a terminal was. Python was a name I had heard; I could not independently construct a program. Even common AI terminology was initially unfamiliar.</p>
+  <p>This does not mean I had no prior capability. I brought analysis, the ability to examine problems from multiple angles, contextual and behavioral prediction, problem identification, solution formulation, and communication. The case is not about a person with no prior ability becoming a technical actor. It is about the interaction between strong non-programming problem-solving capacity and AI-mediated technical implementation.</p>
+
+  <h2>How the work actually developed</h2>
+  <p>I did not set out to become a programmer. Early work involved scripts and other material. Technical systems emerged from problems I kept encountering while interacting with AI: hallucination, behavioral drift, and systems acting outside intended bounds.</p>
+  <p>The questions were of this form:</p>
+  <ul>
+    <li>What is hallucination?</li>
+    <li>Why does the system drift?</li>
+    <li>How could this be reduced?</li>
+    <li>What if we tried this logic?</li>
+    <li>Can this be implemented?</li>
+  </ul>
+  <p>The pattern that repeated was:</p>
+  <div class="flow">Problem → Human solution logic → AI technical translation → Implementation → Adversarial examination → Revision</div>
+  <p>I did not independently write the implementation. The logic I wanted was conceptual; the code that realized it was produced through AI. Multiple formulations were tried and revised until something workable existed.</p>
+
+  <h2>Two kinds of authorship</h2>
+  <p>A difficult question arises: who is the creator of an AI-mediated technical artifact?</p>
+  <p>My answer distinguishes technical implementation from direction. An AI system could in principle have produced similar or superior software on its own. It did not. The sequence of questions, constraints, and acceptance criteria still had to come from somewhere.</p>
+  <p><strong>Directional authorship</strong><br>Selection of the problem, desired behavior, constraints, hypotheses, acceptance criteria, and development direction.</p>
+  <p><strong>Implementation authorship</strong><br>Translation of those requirements into executable technical artifacts.</p>
+  <p>In this period the first was primarily mine. The second was primarily AI-mediated. Both were required. Reducing the work to "the AI built it" or "I built it" erases the actual distribution of contribution. Empirical discussion of AI-assisted creation should avoid that binary.</p>
+
+  <h2>Implementation-Knowledge Decoupling</h2>
+  <p>The case motivates a descriptive distinction: <strong>Implementation-Knowledge Decoupling</strong>.</p>
+  <p>It describes a condition in which the complexity or capability of artifacts a person can produce through AI mediation substantially exceeds the technical implementation knowledge that person can independently demonstrate.</p>
+  <p>When AI produced code, I commonly transferred it to another system for explanation and bug analysis. I cannot currently read most of the resulting source without assistance.</p>
+  <p>This produces an unusual profile. I may understand why a system exists, what behavior is desired, which outcome violates the original objective, and whether a proposed change conceptually contradicts the intended architecture — while remaining unable to independently inspect the implementation that expresses those decisions.</p>
+  <p>"Understanding" is therefore not a single variable. At minimum it separates into:</p>
+  <ul>
+    <li>problem understanding</li>
+    <li>architectural / system understanding</li>
+    <li>implementation comprehension</li>
+    <li>failure prediction</li>
+    <li>repair reasoning</li>
+    <li>conceptual transfer to new problems</li>
+  </ul>
+  <p>These did not advance at the same rate.</p>
+
+  <h2>Knowledge Debt</h2>
+  <p>Rapid AI-mediated implementation introduced a second gap. I produced and repeatedly revised enough systems in a short period that holding the full detail of every previous implementation has become difficult.</p>
+  <p><strong>Knowledge Debt</strong>, as used here, is the accumulated gap between the technical complexity a person can create or operate through AI mediation and the technical understanding that person can independently retrieve and demonstrate about those systems.</p>
+  <p>It differs from ordinary ignorance in an important way: the artifact can continue becoming more sophisticated while the knowledge gap remains or grows. AI permits technical complexity to accumulate without requiring equivalent human comprehension to accumulate first.</p>
+  <p>This is the gap I am recording.</p>
+
+  <h2>Verification without code comprehension</h2>
+  <p>I developed compensatory practices. Generated implementation was moved between models for explanation, criticism, bug discovery, and adversarial examination. The objective was not merely to test software but to try to break it. When AI proposed repairs, I evaluated whether the repair remained aligned with the originally intended logic.</p>
+  <div class="flow">Human intent → AI-1 implementation → AI-2 critique → Human alignment judgment</div>
+  <p>This should not be mistaken for independent implementation verification. If both generation and technical verification depend substantially on AI systems, correlated model errors, persuasive but incorrect explanations, or unrecognized defects can remain invisible to the human operator.</p>
+  <p>Conceptual oversight is not equivalent to source-level verification. That risk was present throughout the work and remains one of the most important observations of this period.</p>
+
+  <h2>Failure as a learning trigger</h2>
+  <p>The pattern did not produce only permanent ignorance. Technical failures repeatedly exposed missing knowledge. Instead of acquiring every prerequisite before implementation, I encountered technical concepts when a concrete failure made them necessary.</p>
+  <div class="flow">Problem → Hypothesis → AI implementation → Failure → Knowledge-gap discovery → Targeted learning → Revision</div>
+  <p>This suggests a possible change in temporal ordering rather than the disappearance of prerequisites:</p>
+  <table>
+    <tr><th>Traditional</th><th>Observed pattern</th></tr>
+    <tr><td>Learn → Build</td><td>Build → Discover what must be learned → Learn</td></tr>
+  </table>
+  <p>I call this <strong>retrospective prerequisite acquisition</strong> for the purposes of this record. Whether it is temporary, sustainable, or generalizable is not established here. It is simply what occurred.</p>
+
+  <h2>An illustrative moment</h2>
+  <p>During preparation of this record I was presented with a contextualized filesystem race scenario: an authorization system checks that a resource is permitted; between the check and the use, the resource changes so that the originally safe reference now points to something sensitive.</p>
+  <p>My first proposals were insufficient. After progressive contextualization I arrived at the architectural intuition that the enforcement system should remain involved through the actual resource access — "Armour will walk with you." Only afterward was the formal terminology of time-of-check/time-of-use (TOCTOU) introduced.</p>
+  <p>The sequence showed:</p>
+  <ul>
+    <li>formal terminology was initially absent</li>
+    <li>the first proposed mitigations were incomplete</li>
+    <li>conceptual understanding improved through contextualization</li>
+    <li>an appropriate architectural intuition eventually emerged</li>
+    <li>independent ability to implement the mitigation at the source level was not demonstrated</li>
+  </ul>
+  <p>The moment illustrates the separation between terminological knowledge, conceptual reasoning, architectural intuition, and implementation competence.</p>
+
+  <h2>What comes next</h2>
+  <p>This document freezes the baseline.</p>
+  <p>Paper 1 will begin the deliberate process of learning the implementation layer of the systems I directed. The goal is not to pretend the gap never existed. The goal is to determine whether, and how, it can be closed.</p>
+  <p>At the time of this writing:</p>
+  <ul>
+    <li>I can identify problems and formulate solution logic.</li>
+    <li>I can direct and constrain the construction of working systems.</li>
+    <li>I can reason about intended behavior and detect conceptual contradictions.</li>
+    <li>I cannot independently claim equivalent programming expertise, nor fully read or reproduce large parts of the resulting implementation without assistance.</li>
+  </ul>
+  <p>Those facts exist at the same time. This is the state being recorded.</p>
+
+  <h2>Closing statement</h2>
+  <p>I have been able to cause technical systems to exist whose implementation exceeds my independently demonstrated programming knowledge.</p>
+  <p>Rather than treating that discrepancy as something to conceal, this record makes the discrepancy itself the object of attention.</p>
+  <p>My previous technical work repeatedly preserved failures, unsuccessful approaches, and subsequent revisions so they could be examined. This time the failure being documented is my own knowledge gap.</p>
+  <p>Whether that gap can subsequently be closed remains unknown. That is the next experiment.</p>
+
+  <hr>
+
+  <div class="note"><p><em>Phase 0 complete. The next work is to learn.</em><br><strong>Rick Clinton · August 2026</strong></p></div>
+
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div class="foot-copy">Rick Clinton — Chennai, India</div>
+    <div class="foot-links">
+      <a href="../index.html">← portfolio</a>
+      <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:clinpeter@gmail.com">Email</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

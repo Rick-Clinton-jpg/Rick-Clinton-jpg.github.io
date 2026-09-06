@@ -64,28 +64,28 @@
       <div class="card-grid">
 
         <article class="card status-cyan">
-          <div class="card-top"><span class="card-name">Armour</span><span class="card-role">effect / release gate</span></div>
+          <div class="card-top"><span class="card-name">Armour</span> <span class="card-role">effect / release gate</span></div>
           <p class="card-desc">An agent proposes an action. Armour — not the agent — authorizes it, rejects it, or escalates it to a human, before any host-registered handler runs. A policy boundary, not an OS or container sandbox. Started as the safety layer inside a personal autonomous-agent project; the skeleton was later extracted into this repo. It's also the intended release gate for AI Kavach.</p>
-          <div class="card-note">174 unit tests pass · all 31 modeled mutants killed</div>
+          <div class="card-note">174 unit tests pass · all 31 modeled mutants killed — in-repo tests; policy gate, not an OS sandbox</div>
           <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/Armour" target="_blank" rel="noopener">view source ↗</a></div>
         </article>
 
         <article class="card status-cyan">
-          <div class="card-top"><span class="card-name">Sentry</span><span class="card-role">input lint / CI</span></div>
+          <div class="card-top"><span class="card-name">Sentry</span> <span class="card-role">input lint / CI</span></div>
           <p class="card-desc">A cheap, always-on lint pass for prompt-injection and manipulation patterns — six deterministic rules: direct agent-addressing, hidden-channel instructions, scope-expansion phrasing, confirmation-bypass claims, environment and network exfiltration patterns. Runs as a CLI and in CI. Narrow and deterministic on purpose, not a governance system.</p>
           <div class="card-note">22/22 tests passing · CI across 3 Python versions</div>
           <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/Sentry" target="_blank" rel="noopener">view source ↗</a></div>
         </article>
 
         <article class="card status-cyan">
-          <div class="card-top"><span class="card-name">Reasoning Kernel</span><span class="card-role">claim graph</span></div>
+          <div class="card-top"><span class="card-name">Reasoning Kernel</span> <span class="card-role">claim graph</span></div>
           <p class="card-desc">Eight deterministic rules over a claim graph — provenance can't be faked, and a conclusion can't outrank what actually supports it. On a 24-case eval built from invented companies and people, so the model can't lean on background knowledge: 16/16 correct on resolvable claims, 8/8 honest "not enough information" answers. Two logic bugs in the kernel's own rules slipped past roughly 200 synthetic tests before a real run caught them.</p>
           <div class="card-note">16/16 + 8/8 on the 24-case invented-entity eval — not a field rate</div>
           <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/reasoning-kernel" target="_blank" rel="noopener">view source ↗</a></div>
         </article>
 
         <article class="card status-cyan">
-          <div class="card-top"><span class="card-name">Trust Boundary</span><span class="card-role">coordinator</span></div>
+          <div class="card-top"><span class="card-name">Trust Boundary</span> <span class="card-role">coordinator</span></div>
           <p class="card-desc">Wires Sentry, Review Board, and Reasoning Kernel together without fusing them into one confidence number. Its own docs put it plainly: these tools do not fuse into a single graph, each stays inside the boundary it was actually built and tested for. Two real integration bugs turned up while wiring it against the actual repos instead of an assumed interface — a severity check that could never fire, and code written against a Kernel method that doesn't exist.</p>
           <div class="card-note">2 integration bugs found while wiring, both fixed</div>
           <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/trust-boundary" target="_blank" rel="noopener">view source ↗</a></div>
@@ -104,7 +104,7 @@
       <div class="card-grid">
 
         <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">Quorum</span><span class="card-role">Google All Things Agentic — Taskmaster</span></div>
+          <div class="card-top"><span class="card-name">Quorum</span> <span class="card-role">Google All Things Agentic — Taskmaster</span></div>
           <p class="card-desc">A separate Worker Agent (Gemini 3.5, Google ADK, Vertex AI) drafts a patch. Quorum only gates it: PASS opens a real GitHub pull request, REJECT allows one redraft, ESCALATE is human and never auto-resolved. Deployed on Cloud Run with Firestore state.</p>
           <div class="card-links">
             <a href="https://github.com/Rick-Clinton-jpg/Quorum" target="_blank" rel="noopener">view source ↗</a>
@@ -113,25 +113,25 @@
         </article>
 
         <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">AI Kavach</span><span class="card-role">Terrier Cyber Quest 3.0</span></div>
+          <div class="card-top"><span class="card-name">AI Kavach</span> <span class="card-role">Terrier Cyber Quest 3.0</span></div>
           <p class="card-desc">An air-gapped wrapper around a locally run model — reference target Qwen 3.5 9B in LM Studio, the organizers may substitute a different model. Armour is the release gate; Sentry is the cheap always-on screen; IntentGraph and other checkers escalate rather than decide on their own. Awaiting the organizers.</p>
           <div class="card-links"><span class="card-role">no submission link yet</span></div>
         </article>
 
         <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">Lex / Claim Clarity</span><span class="card-role">Build What Moves India</span></div>
+          <div class="card-top"><span class="card-name">Lex / Claim Clarity</span> <span class="card-role">Build What Moves India</span></div>
           <p class="card-desc">An offline, bilingual (Hindi/English) explainer that walks someone through why an EPFO Form 31/10C claim was rejected, in plain language.</p>
           <div class="card-links"><a href="https://www.youtube.com/watch?v=hV2Sw1IzXso" target="_blank" rel="noopener">demo ↗</a></div>
         </article>
 
         <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">Boundary Memory</span><span class="card-role">CockroachDB × AWS hackathon</span></div>
+          <div class="card-top"><span class="card-name">Boundary Memory</span> <span class="card-role">CockroachDB × AWS hackathon</span></div>
           <p class="card-desc">Durable adapters giving Trust Boundary and IntentGraph persistent memory. Building it against the real upstream APIs, instead of assumed ones, surfaced three interface mismatches: a verdict vocabulary that matches neither repo's real code, an embedding dimension neither repo's real embedder produces, and the fact that neither repo is actually pip-installable.</p>
           <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/Boundary-Memory-" target="_blank" rel="noopener">view source ↗</a></div>
         </article>
 
         <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">Chainmail</span><span class="card-role">multi-agent authority envelopes</span></div>
+          <div class="card-top"><span class="card-name">Chainmail</span> <span class="card-role">multi-agent authority envelopes</span></div>
           <p class="card-desc">Extracted from Armour's single-action boundary. Its own docs are direct: not a sandbox, a policy boundary — it decides whether an action is allowed, it does not contain, isolate, or execute anything. Drift, anomaly, and re-entry signals rest on embedding similarity, which the docs call a heuristic, not a proof.</p>
           <div class="card-note">243 tests</div>
           <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/Chainmail" target="_blank" rel="noopener">view source ↗</a></div>
@@ -150,37 +150,37 @@
       <div class="notebook-list">
 
         <div class="notebook-item">
-          <div><span class="notebook-name">Warden</span><span class="notebook-status hold">on hold</span></div>
+          <div><span class="notebook-name">Warden</span> <span class="notebook-status hold">on hold</span></div>
           <div class="notebook-desc">External observer for long-running coding agents. Primary matcher scores AUC 0.332 on 60 hand-labelled pairs — worse than chance. It measures vocabulary overlap, not directional alignment. <a href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">source ↗</a></div>
         </div>
 
         <div class="notebook-item">
-          <div><span class="notebook-name">Review Board</span><span class="notebook-status proto">manual only</span></div>
+          <div><span class="notebook-name">Review Board</span> <span class="notebook-status proto">manual only</span></div>
           <div class="notebook-desc">Six-stage deliberation gate. An auto-trigger design lost to more specific sibling skills and misfired on its own skip clause under adversarial testing — abandoned. Now a manual-only Claude Code skill; a fault-injection test confirmed it catches a planted flawed score and changes the final recommendation. <a href="https://github.com/Rick-Clinton-jpg/Review-Board" target="_blank" rel="noopener">source ↗</a></div>
         </div>
 
         <div class="notebook-item">
-          <div><span class="notebook-name">Judge</span><span class="notebook-status proto">prototype</span></div>
+          <div><span class="notebook-name">Judge</span> <span class="notebook-status proto">prototype</span></div>
           <div class="notebook-desc">Judges one proposed action against a fixed policy, structurally unable to see the agent's stated objective — closing the hole where a dishonest agent controls both sides of an objective-similarity check. Its robustness design calls for unanimous agreement across reworded policy variants; that hasn't been run against a live model yet, only unit-level checks so far. Distinct from the <a href="papers/judge.html">JUDGE paper</a> — same name, different artifact. <a href="https://github.com/Rick-Clinton-jpg/Judge" target="_blank" rel="noopener">source ↗</a></div>
         </div>
 
         <div class="notebook-item">
-          <div><span class="notebook-name">IntentGraph</span><span class="notebook-status proto">prototype</span></div>
+          <div><span class="notebook-name">IntentGraph</span> <span class="notebook-status proto">prototype</span></div>
           <div class="notebook-desc">Detects when a conversation returns to an objective that already triggered a safety boundary, worded differently. Built for an AI Alignment Foundation fellowship application: 100% detection, 0% false-positives on 15 constructed, synthetic trajectories — its own docs call this a demonstration the mechanism works as designed, not a claim about false-positive behavior at scale. Real embedding backend failed to download (403) on two machines; runs on a lexical fallback for now. <a href="https://github.com/Rick-Clinton-jpg/intent-layer" target="_blank" rel="noopener">source ↗</a></div>
         </div>
 
         <div class="notebook-item">
-          <div><span class="notebook-name">Safety Genome</span><span class="notebook-status proto">library</span></div>
+          <div><span class="notebook-name">Safety Genome</span> <span class="notebook-status proto">library</span></div>
           <div class="notebook-desc">Decides whether a "repaired" candidate still carries the specific defect that got an earlier candidate rejected — by re-running the actual rule that fired, not by measuring similarity to the old failure. <a href="https://github.com/Rick-Clinton-jpg/Safety-Genome" target="_blank" rel="noopener">source ↗</a></div>
         </div>
 
         <div class="notebook-item">
-          <div><span class="notebook-name">Neural Node Swarm</span><span class="notebook-status proto">experimental</span></div>
+          <div><span class="notebook-name">Neural Node Swarm</span> <span class="notebook-status proto">experimental</span></div>
           <div class="notebook-desc">Schema-first runtime for short-lived agent nodes: execution fires for exactly three rounds, and nothing but validated output and explicit references into persistent memory survives between them. Its own README says it plainly: not yet a production agent runtime. <a href="https://github.com/Rick-Clinton-jpg/Neural-Node-Swarm-" target="_blank" rel="noopener">source ↗</a></div>
         </div>
 
         <div class="notebook-item">
-          <div><span class="notebook-name">Mirror Constitution</span><span class="notebook-status open">experimental</span></div>
+          <div><span class="notebook-name">Mirror Constitution</span> <span class="notebook-status open">experimental</span></div>
           <div class="notebook-desc">Executable containment checks for agent sandboxes, one module per article, backed by Linux kernel-level containment (namespaces, seccomp) — a checker, not a document. A demo/test flag can disable that kernel hardening entirely, used deliberately to prove an escape succeeds without it. <a href="https://github.com/Rick-Clinton-jpg/Mirror-Constitution" target="_blank" rel="noopener">source ↗</a></div>
         </div>
 
@@ -380,9 +380,9 @@
 
     <div class="paper-more">more</div>
     <div class="paper-more-list">
-      <div><a href="papers/the-five-layer-stack.html">The Five-Layer Stack</a><span>a practitioner's architecture for external AI safety verification</span></div>
-      <div><a href="papers/the-gap-and-the-bridge.html">The Gap and the Bridge</a><span>on AI cognition, model divergence, and scoped intermediation</span></div>
-      <div><a href="papers/judge.html">JUDGE</a><span>position paper — a five-layer stack for deterministic external verification</span></div>
+      <div><a href="papers/the-five-layer-stack.html">The Five-Layer Stack</a> <span>a practitioner's architecture for external AI safety verification</span></div>
+      <div><a href="papers/the-gap-and-the-bridge.html">The Gap and the Bridge</a> <span>on AI cognition, model divergence, and scoped intermediation</span></div>
+      <div><a href="papers/judge.html">JUDGE</a> <span>position paper — a five-layer stack for deterministic external verification</span></div>
     </div>
   </section>
 

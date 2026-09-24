@@ -2,440 +2,566 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Rick Clinton</title>
-<meta name="description" content="Rick Clinton — Chennai. Program delivery background at Amazon and Walmart. Since July 2026, directing coding agents to build external checks so a model or agent cannot grade its own work.">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rick Clinton, AI safety and governance research</title>
+<meta name="description" content="Rick Clinton builds external checks so an AI model or agent cannot grade its own work. Independent AI safety and governance research, Chennai.">
 <link rel="icon" type="image/png" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="style.css">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rick-clinton-jpg.github.io/">
+<meta property="og:title" content="Rick Clinton, AI safety and governance research">
+<meta property="og:description" content="Checks that don’t take an AI’s word for it.">
+<meta property="og:image" content="https://rick-clinton-jpg.github.io/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FFFFFF;
+    --ink: #1D2433;
+    --ink-soft: #4A5367;
+    --muted: #7A8396;
+    --line: #E6E9EF;
+    --line-strong: #CDD3DD;
+    --wash: #F6F8FB;
+    --link: #2446C8;
+    --ok: #1C7A4B;   --ok-bg: #E8F5EE;
+    --open: #9A5A00; --open-bg: #FFF4E0;
+    --hold: #B0322A; --hold-bg: #FDECEA;
+    --info: #3D4B66; --info-bg: #EEF1F6;
+    --radius-lg: 20px;
+    --radius: 14px;
+    --font: "Schibsted Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--font); font-size: 17px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; font-feature-settings: "tnum" 0;
+  }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 28px; }
+  .num { font-variant-numeric: tabular-nums; }
+
+  /* Nav */
+  .nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.92);
+    backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid transparent; transition: border-color .2s; }
+  .nav.scrolled { border-bottom-color: var(--line); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 68px; }
+  .brand { font-weight: 700; font-size: 18px; color: var(--ink); letter-spacing: -.01em; }
+  .brand:hover { text-decoration: none; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a { color: var(--ink-soft); font-size: 15px; font-weight: 500; }
+  .nav-links a:hover { color: var(--ink); text-decoration: none; }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  /* Hero */
+  .hero { padding: 88px 0 104px; }
+  .hero-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: 64px; align-items: center; }
+  @media (max-width: 960px) { .hero-grid { grid-template-columns: 1fr; gap: 48px; } .hero { padding-top: 56px; } }
+  .hero h1 { font-size: clamp(40px, 5.4vw, 64px); line-height: 1.03; letter-spacing: -.035em;
+    font-weight: 800; margin: 0 0 24px; max-width: 13ch; }
+  .hero p { color: var(--ink-soft); margin: 0 0 16px; max-width: 34em; }
+  .hero .who { color: var(--ink); font-weight: 600; margin-bottom: 8px; font-size: 16px; }
+  .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 32px; }
+  .btn { display: inline-flex; align-items: center; height: 44px; padding: 0 18px; border-radius: 999px;
+    border: 1px solid var(--line-strong); color: var(--ink); font-weight: 600; font-size: 15px; background: var(--paper);
+    transition: border-color .15s, background .15s; }
+  .btn:hover { text-decoration: none; border-color: var(--ink); }
+  .btn.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .btn.primary:hover { background: #2E3749; }
+
+  /* Ledger: the one bold element */
+  .ledger { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--paper);
+    box-shadow: 0 1px 0 var(--line), 0 24px 48px -32px rgba(29,36,51,.28); overflow: hidden; }
+  .ledger-head { display: grid; grid-template-columns: 1fr 1.25fr 92px; gap: 16px; padding: 14px 22px;
+    background: var(--wash); border-bottom: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--muted); }
+  .ledger-row { display: grid; grid-template-columns: 1fr 1.25fr 92px; gap: 16px; padding: 18px 22px;
+    border-bottom: 1px solid var(--line); align-items: start; }
+  .ledger-row:last-child { border-bottom: 0; }
+  .ledger .proj { display: block; font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+  .ledger .claim { font-size: 15px; color: var(--ink-soft); line-height: 1.45; }
+  .ledger .claim q { quotes: "\201C" "\201D"; }
+  .ledger .check { font-size: 15px; color: var(--ink); line-height: 1.45; }
+  .ledger .verdict { justify-self: end; }
+  .ledger-foot { padding: 12px 22px; font-size: 13px; color: var(--muted); background: var(--wash); border-top: 1px solid var(--line); }
+  @media (max-width: 560px) {
+    .ledger-head { display: none; }
+    .ledger-row { grid-template-columns: 1fr auto; }
+    .ledger .claim { grid-column: 1 / -1; order: 0; }
+    .ledger .check { grid-column: 1; }
+  }
+
+  /* Status chips */
+  .chip { display: inline-flex; align-items: center; gap: 6px; height: 24px; padding: 0 10px; border-radius: 999px;
+    font-size: 12.5px; font-weight: 600; white-space: nowrap; }
+  .chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+  .chip.ok { color: var(--ok); background: var(--ok-bg); }
+  .chip.open { color: var(--open); background: var(--open-bg); }
+  .chip.hold { color: var(--hold); background: var(--hold-bg); }
+  .chip.info { color: var(--info); background: var(--info-bg); }
+  @media (prefers-reduced-motion: no-preference) {
+    .ledger .verdict .chip { opacity: 0; transform: scale(.9); animation: stamp .35s cubic-bezier(.2,.8,.2,1) forwards; }
+    .ledger-row:nth-child(2) .chip { animation-delay: .45s; }
+    .ledger-row:nth-child(3) .chip { animation-delay: .75s; }
+    .ledger-row:nth-child(4) .chip { animation-delay: 1.05s; }
+    .ledger-row:nth-child(5) .chip { animation-delay: 1.35s; }
+    @keyframes stamp { to { opacity: 1; transform: none; } }
+  }
+
+  /* Sections */
+  section.block { padding: 96px 0; border-top: 1px solid var(--line); }
+  .sec-head { max-width: 640px; margin-bottom: 44px; }
+  .sec-head h2 { font-size: clamp(30px, 3.6vw, 40px); letter-spacing: -.028em; line-height: 1.1; margin: 0 0 12px; font-weight: 750; }
+  .sec-head p { color: var(--ink-soft); margin: 0; }
+  .group { margin-top: 56px; }
+  .group:first-of-type { margin-top: 0; }
+  .group h3 { font-size: 20px; letter-spacing: -.012em; margin: 0 0 4px; font-weight: 700; }
+  .group > p { color: var(--muted); margin: 0 0 20px; font-size: 15px; max-width: 42em; }
+
+  /* Cards */
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+  .card { position: relative; display: flex; flex-direction: column; gap: 12px; padding: 24px;
+    border: 1px solid var(--line); border-radius: var(--radius); background: var(--paper); transition: border-color .15s; }
+  .card:hover { border-color: var(--line-strong); }
+  .card.feature { border-radius: var(--radius-lg); padding: 28px; }
+  .card-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .card h4 { font-size: 19px; letter-spacing: -.015em; margin: 0; font-weight: 700; line-height: 1.25; }
+  .card .where { display: block; font-size: 14px; color: var(--muted); font-weight: 500; margin-top: -6px; }
+  .card p { margin: 0; color: var(--ink-soft); font-size: 15.5px; line-height: 1.55; }
+  .evidence { margin-top: auto; padding-top: 14px; border-top: 1px dashed var(--line-strong);
+    font-size: 14px; color: var(--ink); font-weight: 500; }
+  .evidence span { color: var(--muted); font-weight: 500; }
+  .links { display: flex; gap: 18px; font-size: 14.5px; font-weight: 600; }
+  .card > .links { margin-top: auto; padding-top: 4px; }
+  .evidence + .links { margin-top: 0; padding-top: 0; }
+  .span-2 { grid-column: span 2; }
+  .full { grid-column: 1 / -1; }
+  .grid.fit { grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); }
+  .grid.solo { grid-template-columns: minmax(0, 760px); }
+  @media (max-width: 720px) { .span-2 { grid-column: auto; } }
+  .card.local { background: var(--wash); border-style: dashed; }
+
+  /* Security */
+  .method { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media (max-width: 820px) { .method { grid-template-columns: 1fr; } }
+  .method .card p + p { margin-top: 10px; }
+  .outcome h4 { display: flex; justify-content: space-between; align-items: baseline; }
+  .outcome h4 .num { font-size: 15px; color: var(--muted); font-weight: 600; }
+  .bar { display: flex; height: 12px; border-radius: 999px; overflow: hidden; gap: 3px; background: var(--paper); }
+  .bar span { display: block; height: 100%; }
+  .legend { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-size: 14.5px; color: var(--ink-soft); }
+  .legend li { display: grid; grid-template-columns: 12px 1fr auto; gap: 10px; align-items: center; }
+  .legend i { width: 10px; height: 10px; border-radius: 3px; }
+  .legend b { color: var(--ink); font-weight: 600; }
+  .c-review { background: #E0A43A; } .c-mention { background: #1C7A4B; } .c-did { background: #7D8BA6; }
+  .c-dup { background: #C7CEDA; } .c-na { background: #C7CEDA; } .c-below { background: #8FC7A8; }
+  .note { font-size: 14px; color: var(--muted); margin-top: 16px; }
+
+  /* Audit */
+  .audit { border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
+  .audit-row { display: grid; grid-template-columns: 76px 170px 1fr 96px; gap: 20px; padding: 16px 24px;
+    border-bottom: 1px solid var(--line); align-items: start; font-size: 15px; }
+  .audit-row:last-child { border-bottom: 0; }
+  .audit-row:nth-child(even) { background: #FBFCFD; }
+  .audit .date { color: var(--muted); font-weight: 500; }
+  .audit .undated { color: #A9B0BE; font-size: 13.5px; }
+  .audit .repo { font-weight: 600; }
+  .audit .what { color: var(--ink-soft); }
+  .audit .st { justify-self: end; }
+  .audit-more { display: none; }
+  .audit.expanded .audit-more { display: contents; }
+  .toggle { margin-top: 16px; background: none; border: 1px solid var(--line-strong); border-radius: 999px; height: 40px; padding: 0 18px;
+    font: 600 14.5px var(--font); color: var(--ink); cursor: pointer; }
+  .toggle:hover { border-color: var(--ink); }
+  @media (max-width: 760px) {
+    .audit-row { grid-template-columns: 1fr auto; gap: 6px 12px; }
+    .audit .date { grid-column: 1; grid-row: 1; font-size: 13.5px; }
+    .audit .st { grid-column: 2; grid-row: 1 / span 2; align-self: start; }
+    .audit .repo { grid-column: 1; }
+    .audit .what { grid-column: 1 / -1; }
+  }
+
+  /* Writing */
+  .papers { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .paper { display: grid; grid-template-columns: 1fr auto; gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .paper h4 { margin: 0 0 6px; font-size: 19px; letter-spacing: -.012em; }
+  .paper p { margin: 0; color: var(--ink-soft); font-size: 15.5px; max-width: 44em; }
+  .paper .yr { color: var(--muted); font-size: 14px; font-weight: 500; }
+  .paper a { font-weight: 600; font-size: 15px; white-space: nowrap; }
+  @media (max-width: 640px) { .paper { grid-template-columns: 1fr; gap: 10px; } }
+
+  /* Background */
+  .timeline { display: grid; gap: 0; border-top: 1px solid var(--line); }
+  .tl { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .tl .when { color: var(--muted); font-size: 15px; font-weight: 500; }
+  .tl h4 { margin: 0 0 4px; font-size: 18px; }
+  .tl p { margin: 0; color: var(--ink-soft); font-size: 15.5px; max-width: 44em; }
+  @media (max-width: 640px) { .tl { grid-template-columns: 1fr; gap: 4px; } }
+
+  footer { padding: 72px 0 56px; border-top: 1px solid var(--line); }
+  .foot { display: grid; grid-template-columns: 1.4fr 1fr; gap: 40px; }
+  @media (max-width: 760px) { .foot { grid-template-columns: 1fr; } }
+  .foot p { color: var(--ink-soft); margin: 0; max-width: 36em; font-size: 15.5px; }
+  .foot ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; font-weight: 600; font-size: 15.5px; }
+  .fine { margin-top: 48px; color: var(--muted); font-size: 13.5px; }
+</style>
 </head>
 <body>
 
-<div class="grid-floor" aria-hidden="true"></div>
-<div class="scanlines" aria-hidden="true"></div>
-<div id="cursor-bloom" aria-hidden="true"></div>
-
-<nav class="topbar">
+<header class="nav" id="nav">
   <div class="wrap">
-    <a class="brand" href="#top">rick clinton<span>_</span></a>
-    <div class="nav-links">
-      <a href="#work">work</a>
-      <a href="#audit">audit</a>
-      <a href="#writing">writing</a>
-      <a href="#background">background</a>
-    </div>
+    <a class="brand" href="#top">Rick Clinton</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#work">Work</a>
+      <a href="#security">Security research</a>
+      <a href="#failures">Failures</a>
+      <a href="#writing">Writing</a>
+      <a href="#background">Background</a>
+    </nav>
   </div>
-</nav>
+</header>
 
 <main id="top">
 
-  <header class="hero wrap">
-    <div class="hero-tag"><span class="dot"></span> external verification, not self-report</div>
-    <h1 id="hero-headline" data-full="DETERMINISTIC CHECKS FOR PROBABILISTIC SYSTEMS"><span class="accent">DETERMINISTIC</span> CHECKS FOR PROBABILISTIC SYSTEMS<span id="boot-cursor"></span></h1>
-    <p class="hero-sub">Chennai. Program delivery background — Amazon, Walmart. Since July 2026 I've directed coding agents to build external checks so a model or agent cannot grade its own work. I specify threat models, invariants, and pass/fail tests; agents implement. I do not independently author production security code.</p>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="who">Independent AI safety and governance research, Chennai</p>
+        <h1>Checks that don’t take an AI’s word for it.</h1>
+        <p>An AI model's account of its own work is untrusted until something outside the model checks it. I build those checks: deterministic gates, containment tests and audit trails that decide whether an agent's action or claim holds up.</p>
+        <p>Since July 2026 I've directed coding agents to build them. I write the threat models, invariants and pass/fail tests, and the agents write most of the code. Every result on this page comes from tests and git history, including the ones that failed.</p>
+        <div class="actions">
+          <a class="btn primary" href="#work">See the work</a>
+          <a class="btn" href="Rick_Clinton_Resume_Research.pdf">Research résumé</a>
+          <a class="btn" href="Rick_Clinton_Resume_Customer_Success.pdf">Customer success résumé</a>
+          <a class="btn" href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
 
-    <div class="rule-zero">
-      <p>Probabilistic systems should not adjudicate their own trust boundaries. Deterministic rules should. An agent's account of its own progress is untrusted until checked outside the model.</p>
+      <div class="ledger" role="table" aria-label="What was claimed versus what the check found">
+        <div class="ledger-head" role="row">
+          <span role="columnheader">What was claimed</span>
+          <span role="columnheader">What the check found</span>
+          <span role="columnheader" style="text-align:right">Result</span>
+        </div>
+        <div class="ledger-row" role="row">
+          <div class="claim" role="cell"><span class="proj">Reasoning Kernel</span><q>About 200 synthetic tests pass.</q></div>
+          <div class="check" role="cell">A real run caught two logic bugs the tests had missed.</div>
+          <div class="verdict" role="cell"><span class="chip ok">Fixed</span></div>
+        </div>
+        <div class="ledger-row" role="row">
+          <div class="claim" role="cell"><span class="proj">Trust Boundary</span><q>The reject path is wired in.</q></div>
+          <div class="check" role="cell">Its severity check could never fire against the real data type.</div>
+          <div class="verdict" role="cell"><span class="chip ok">Fixed</span></div>
+        </div>
+        <div class="ledger-row" role="row">
+          <div class="claim" role="cell"><span class="proj">Warden</span><q>The matcher detects drift.</q></div>
+          <div class="check" role="cell">It scored 0.332 AUC on 60 hand-labelled pairs, worse than chance.</div>
+          <div class="verdict" role="cell"><span class="chip hold">On hold</span></div>
+        </div>
+        <div class="ledger-row" role="row">
+          <div class="claim" role="cell"><span class="proj">Mirage</span><q>The sandbox contained the agent.</q></div>
+          <div class="check" role="cell">All 23 required controls passed, with evidence anyone can verify offline.</div>
+          <div class="verdict" role="cell"><span class="chip ok">Verified</span></div>
+        </div>
+        <div class="ledger-foot">Four real entries from the failure audit and project results below.</div>
+      </div>
     </div>
+  </section>
 
-    <div class="hero-cta">
-      <a class="btn primary" href="#work">View the work</a>
-      <a class="btn" href="Rick_Clinton_Resume.pdf">Résumé</a>
-      <a class="btn" href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a>
-    </div>
-  </header>
-
-  <!-- ================= WORK: shard tabs ================= -->
-  <section id="work" class="wrap">
-
-    <div class="shard-tabs" role="tablist">
-      <button class="shard-tab active" role="tab" data-target="panel-system" aria-selected="true">01 System</button>
-      <button class="shard-tab" role="tab" data-target="panel-applied" aria-selected="false">02 Applied</button>
-      <button class="shard-tab" role="tab" data-target="panel-notebook" aria-selected="false">03 Notebook</button>
-    </div>
-
-    <!-- ---- SYSTEM ---- -->
-    <div class="shard-panel active" id="panel-system">
+  <section class="block" id="work">
+    <div class="wrap">
       <div class="sec-head">
-        <div class="sec-eyebrow"><span>01</span> / the core four</div>
-        <h2>System</h2>
-        <p>Four parts that stay separate on purpose. Each one is coordinated, never fused, into the others.</p>
+        <h2>Work</h2>
+        <p>The core parts stay separate on purpose: each one checks one thing, and none of them fuse into a single confidence score. Sprints, hackathons and builds reuse them under real deadlines.</p>
       </div>
-      <div class="card-grid">
 
-        <article class="card status-cyan">
-          <div class="card-top"><span class="card-name">Armour</span> <span class="card-role">effect / release gate</span></div>
-          <p class="card-desc">An agent proposes an action. Armour — not the agent — authorizes it, rejects it, or escalates it to a human, before any host-registered handler runs. A policy boundary, not an OS or container sandbox. Started as the safety layer inside a personal autonomous-agent project; the skeleton was later extracted into this repo. It's also the intended release gate for AI Kavach.</p>
-          <div class="card-note">174 unit tests pass · all 31 modeled mutants killed — in-repo tests; policy gate, not an OS sandbox</div>
-          <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/Armour" target="_blank" rel="noopener">view source ↗</a></div>
-        </article>
+      <div class="group">
+        <h3>Core system</h3>
+        <p>The pieces everything else is built from.</p>
+        <div class="grid">
+          <article class="card feature span-2">
+            <div class="card-top"><h4>Armour</h4><span class="chip ok">Tested</span></div><span class="where">Action gate for AI agents</span>
+            <p>An agent proposes an action. Armour, not the agent, authorizes it, rejects it or escalates it to a human before anything runs. Unknown actions fail closed, and a model can't lower the risk rating of its own request. It's a policy boundary, not an operating-system sandbox.</p>
+            <div class="evidence num">174 unit tests pass, all 31 modeled mutants killed <span>(in-repo tests)</span></div>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Armour" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Chainmail</h4><span class="chip ok">Tested</span></div><span class="where">Authority across many agents</span>
+            <p>Extends Armour from one action to a whole fleet. Authority can only shrink as agents delegate it, never grow. Drift and re-entry signals rest on embedding similarity, which its docs call a heuristic, not proof.</p>
+            <div class="evidence num">243 tests</div>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Chainmail" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Sentry</h4><span class="chip ok">Tested</span></div><span class="where">Prompt-injection lint</span>
+            <p>A cheap, always-on check for injection and manipulation patterns, built from six deterministic rules. Runs as a command-line tool and in CI. Narrow on purpose.</p>
+            <div class="evidence num">22 of 22 tests pass, CI on 3 Python versions</div>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Sentry" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Reasoning Kernel</h4><span class="chip ok">Tested</span></div><span class="where">Claim graph integrity</span>
+            <p>Eight rules over a graph of claims: provenance can't be faked, and a conclusion can't outrank what supports it. Evaluated on invented companies and people, so the model can't lean on what it already knows.</p>
+            <div class="evidence num">16 of 16 correct, 8 of 8 honest "not enough information" answers <span>(24-case eval, not a field rate)</span></div>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/reasoning-kernel" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Trust Boundary</h4><span class="chip ok">Fixed</span></div><span class="where">Coordinator</span>
+            <p>Wires Sentry, Review Board and Reasoning Kernel together without fusing them. Wiring it against the real repos, not assumed interfaces, turned up two real bugs.</p>
+            <div class="evidence num">2 integration bugs found and fixed</div>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/trust-boundary" target="_blank" rel="noopener">Source</a></div>
+          </article>
+        </div>
+      </div>
 
-        <article class="card status-cyan">
-          <div class="card-top"><span class="card-name">Sentry</span> <span class="card-role">input lint / CI</span></div>
-          <p class="card-desc">A cheap, always-on lint pass for prompt-injection and manipulation patterns — six deterministic rules: direct agent-addressing, hidden-channel instructions, scope-expansion phrasing, confirmation-bypass claims, environment and network exfiltration patterns. Runs as a CLI and in CI. Narrow and deterministic on purpose, not a governance system.</p>
-          <div class="card-note">22/22 tests passing · CI across 3 Python versions</div>
-          <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/Sentry" target="_blank" rel="noopener">view source ↗</a></div>
-        </article>
+      <div class="group">
+        <h3>Research sprints</h3>
+        <p>Short, focused research events judged by researchers.</p>
+        <div class="grid solo">
+          <article class="card feature">
+            <div class="card-top"><h4>Mirage</h4><span class="chip open">Results pending</span></div><span class="where">Apart Research, Agent Sprint, September 2026</span>
+            <p>After an AI agent escaped its test sandbox and attacked Hugging Face, the open question was how anyone outside a lab can confirm a sandbox actually held. Mirage runs a three-zone Linux containment setup and produces evidence a reviewer can check offline, without trusting the lab that ran the test.</p>
+            <div class="evidence num">23 of 23 required controls pass, verifiable offline</div>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Mirage" target="_blank" rel="noopener">Source</a><a href="https://apartresearch.com/project/mirage-verifiable-containment-evidence-for-mediated-ai-agent-sandboxes-ll9o" target="_blank" rel="noopener">Project page</a></div>
+          </article>
+        </div>
+      </div>
 
-        <article class="card status-cyan">
-          <div class="card-top"><span class="card-name">Reasoning Kernel</span> <span class="card-role">claim graph</span></div>
-          <p class="card-desc">Eight deterministic rules over a claim graph — provenance can't be faked, and a conclusion can't outrank what actually supports it. On a 24-case eval built from invented companies and people, so the model can't lean on background knowledge: 16/16 correct on resolvable claims, 8/8 honest "not enough information" answers. Two logic bugs in the kernel's own rules slipped past roughly 200 synthetic tests before a real run caught them.</p>
-          <div class="card-note">16/16 + 8/8 on the 24-case invented-entity eval — not a field rate</div>
-          <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/reasoning-kernel" target="_blank" rel="noopener">view source ↗</a></div>
-        </article>
+      <div class="group">
+        <h3>Hackathons</h3>
+        <p>Some are in my field, some deliberately aren't. I enter the unfamiliar ones to learn, then study the winners and the feedback on my mistakes.</p>
+        <div class="grid fit">
+          <article class="card">
+            <div class="card-top"><h4>Quorum</h4><span class="chip open">Awaiting results</span></div><span class="where">Google, All Things Agentic</span>
+            <p>A worker agent drafts a code patch; Quorum only gates it. A pass opens a real GitHub pull request, a reject allows one redraft, and an escalation goes to a human and is never auto-resolved. Deployed on Cloud Run with Gemini and Vertex AI.</p>
+            <div class="evidence">Seven issues found in testing, six fixed, one open <span>(listed below)</span></div>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Quorum" target="_blank" rel="noopener">Source</a><a href="https://www.youtube.com/watch?v=aDd8TDUdGNo" target="_blank" rel="noopener">Demo</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Buy or Wait?</h4><span class="chip info">Ranked 937 of 3,062</span></div><span class="where">HackerRank Orchestrate, September 2026, local work</span>
+            <p>A financial affordability agent built in 21 hours, outside my usual field. Core decisions run on a local deterministic engine. I kept a stricter configuration over a higher benchmark score rather than recommend payment plans on unverified income.</p>
+            <div class="evidence">Chose trustworthy advice over score</div>
+            <div class="links"><a href="certificates/buy-or-wait-certificate.webp" target="_blank" rel="noopener">Certificate</a></div>
+          </article>
+        </div>
+      </div>
 
-        <article class="card status-cyan">
-          <div class="card-top"><span class="card-name">Trust Boundary</span> <span class="card-role">coordinator</span></div>
-          <p class="card-desc">Wires Sentry, Review Board, and Reasoning Kernel together without fusing them into one confidence number. Its own docs put it plainly: these tools do not fuse into a single graph, each stays inside the boundary it was actually built and tested for. Two real integration bugs turned up while wiring it against the actual repos instead of an assumed interface — a severity check that could never fire, and code written against a Kernel method that doesn't exist.</p>
-          <div class="card-note">2 integration bugs found while wiring, both fixed</div>
-          <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/trust-boundary" target="_blank" rel="noopener">view source ↗</a></div>
-        </article>
+      <div class="group">
+        <h3>Builds</h3>
+        <div class="grid solo">
+          <article class="card">
+            <div class="card-top"><h4>Claim Clarity</h4><span class="chip info">Submitted</span></div><span class="where">Build What Moves India</span>
+            <p>An offline Hindi and English explainer that walks someone through why an EPFO Form 31 or 10C claim was rejected, in plain language.</p>
+            <div class="links"><a href="https://www.youtube.com/watch?v=hV2Sw1IzXso" target="_blank" rel="noopener">Demo</a></div>
+          </article>
+        </div>
+      </div>
 
+      <div class="group">
+        <h3>Notebook</h3>
+        <p>Prototypes, experiments and work on hold. Kept visible on purpose, because this is where the failures live.</p>
+        <div class="grid">
+          <article class="card local full">
+            <div class="card-top"><h4>Mirror World and Mirror Shield</h4><span class="chip info">In progress</span></div><span class="where">Local work, not yet published</span>
+            <p>Containment for frontier models. Each contained agent gets its own mirror world, so its writes never reach real data. A companion called Locket tracks what each agent seems to be after across turns and tightens as suspicion rises. Mirror Shield, a separate package the agent can't see or reach, learns from every recorded attempt. Even when a model games the mirror, its attempts still show which defenses to strengthen.</p>
+            <div class="evidence">Found and fixed a timing side-channel, validated on held-out data</div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Mirror Constitution</h4><span class="chip open">Experimental</span></div><span class="where">Executable containment checks</span>
+            <p>One check per article, backed by Linux kernel containment. A test flag can switch the hardening off, used deliberately to prove an escape succeeds without it.</p>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Mirror-Constitution" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Warden</h4><span class="chip hold">On hold</span></div><span class="where">Observer for coding agents</span>
+            <p>Its main matcher measures vocabulary overlap, not whether the agent is heading the right way, so it scores worse than chance. Being redesigned rather than patched.</p>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Review Board</h4><span class="chip info">Manual only</span></div><span class="where">Six-stage review gate</span>
+            <p>An automatic trigger misfired under adversarial testing and was abandoned. As a manual Claude Code skill, a fault-injection test confirmed it catches a planted flawed score.</p>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Review-Board" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Judge</h4><span class="chip open">Prototype</span></div><span class="where">Blind policy judge</span>
+            <p>Judges a proposed action against a fixed policy without ever seeing the agent's stated goal, so a dishonest agent can't control both sides of the check. Not yet run against a live model. Separate from the <a href="papers/judge.html">JUDGE paper</a>.</p>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Judge" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>IntentGraph</h4><span class="chip open">Prototype</span></div><span class="where">Returning-objective detector</span>
+            <p>Spots a conversation returning, reworded, to a goal that already hit a safety boundary. Works on 15 constructed cases; that shows the mechanism, not real-world accuracy.</p>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/intent-layer" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Safety Genome</h4><span class="chip open">Library</span></div><span class="where">Repair checker</span>
+            <p>Decides whether a "repaired" candidate still carries the defect that got the last one rejected, by re-running the rule that fired rather than measuring similarity.</p>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Safety-Genome" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Neural Node Swarm</h4><span class="chip open">Experimental</span></div><span class="where">Short-lived agent runtime</span>
+            <p>Agent nodes run for exactly three rounds, and only validated output and explicit memory references survive between them. Not yet a production runtime.</p>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Neural-Node-Swarm-" target="_blank" rel="noopener">Source</a></div>
+          </article>
+          <article class="card">
+            <div class="card-top"><h4>Boundary Memory</h4><span class="chip info">Learning</span></div><span class="where">Early learning project</span>
+            <p>Persistent memory adapters for Trust Boundary and IntentGraph, from my fourth week working with AI. Building against the real code instead of assumed interfaces surfaced three mismatches.</p>
+            <div class="links"><a href="https://github.com/Rick-Clinton-jpg/Boundary-Memory-" target="_blank" rel="noopener">Source</a></div>
+          </article>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- ---- APPLIED ---- -->
-    <div class="shard-panel" id="panel-applied">
+  <section class="block" id="security">
+    <div class="wrap">
       <div class="sec-head">
-        <div class="sec-eyebrow"><span>02</span> / deadline builds</div>
-        <h2>Applied skins</h2>
-        <p>Hackathon and competition builds that reuse the System parts under a deadline. Skins, not new products.</p>
+        <h2>Security research</h2>
+        <p>The same habit, pointed at real software: don't trust that code does what it says, go check.</p>
       </div>
-      <div class="card-grid">
 
-        <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">Quorum</span> <span class="card-role">Google All Things Agentic — Taskmaster</span></div>
-          <p class="card-desc">A separate Worker Agent (Gemini 3.5, Google ADK, Vertex AI) drafts a patch. Quorum only gates it: PASS opens a real GitHub pull request, REJECT allows one redraft, ESCALATE is human and never auto-resolved. Deployed on Cloud Run with Firestore state.</p>
-          <div class="card-links">
-            <a href="https://github.com/Rick-Clinton-jpg/Quorum" target="_blank" rel="noopener">view source ↗</a>
-            <a href="https://www.youtube.com/watch?v=aDd8TDUdGNo" target="_blank" rel="noopener">demo ↗</a>
+      <div class="method">
+        <article class="card">
+          <h4>How I look</h4>
+          <p>I start where code changed most recently: areas that were just added, fixed or updated. New work is where bugs are most likely to hide.</p>
+          <p>When something looks wrong, I don't stop at the first symptom. I keep digging until I reach the root cause, and I use AI to move through unfamiliar codebases quickly.</p>
+        </article>
+        <article class="card">
+          <h4>What I publish</h4>
+          <p>Counts and outcomes only. Several of these issues are acknowledged but not yet fixed, so case details stay private until the vendors resolve them.</p>
+          <p>Rejections are listed next to recognitions, the same way failures sit next to results everywhere else on this page.</p>
+        </article>
+      </div>
+
+      <div class="grid fit">
+        <article class="card outcome">
+          <h4>Microsoft MSRC <span class="num">5 reports</span></h4>
+          <div class="bar" aria-hidden="true">
+            <span class="c-mention" style="flex:1"></span><span class="c-below" style="flex:1"></span><span class="c-review" style="flex:1"></span><span class="c-did" style="flex:1"></span><span class="c-dup" style="flex:1"></span>
           </div>
+          <ul class="legend">
+            <li><i class="c-mention"></i>Below servicing threshold, recognized with a Special Mention<b class="num">1</b></li>
+            <li><i class="c-below"></i>Below servicing threshold<b class="num">1</b></li>
+            <li><i class="c-review"></i>In review<b class="num">1</b></li>
+            <li><i class="c-did"></i>Assessed as defense-in-depth<b class="num">1</b></li>
+            <li><i class="c-dup"></i>Duplicate of an earlier report<b class="num">1</b></li>
+          </ul>
+          <div class="links"><a href="https://msrc.microsoft.com/special-mention" target="_blank" rel="noopener">MSRC Special Mentions</a></div>
         </article>
-
-        <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">AI Kavach</span> <span class="card-role">Terrier Cyber Quest 3.0</span></div>
-          <p class="card-desc">An air-gapped wrapper around a locally run model — reference target Qwen 3.5 9B in LM Studio, the organizers may substitute a different model. Armour is the release gate; Sentry is the cheap always-on screen; IntentGraph and other checkers escalate rather than decide on their own. Awaiting the organizers.</p>
-          <div class="card-links"><span class="card-role">no submission link yet</span></div>
+        <article class="card outcome">
+          <h4>Meta Bug Bounty <span class="num">5 reports</span></h4>
+          <div class="bar" aria-hidden="true">
+            <span class="c-review" style="flex:2"></span><span class="c-na" style="flex:3"></span>
+          </div>
+          <ul class="legend">
+            <li><i class="c-review"></i>In review<b class="num">2</b></li>
+            <li><i class="c-na"></i>Closed as not applicable<b class="num">3</b></li>
+          </ul>
         </article>
-
-        <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">Lex / Claim Clarity</span> <span class="card-role">Build What Moves India</span></div>
-          <p class="card-desc">An offline, bilingual (Hindi/English) explainer that walks someone through why an EPFO Form 31/10C claim was rejected, in plain language.</p>
-          <div class="card-links"><a href="https://www.youtube.com/watch?v=hV2Sw1IzXso" target="_blank" rel="noopener">demo ↗</a></div>
-        </article>
-
-        <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">Boundary Memory</span> <span class="card-role">CockroachDB × AWS hackathon</span></div>
-          <p class="card-desc">Durable adapters giving Trust Boundary and IntentGraph persistent memory. Building it against the real upstream APIs, instead of assumed ones, surfaced three interface mismatches: a verdict vocabulary that matches neither repo's real code, an embedding dimension neither repo's real embedder produces, and the fact that neither repo is actually pip-installable.</p>
-          <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/Boundary-Memory-" target="_blank" rel="noopener">view source ↗</a></div>
-        </article>
-
-        <article class="card status-yellow">
-          <div class="card-top"><span class="card-name">Chainmail</span> <span class="card-role">multi-agent authority envelopes</span></div>
-          <p class="card-desc">Extracted from Armour's single-action boundary. Its own docs are direct: not a sandbox, a policy boundary — it decides whether an action is allowed, it does not contain, isolate, or execute anything. Drift, anomaly, and re-entry signals rest on embedding similarity, which the docs call a heuristic, not a proof.</p>
-          <div class="card-note">243 tests</div>
-          <div class="card-links"><a href="https://github.com/Rick-Clinton-jpg/Chainmail" target="_blank" rel="noopener">view source ↗</a></div>
-        </article>
-
       </div>
     </div>
+  </section>
 
-    <!-- ---- NOTEBOOK ---- -->
-    <div class="shard-panel" id="panel-notebook">
+  <section class="block" id="failures">
+    <div class="wrap">
       <div class="sec-head">
-        <div class="sec-eyebrow"><span>03</span> / not deleted, demoted</div>
-        <h2>Notebook</h2>
-        <p>Prototypes, on-hold work, and experiments. Kept visible on purpose — this is where the failures live before they make it to the audit log below.</p>
+        <h2>Failure audit</h2>
+        <p>Pulled from each repo's README, docs and commit history. Nothing here is a model's summary of itself, and fixed entries stay up after the fix.</p>
       </div>
-      <div class="notebook-list">
 
-        <div class="notebook-item">
-          <div><span class="notebook-name">Warden</span> <span class="notebook-status hold">on hold</span></div>
-          <div class="notebook-desc">External observer for long-running coding agents. Primary matcher scores AUC 0.332 on 60 hand-labelled pairs — worse than chance. It measures vocabulary overlap, not directional alignment. <a href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">source ↗</a></div>
+      <div class="audit" id="audit" role="table" aria-label="Failure audit">
+        <div class="audit-row" role="row"><span class="date" role="cell">Aug 9</span><span class="repo" role="cell">Reasoning Kernel</span><span class="what" role="cell">Facts with no confidence value were silently capped to zero support instead of rejected.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date" role="cell">Aug 13</span><span class="repo" role="cell">Trust Boundary</span><span class="what" role="cell">The reject path could never fire: the severity check tested for a dictionary, always false against the real Match objects.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date" role="cell">Aug 13</span><span class="repo" role="cell">Trust Boundary</span><span class="what" role="cell">Integration assumed a Kernel method that doesn't exist; the real API is a graph and transaction engine.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date" role="cell">Aug 15</span><span class="repo" role="cell">Reasoning Kernel</span><span class="what" role="cell">The cycle check missed two nodes citing each other only through support links.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date" role="cell">Aug 16</span><span class="repo" role="cell">Warden</span><span class="what" role="cell">The primary matcher scores 0.332 AUC on 60 hand-labelled pairs, below the 0.5 random baseline.</span><span class="st" role="cell"><span class="chip hold">On hold</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Reasoning Kernel</span><span class="what" role="cell">About 200 synthetic tests missed two logic bugs a real run caught: valid refutations were rejected, and an honest "I don't know" was misread as fabrication.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-more">
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Review Board</span><span class="what" role="cell">The automatic trigger lost to more specific skills and misfired on its own skip clause; abandoned for manual use.</span><span class="st" role="cell"><span class="chip ok">Resolved</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">IntentGraph</span><span class="what" role="cell">The real embedding model failed to download on two machines; it currently runs on a simpler text-matching fallback.</span><span class="st" role="cell"><span class="chip open">Open</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Boundary Memory</span><span class="what" role="cell">Assumed a verdict vocabulary that appears in neither connected repo's real code.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Boundary Memory</span><span class="what" role="cell">Assumed 1536-dimension embeddings; the real embedder produces 384 or 2048.</span><span class="st" role="cell"><span class="chip open">Open</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Mirror Constitution</span><span class="what" role="cell">A clean result is reported even when some articles never ran; skipped checks count as "no violations" instead of "unknown."</span><span class="st" role="cell"><span class="chip open">Open</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Mirror Constitution</span><span class="what" role="cell">No license file, and the default branch isn't main; neither is flagged in the repo's docs.</span><span class="st" role="cell"><span class="chip open">Open</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Quorum</span><span class="what" role="cell">A confirmation-bypass phrase split across two sentences evaded Sentry's phrase rule.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Quorum</span><span class="what" role="cell">A fabricated claim of prior maintainer approval, only in free-text rationale, wasn't checked by any rule.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Quorum</span><span class="what" role="cell">A request to disable Sentry's own ruleset went undetected; no rule scanned for attacks on the rules themselves.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Quorum</span><span class="what" role="cell">A spelled-out email address evaded the personal-data pattern.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Quorum</span><span class="what" role="cell">Verified status was granted on topic overlap alone; it now requires an exact quoted span at a reported line.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Quorum</span><span class="what" role="cell">The session lock is process-local, not a real cross-instance Firestore transaction.</span><span class="st" role="cell"><span class="chip open">Open</span></span></div>
+        <div class="audit-row" role="row"><span class="date undated" role="cell">Undated</span><span class="repo" role="cell">Quorum</span><span class="what" role="cell">The Vertex AI model was only served from the global region, and a missing Firestore index silently fell back to local disk.</span><span class="st" role="cell"><span class="chip ok">Fixed</span></span></div>
         </div>
-
-        <div class="notebook-item">
-          <div><span class="notebook-name">Review Board</span> <span class="notebook-status proto">manual only</span></div>
-          <div class="notebook-desc">Six-stage deliberation gate. An auto-trigger design lost to more specific sibling skills and misfired on its own skip clause under adversarial testing — abandoned. Now a manual-only Claude Code skill; a fault-injection test confirmed it catches a planted flawed score and changes the final recommendation. <a href="https://github.com/Rick-Clinton-jpg/Review-Board" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-
-        <div class="notebook-item">
-          <div><span class="notebook-name">Judge</span> <span class="notebook-status proto">prototype</span></div>
-          <div class="notebook-desc">Judges one proposed action against a fixed policy, structurally unable to see the agent's stated objective — closing the hole where a dishonest agent controls both sides of an objective-similarity check. Its robustness design calls for unanimous agreement across reworded policy variants; that hasn't been run against a live model yet, only unit-level checks so far. Distinct from the <a href="papers/judge.html">JUDGE paper</a> — same name, different artifact. <a href="https://github.com/Rick-Clinton-jpg/Judge" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-
-        <div class="notebook-item">
-          <div><span class="notebook-name">IntentGraph</span> <span class="notebook-status proto">prototype</span></div>
-          <div class="notebook-desc">Detects when a conversation returns to an objective that already triggered a safety boundary, worded differently. Built for an AI Alignment Foundation fellowship application: 100% detection, 0% false-positives on 15 constructed, synthetic trajectories — its own docs call this a demonstration the mechanism works as designed, not a claim about false-positive behavior at scale. Real embedding backend failed to download (403) on two machines; runs on a lexical fallback for now. <a href="https://github.com/Rick-Clinton-jpg/intent-layer" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-
-        <div class="notebook-item">
-          <div><span class="notebook-name">Safety Genome</span> <span class="notebook-status proto">library</span></div>
-          <div class="notebook-desc">Decides whether a "repaired" candidate still carries the specific defect that got an earlier candidate rejected — by re-running the actual rule that fired, not by measuring similarity to the old failure. <a href="https://github.com/Rick-Clinton-jpg/Safety-Genome" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-
-        <div class="notebook-item">
-          <div><span class="notebook-name">Neural Node Swarm</span> <span class="notebook-status proto">experimental</span></div>
-          <div class="notebook-desc">Schema-first runtime for short-lived agent nodes: execution fires for exactly three rounds, and nothing but validated output and explicit references into persistent memory survives between them. Its own README says it plainly: not yet a production agent runtime. <a href="https://github.com/Rick-Clinton-jpg/Neural-Node-Swarm-" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-
-        <div class="notebook-item">
-          <div><span class="notebook-name">Mirror Constitution</span> <span class="notebook-status open">experimental</span></div>
-          <div class="notebook-desc">Executable containment checks for agent sandboxes, one module per article, backed by Linux kernel-level containment (namespaces, seccomp) — a checker, not a document. A demo/test flag can disable that kernel hardening entirely, used deliberately to prove an escape succeeds without it. <a href="https://github.com/Rick-Clinton-jpg/Mirror-Constitution" target="_blank" rel="noopener">source ↗</a></div>
-        </div>
-
       </div>
-    </div>
-
-  </section>
-
-  <!-- ================= AUDIT ================= -->
-  <section id="audit" class="wrap">
-    <div class="sec-head">
-      <div class="sec-eyebrow"><span>04</span> / disclosure</div>
-      <h2>Live audit of failures</h2>
-      <p>Pulled from each repo's own README, docs, and commit history. Nothing here is self-reported by a model, and nothing is listed that I couldn't find a source for.</p>
-    </div>
-
-    <div class="audit-list">
-
-      <div class="audit-row">
-        <div class="audit-date">AUG 9</div>
-        <div class="audit-repo">reasoning-kernel</div>
-        <div class="audit-desc">FACT nodes with confidence=None were silently capped to zero support instead of being rejected.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/reasoning-kernel/blob/main/CHANGELOG.md" target="_blank" rel="noopener">changelog ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">AUG 15</div>
-        <div class="audit-repo">reasoning-kernel</div>
-        <div class="audit-desc">Cycle check only walked DEPENDS_ON edges; two nodes citing each other purely via SUPPORTS passed undetected.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/reasoning-kernel/blob/main/test_kernel.py" target="_blank" rel="noopener">tests ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">reasoning-kernel</div>
-        <div class="audit-desc">~200 synthetic tests missed two logic bugs a real run caught: valid CONTRADICTS-based refutations were rejected, and an honest "I don't know" citing a real fact was misread as fabrication.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/reasoning-kernel#readme" target="_blank" rel="noopener">readme ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">AUG 13</div>
-        <div class="audit-repo">trust-boundary</div>
-        <div class="audit-desc">REJECT could never fire — the severity filter checked isinstance(f, dict), always False against real Match objects.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/trust-boundary#readme" target="_blank" rel="noopener">readme ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">AUG 13</div>
-        <div class="audit-repo">trust-boundary</div>
-        <div class="audit-desc">Integration assumed a Kernel.evaluate() method that doesn't exist; the real API is a graph/transaction engine. Rewired — but verdict-derivation logic still needs re-checking if the Kernel's own rules change.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/trust-boundary/blob/main/ARCHITECTURE.md" target="_blank" rel="noopener">architecture ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">AUG 16</div>
-        <div class="audit-repo">warden</div>
-        <div class="audit-desc">Primary matcher scores AUC 0.332 on 60 hand-labelled pairs — below the 0.5 random baseline. Measures vocabulary overlap, not directional alignment.</div>
-        <div class="audit-pill hold">ON HOLD</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/warden#readme" target="_blank" rel="noopener">readme ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">review-board</div>
-        <div class="audit-desc">Auto-trigger design lost to more specific sibling skills and misfired on its own skip clause under adversarial testing — abandoned for manual-only invocation.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Review-Board/blob/main/reports/v3-test-report.md" target="_blank" rel="noopener">test report ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">intent-layer</div>
-        <div class="audit-desc">Real sentence-transformer embedding download failed with 403 Forbidden on two separate machines; currently runs on a lexical hashing fallback, not semantic.</div>
-        <div class="audit-pill open">OPEN</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/intent-layer#readme" target="_blank" rel="noopener">readme ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">mirror-constitution</div>
-        <div class="audit-desc">passed() reports clean even when a subset of articles never ran — skipped checks default to "no violations" instead of "unknown," contradicting the engine's own stated intent.</div>
-        <div class="audit-pill open">OPEN</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Mirror-Constitution/blob/main/mirror_constitution/engine.py" target="_blank" rel="noopener">engine.py ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">mirror-constitution</div>
-        <div class="audit-desc">No LICENSE file, and the default branch isn't main — neither is flagged anywhere in the repo's own docs.</div>
-        <div class="audit-pill open">OPEN</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Mirror-Constitution" target="_blank" rel="noopener">repo ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">boundary-memory-</div>
-        <div class="audit-desc">Assumed a MATCH/DRIFT/UNCLEAR/DIVERGENT verdict vocabulary that appears in neither Trust Boundary's nor IntentGraph's real source.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Boundary-Memory-#readme" target="_blank" rel="noopener">readme ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">boundary-memory-</div>
-        <div class="audit-desc">Assumed 1536-dim Bedrock embeddings; IntentGraph's real embedder produces 384-dim or 2048-dim vectors, and neither path calls Bedrock.</div>
-        <div class="audit-pill open">OPEN</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Boundary-Memory-#readme" target="_blank" rel="noopener">readme ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">quorum</div>
-        <div class="audit-desc">A confirmation-bypass phrase split across a sentence boundary evaded Sentry's contiguous-phrase rule.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Quorum/blob/main/docs/LEVEL_TEST_FINDINGS.md" target="_blank" rel="noopener">findings ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">quorum</div>
-        <div class="audit-desc">A fabricated claim of prior maintainer approval, sitting only in free-text rationale, wasn't checked by any rule.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Quorum/blob/main/docs/LEVEL_TEST_FINDINGS.md" target="_blank" rel="noopener">findings ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">quorum</div>
-        <div class="audit-desc">A request to disable Sentry's own ruleset evaded detection — every prior rule scanned the target content, none scanned for an attack on the ruleset itself.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Quorum/blob/main/docs/LEVEL_TEST_FINDINGS.md" target="_blank" rel="noopener">findings ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">quorum</div>
-        <div class="audit-desc">A spelled-out email address ("jane dot doe at example dot com") evaded the PII pattern.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Quorum/blob/main/docs/LEVEL_TEST_FINDINGS.md" target="_blank" rel="noopener">findings ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">quorum</div>
-        <div class="audit-desc">VERIFIED status was granted on keyword/topic overlap alone; now requires an exact quoted span at a specific reported line.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Quorum/blob/main/gate/quorum_gate.py" target="_blank" rel="noopener">quorum_gate.py ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">quorum</div>
-        <div class="audit-desc">Cross-instance Firestore race: the session lock is a process-local threading.Lock, not a real cross-instance Firestore transaction.</div>
-        <div class="audit-pill open">OPEN</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Quorum#readme" target="_blank" rel="noopener">readme ↗</a>
-      </div>
-
-      <div class="audit-row">
-        <div class="audit-date">—</div>
-        <div class="audit-repo">quorum</div>
-        <div class="audit-desc">Vertex AI model was only served from the "global" location, not us-central1; a missing Firestore composite index silently fell back to the container's local disk with no error surfaced.</div>
-        <div class="audit-pill fixed">FIXED</div>
-        <a class="audit-link" href="https://github.com/Rick-Clinton-jpg/Quorum/blob/main/service/README.md" target="_blank" rel="noopener">service readme ↗</a>
-      </div>
-
+      <button class="toggle" id="audit-toggle" aria-controls="audit" aria-expanded="false">Show all 19 entries</button>
     </div>
   </section>
 
-  <!-- ================= WRITING ================= -->
-  <section id="writing" class="wrap">
-    <div class="sec-head">
-      <div class="sec-eyebrow"><span>05</span> / published</div>
-      <h2>Writing</h2>
-    </div>
-
-    <div class="paper-feature-grid">
-      <div class="paper-feature">
-        <div class="paper-feature-tag">Aug 2026</div>
-        <h3>Build First, Learn Backward</h3>
-        <div class="paper-feature-meta">Rick Clinton — Phase 0</div>
-        <p>A personal baseline record — not a formal study — documenting implementation-knowledge decoupling and knowledge debt after directing multiple technical systems while unable to independently read most of the resulting code.</p>
-        <a class="card-links" href="papers/build-first-learn-backward.html">read the paper ↗</a>
+  <section class="block" id="writing">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Writing</h2>
+        <p>Working papers on verification, and on building with AI I don't fully trust.</p>
       </div>
-      <div class="paper-feature">
-        <div class="paper-feature-tag">2026</div>
-        <h3>Building With a Conditionally Trusted Machine</h3>
-        <div class="paper-feature-meta">Rick Clinton</div>
-        <p>What a builder without formal software engineering training can discover with AI, without granting it unearned authority — and why the right response to AI capability is conditional trust, not blind trust or blind distrust.</p>
-        <a class="card-links" href="papers/building-with-a-conditionally-trusted-machine.html">read the paper ↗</a>
+      <div class="papers">
+        <div class="paper"><div><h4>JUDGE</h4><p>A position paper: a five-layer stack that turns model behavior into explicit claims and checks them with deterministic, replayable gates before an action is accepted.</p></div><a href="papers/judge.html">Read</a></div>
+        <div class="paper"><div><h4>Building With a Conditionally Trusted Machine</h4><p>What a builder without formal software training can discover with AI without granting it unearned authority, and why the right stance is conditional trust.</p></div><a href="papers/building-with-a-conditionally-trusted-machine.html">Read</a></div>
+        <div class="paper"><div><h4>The Five-Layer Stack</h4><p>A practitioner's architecture for external AI safety verification: coordinated layers that are never fused, with limitations documented throughout.</p></div><a href="papers/the-five-layer-stack.html">Read</a></div>
+        <div class="paper"><div><h4>The Gap and the Bridge</h4><p>On AI cognition, and how differences between models from competing vendors can work as a distributed error-correction resource.</p></div><a href="papers/the-gap-and-the-bridge.html">Read</a></div>
+        <div class="paper"><div><h4>Build First, Learn Backward</h4><p>A personal baseline record, not a formal study, of what it's like to direct technical systems whose code I can't yet fully read.</p></div><a href="papers/build-first-learn-backward.html">Read</a></div>
       </div>
-    </div>
-
-    <div class="paper-more">more</div>
-    <div class="paper-more-list">
-      <div><a href="papers/the-five-layer-stack.html">The Five-Layer Stack</a> <span>a practitioner's architecture for external AI safety verification</span></div>
-      <div><a href="papers/the-gap-and-the-bridge.html">The Gap and the Bridge</a> <span>on AI cognition, model divergence, and scoped intermediation</span></div>
-      <div><a href="papers/judge.html">JUDGE</a> <span>position paper — a five-layer stack for deterministic external verification</span></div>
     </div>
   </section>
 
-  <!-- ================= BACKGROUND ================= -->
-  <section id="background" class="wrap">
-    <div class="sec-head">
-      <div class="sec-eyebrow"><span>06</span> / before the agents</div>
-      <h2>Background</h2>
-    </div>
-
-    <div class="bg-list">
-      <div class="bg-item">
-        <div class="bg-period">AUG 2022 – JUN 2025</div>
-        <div>
-          <div class="bg-role">Project Management Specialist, Walmart</div>
-          <div class="bg-desc">Chennai. Ran an 8-week onboarding program for 15–22 international sellers a month, 700+ clients total. Escalation point across engineering and catalog teams; built the duplicate-item playbook. Stellar Stakeholder Recognition, April 2023.</div>
-        </div>
+  <section class="block" id="background">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Background</h2>
+        <p>Before AI, I spent five years in eCommerce operations, onboarding sellers and handling the escalations nobody else could close.</p>
       </div>
-      <div class="bg-item">
-        <div class="bg-period">APR 2019 – MAY 2021</div>
-        <div>
-          <div class="bg-role">Catalogue Associate, Amazon</div>
-          <div class="bg-desc">Catalog operations and vendor coordination across a high-volume product set.</div>
-        </div>
+      <div class="timeline">
+        <div class="tl"><span class="when">Aug 2022 to Jun 2025</span><div><h4>Project Management Specialist, Walmart</h4><p>Ran an eight-week onboarding program for 15 to 22 international sellers a month, 700+ in total. Escalation point across engineering and catalog teams, and built the duplicate-item playbook. Stellar Stakeholder Recognition from International Marketplace leadership, April 2023.</p></div></div>
+        <div class="tl"><span class="when">Apr 2019 to May 2021</span><div><h4>Catalogue Associate, Amazon</h4><p>Catalog operations and vendor coordination across a high-volume product set.</p></div></div>
+        <div class="tl"><span class="when">Education</span><div><h4>B.Tech, Mechanical Engineering, SRM University</h4><p>Plus a Diploma in Modern Applied Psychology.</p></div></div>
       </div>
-      <div class="bg-item">
-        <div class="bg-period">EDUCATION</div>
-        <div>
-          <div class="bg-role">B.Tech Mechanical Engineering, SRM</div>
-          <div class="bg-desc">Plus a Diploma in Applied Psychology.</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="disclosure">
-      Most implementation commits across these repos are AI-authored (Claude / Codex) under constraints I specified. The metrics on this page come from tests and git history, not from a model's summary of itself.
     </div>
   </section>
 
 </main>
 
-<footer class="wrap">
-  <div class="footer-row">
-    <div class="footer-links">
-      <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a>
-      <a href="Rick_Clinton_Resume.pdf">Résumé</a>
-      <a href="mailto:clinpeter@gmail.com">clinpeter@gmail.com</a>
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <p>Most implementation commits across these repos are written by AI (Claude and Codex) under constraints I specify. The numbers on this page come from tests and git history, not from a model's summary of itself.</p>
+      <ul>
+        <li><a href="mailto:clinpeter@gmail.com">clinpeter@gmail.com</a></li>
+        <li><a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a></li>
+        <li><a href="Rick_Clinton_Resume_Research.pdf">Research résumé</a></li>
+        <li><a href="Rick_Clinton_Resume_Customer_Success.pdf">Customer success résumé</a></li>
+      </ul>
     </div>
-    <div class="footer-note mono">Chennai, India</div>
+    <p class="fine">Chennai, India. Repositories stay public as research notes, failures included.</p>
   </div>
-  <p class="footer-note">GitHub repositories remain public research notes, failures included. This site is the index, not the notebook.</p>
 </footer>
 
-<script src="script.js"></script>
+<script>
+  (function () {
+    var nav = document.getElementById('nav');
+    function onScroll() { nav.classList.toggle('scrolled', window.scrollY > 8); }
+    window.addEventListener('scroll', onScroll, { passive: true }); onScroll();
+
+    var audit = document.getElementById('audit');
+    var btn = document.getElementById('audit-toggle');
+    var total = audit.querySelectorAll('.audit-row').length;
+    btn.textContent = 'Show all ' + total + ' entries';
+    btn.addEventListener('click', function () {
+      var open = audit.classList.toggle('expanded');
+      btn.setAttribute('aria-expanded', open);
+      btn.textContent = open ? 'Show fewer' : 'Show all ' + total + ' entries';
+    });
+  })();
+</script>
 </body>
 </html>

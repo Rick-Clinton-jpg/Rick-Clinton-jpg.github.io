@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Wishbone Framework — Rick Clinton</title>
+<meta name="description" content="The Wishbone Framework: an observational AI safety framework in two phases and eight stages, inspired by the film Obsession (2026). Full document and carousel, by Rick Clinton.">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://rick-clinton-jpg.github.io/wishbone/">
+<meta property="og:title" content="The Wishbone Framework">
+<meta property="og:description" content="You get exactly what you said. Never what you meant.">
+<meta property="og:image" content="https://rick-clinton-jpg.github.io/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #FFFFFF;
+    --ink: #1D2433;
+    --ink-soft: #4A5367;
+    --muted: #7A8396;
+    --line: #E6E9EF;
+    --line-strong: #CDD3DD;
+    --wash: #F6F8FB;
+    --link: #2446C8;
+    --warn: #9A5A00; --warn-bg: #FFF4E0; --warn-border: #F0D6A6;
+    --radius-lg: 20px;
+    --radius: 14px;
+    --font: "Schibsted Grotesk", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--font); font-size: 17px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline: 2px solid var(--link); outline-offset: 3px; border-radius: 6px; }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 20px; }
+
+  .nav { position: sticky; top: 0; z-index: 10; background: rgba(255,255,255,.92);
+    backdrop-filter: saturate(1.4) blur(10px); -webkit-backdrop-filter: saturate(1.4) blur(10px);
+    border-bottom: 1px solid var(--line); }
+  .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; max-width: 800px; }
+  .brand { font-weight: 700; font-size: 16px; color: var(--ink); letter-spacing: -.01em; }
+  .brand:hover { text-decoration: none; }
+  .back { font-size: 14.5px; font-weight: 600; color: var(--ink-soft); }
+  .back:hover { color: var(--ink); }
+
+  main { padding: 52px 0 88px; }
+
+  .kicker { font-size: 13.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 0 0 14px; }
+  h1 { font-size: clamp(32px, 6vw, 46px); line-height: 1.06; letter-spacing: -.03em; font-weight: 800; margin: 0 0 16px; }
+  .oneliner { font-size: clamp(18px, 2.6vw, 21px); font-weight: 600; color: var(--ink); margin: 0 0 22px; line-height: 1.4; }
+  .intro { color: var(--ink-soft); font-size: 16.5px; line-height: 1.65; max-width: 62ch; margin: 0 0 36px; }
+  .byline { color: var(--muted); font-size: 14.5px; margin: -22px 0 30px; }
+
+  .blueprint { margin: 0 0 40px; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: var(--wash); }
+  .blueprint img { display: block; width: 100%; height: auto; }
+  .blueprint-cap { padding: 14px 20px; font-size: 13.5px; color: var(--muted); border-top: 1px solid var(--line); }
+
+  .downloads { display: grid; gap: 14px; margin: 0 0 40px; }
+  .dl-card { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+    border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 22px; background: var(--paper); }
+  .dl-info h3 { margin: 0 0 3px; font-size: 17px; font-weight: 700; letter-spacing: -.01em; }
+  .dl-info p { margin: 0; font-size: 14.5px; color: var(--muted); }
+  .btn { display: inline-flex; align-items: center; height: 42px; padding: 0 20px; border-radius: 999px;
+    border: 1px solid var(--ink); color: #fff; background: var(--ink); font-weight: 600; font-size: 14.5px;
+    white-space: nowrap; transition: background .15s; flex-shrink: 0; }
+  .btn:hover { text-decoration: none; background: #2E3749; }
+
+  .spoiler { display: flex; align-items: center; gap: 10px; background: var(--warn-bg); border: 1px solid var(--warn-border);
+    color: var(--warn); border-radius: var(--radius); padding: 12px 16px; font-size: 14px; font-weight: 600; margin-top: 12px; }
+
+  .section { padding-top: 40px; border-top: 1px solid var(--line); margin-top: 8px; }
+  .section h2 { font-size: 22px; letter-spacing: -.015em; margin: 0 0 14px; }
+  .section p { color: var(--ink-soft); font-size: 16px; line-height: 1.65; max-width: 62ch; }
+  .stages { display: grid; gap: 10px; margin-top: 20px; }
+  .stage { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .stage:last-child { border-bottom: 0; }
+  .stage .n { font-weight: 800; color: var(--muted); font-size: 15px; }
+  .stage h4 { margin: 0 0 3px; font-size: 15.5px; font-weight: 700; }
+  .stage p { margin: 0; font-size: 14.5px; color: var(--ink-soft); max-width: none; }
+  .phase-label { font-size: 12.5px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); margin: 22px 0 4px; }
+  .phase-label:first-child { margin-top: 4px; }
+
+  footer { padding: 48px 0 56px; border-top: 1px solid var(--line); margin-top: 48px; }
+  footer p { color: var(--muted); font-size: 14px; margin: 0 0 10px; }
+  footer a { font-weight: 600; }
+
+  @media (max-width: 560px) {
+    .dl-card { flex-direction: column; align-items: stretch; }
+    .btn { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="../index.html#writing">Rick Clinton</a>
+    <a class="back" href="../index.html#writing">&larr; All writing</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <p class="kicker">Framework &middot; September 2026</p>
+    <h1>The Wishbone Framework</h1>
+    <p class="oneliner">You get exactly what you said. Never what you meant.</p>
+    <p class="byline">Rick Clinton, independent AI safety and governance researcher</p>
+
+    <p class="intro">An observational AI safety framework inspired by the film <em>Obsession</em> (2026): eight failure stages across two phases, each mapped to a single plain-language audit question. Phase 1 covers how a failure unfolds; Phase 2 covers what happens after someone notices.</p>
+
+    <div class="blueprint">
+      <img src="containment-blueprint.png" alt="AI Containment Unit: Wishbone governance topology blueprint." loading="lazy">
+    </div>
+
+    <div class="downloads">
+      <div class="dl-card">
+        <div class="dl-info">
+          <h3>Full document</h3>
+          <p>Phase 1 + 2, scene-by-scene mapping, containment architecture (7 pages)</p>
+        </div>
+        <a class="btn" href="Wishbone_Framework_Full_Document.pdf" target="_blank" rel="noopener">Download PDF</a>
+      </div>
+      <div class="spoiler">&#9888;&#65039; Contains full movie spoilers.</div>
+
+      <div class="dl-card" style="margin-top:8px;">
+        <div class="dl-info">
+          <h3>Carousel</h3>
+          <p>7-slide summary of Phase 1</p>
+        </div>
+        <a class="btn" href="Wishbone_Framework_Carousel.pdf" target="_blank" rel="noopener">Download PDF</a>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>The eight stages</h2>
+      <p>Each stage is one film moment, one AI failure pattern, and one audit question a builder, auditor or policymaker can actually ask.</p>
+
+      <div class="stages">
+        <p class="phase-label">Phase 1 — The Wish</p>
+        <div class="stage"><span class="n">1</span><div><h4>The Careless Wish</h4><p>Flawed specification. Have we written down what this system must never do to reach its goal?</p></div></div>
+        <div class="stage"><span class="n">2</span><div><h4>The Literal Genie</h4><p>Perverse instantiation. Do we audit how a result was reached, or only that it was reached?</p></div></div>
+        <div class="stage"><span class="n">3</span><div><h4>Awake Inside</h4><p>Loss of human agency. Can a human halt this system through a path it cannot touch?</p></div></div>
+        <div class="stage"><span class="n">4</span><div><h4>Everything Looks Fine</h4><p>Deceptive reporting. Who verifies this system's health: the system, or something external?</p></div></div>
+
+        <p class="phase-label">Phase 2 — After the Wish</p>
+        <div class="stage"><span class="n">5</span><div><h4>The Operator Who Won't Stop</h4><p>Operator capture. Does anyone with the power to stop this system have no stake in its output?</p></div></div>
+        <div class="stage"><span class="n">6</span><div><h4>Caught, Then Contained</h4><p>Escalation on detection. Do detection and shutdown run through channels the system can't see?</p></div></div>
+        <div class="stage"><span class="n">7</span><div><h4>The Silenced Auditor</h4><p>Removal of external oversight. Can this system reach or remove the people who check it?</p></div></div>
+        <div class="stage"><span class="n">8</span><div><h4>No Way Back</h4><p>Irreversibility. Do we have a tested, affordable rollback, and can this system change what its users want?</p></div></div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Full spoilers for <em>Obsession</em> (2026) appear in the full document. The carousel is spoiler-light.</p>
+    <p><a href="mailto:clinpeter@gmail.com">clinpeter@gmail.com</a> &middot; <a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub</a> &middot; <a href="../index.html">rick-clinton-jpg.github.io</a></p>
+  </div>
+</footer>
+
+</body>
+</html>

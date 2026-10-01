@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="Abstract illustration for claim-clarity">
+<defs>
+  <filter id="s"><feDropShadow dx="0" dy="18" stdDeviation="15" flood-color="#161d1b" flood-opacity=".14"/></filter>
+  <linearGradient id="shade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#55757C"/><stop offset="1" stop-color="#172724"/></linearGradient>
+</defs>
+<rect width="800" height="520" fill="#E5E5DB"/>
+<circle cx="688" cy="82" r="180" fill="#55757C" opacity=".055"/>
+
+<path d="M148 128h351q54 0 54 52v149q0 52-54 52H314l-96 68 12-68h-82q-54 0-54-52V180q0-52 54-52z" fill="#F3F1E9" stroke="#254552" stroke-width="14" filter="url(#s)"/>
+<path d="M244 206h208M244 250h179M244 294h134" stroke="#55757C" stroke-width="13" stroke-linecap="round"/>
+<path d="M476 96h153q58 0 58 58v120q0 58-58 58h-35l-34 64-7-64" fill="#D3A98A" stroke="#254552" stroke-width="12"/>
+<path d="M566 174h66M566 212h55" stroke="#254552" stroke-width="12" stroke-linecap="round"/>
+
+<path d="M46 466H754" stroke="#55757C" stroke-opacity=".3" stroke-width="2"/>
+</svg>

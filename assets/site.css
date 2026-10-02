@@ -203,3 +203,7 @@ to{opacity:1;transform:scale(1)}
 .feature-visual img,.work-art img{transition:none}
 }
 
+
+/* Approved hero and project artwork: preserve the complete compositions. */
+.hero-stage img.approved-hero,.feature .feature-visual img.approved-art{height:auto;object-fit:contain}
+.hero-stage img.approved-hero{image-rendering:pixelated}

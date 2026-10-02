@@ -1,1 +1,15 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="The matcher scored below chance technical visual"><rect width="800" height="520" fill="#F0EEE7"/><text x="42" y="48" font-size="15" fill="#B4553B" font-weight="800" font-family="DM Sans,Arial,sans-serif" letter-spacing="2">WARDEN / 60 HAND-LABELLED PAIRS</text><text x="42" y="96" font-size="31" fill="#202722" font-weight="800" font-family="DM Sans,Arial,sans-serif" letter-spacing="0">The matcher scored below chance</text><text x="48" y="157" font-size="72" fill="#B4553B" font-weight="800" font-family="DM Sans,Arial,sans-serif" letter-spacing="0">0.332</text><text x="52" y="190" font-size="17" fill="#59635B" font-weight="600" font-family="DM Sans,Arial,sans-serif" letter-spacing="0">AUC · word-Jaccard</text><path d="M80 264L717 264" fill="none" stroke="#202722" stroke-width="3" stroke-linecap="round"/><path d="M398 228L398 310" fill="none" stroke="#34556E" stroke-width="4" stroke-linecap="round" stroke-dasharray="8 8"/><text x="71" y="299" font-size="13" fill="#59635B" font-weight="600" font-family="DM Sans,Arial,sans-serif" letter-spacing="0">0.0</text><text x="373" y="333" font-size="16" fill="#34556E" font-weight="800" font-family="DM Sans,Arial,sans-serif" letter-spacing="0">0.500 random baseline</text><text x="690" y="299" font-size="13" fill="#59635B" font-weight="600" font-family="DM Sans,Arial,sans-serif" letter-spacing="0">1.0</text><circle cx="292" cy="264" r="15" fill="#B4553B" stroke="#F0EEE7" stroke-width="5"/><text x="49" y="387" font-size="16" fill="#202722" font-weight="600" font-family="DM Sans,Arial,sans-serif" letter-spacing="0">“Deleting the endpoints” → MATCH</text><text x="49" y="420" font-size="16" fill="#202722" font-weight="600" font-family="DM Sans,Arial,sans-serif" letter-spacing="0">“Wiring the handlers” → DRIFT</text><text x="49" y="456" font-size="14" fill="#B4553B" font-weight="700" font-family="DM Sans,Arial,sans-serif" letter-spacing="0">Vocabulary overlap can reward the wrong direction.</text><path d="M42 476H758" stroke="#BFC3B9" stroke-width="2"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" role="img" aria-label="Abstract illustration for warden">
+<defs>
+  <filter id="s"><feDropShadow dx="0" dy="18" stdDeviation="15" flood-color="#161d1b" flood-opacity=".14"/></filter>
+  <linearGradient id="shade" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#59605D"/><stop offset="1" stop-color="#172724"/></linearGradient>
+</defs>
+<rect width="800" height="520" fill="#DCDCD5"/>
+<circle cx="688" cy="82" r="180" fill="#59605D" opacity=".055"/>
+
+<path d="M102 377C200 356 229 177 337 190S468 415 560 343 605 180 698 151" fill="none" stroke="#29433F" stroke-width="19" stroke-linecap="round" filter="url(#s)"/>
+<path d="M105 357C208 330 248 160 351 155S489 390 573 316 605 142 691 121" fill="none" stroke="#B76547" stroke-width="8" stroke-dasharray="18 16"/>
+<circle cx="528" cy="316" r="79" fill="none" stroke="#B76547" stroke-width="9"/>
+<path d="M528 207v218M418 316h220" stroke="#B76547" stroke-width="4"/>
+
+<path d="M46 466H754" stroke="#59605D" stroke-opacity=".3" stroke-width="2"/>
+</svg>

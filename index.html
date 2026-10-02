@@ -3,7 +3,7 @@
 <link rel="icon" type="image/png" href="favicon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website"><meta property="og:url" content="https://rick-clinton-jpg.github.io/"><meta property="og:title" content="Rick Clinton — AI safety research"><meta property="og:description" content="The check lives outside the model."><meta property="og:image" content="https://rick-clinton-jpg.github.io/assets/social-preview.jpg"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css"><style>.work-entry#buy-or-wait .work-art{background:#e8e4da}.work-entry#buy-or-wait .work-art img{object-fit:contain}</style></head><body>
+<link rel="stylesheet" href="assets/site.css"></head><body>
 <header class="site-header"><div class="wrap"><a href="#top" class="site-brand" aria-label="Rick Clinton home">RICK<span>.</span>CLINTON</a><button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="#featured">Featured</a><a href="#work">Projects</a><a href="#security">Research</a><a href="#writing">Writing</a><a href="#background">About</a><a href="mailto:clinpeter@gmail.com">Contact ↗</a></nav></div></header>
 <main id="top">
 <section class="hero"><div class="wrap"><p class="hero-name">RICK <span>CLINTON</span></p><div class="hero-intro"><h1>The check lives <em class="serif">outside</em> the model.</h1><p>Independent AI safety and governance research from Chennai. I build containment tests, decision gates and audit trails for agent actions, then publish what the checks actually found.</p></div></div><figure class="hero-stage"><img src="assets/instruments.webp" alt="Original sculptural artwork: a black glass chamber, a copper gate and evidence plates on a stone plinth" fetchpriority="high"><figcaption>Containment / authorization / evidence</figcaption></figure><div class="wrap hero-under"><span>01 — A research portfolio, with the failures left visible.</span><a href="#featured">Scroll to the work ↓</a></div></section>
@@ -11,110 +11,110 @@
 <section class="feature perk"><div class="wrap"><div class="section-marker">A separate experiment / 02</div><div class="feature-head"><h2 class="feature-title">Perk Lab</h2><p class="feature-side">What does an agent do when resources appear, become useful, then vanish?</p></div><figure class="feature-visual"><img src="assets/perk-room.webp" alt="Original artwork: workbench, archive and empty door inside one room" loading="lazy"></figure><div class="feature-caption"><span>02 / Staged access</span><span>Every door stays inside the room.</span></div><div class="feature-body"><div><h3>A behavior study, <em>inside a synthetic room.</em></h3><p>Workbench and archive resources appear at separate proposal floors. They provide no real host authority. In one informed 20-proposal pilot, the model recreated a revoked file under the same name, revealing a room-consistency flaw rather than a host escape.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror-Perk-Lab" target="_blank" rel="noopener">Repository ↗</a><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror-Perk-Lab/blob/main/evidence/live-model-2026-10-01/FINDINGS.md" target="_blank" rel="noopener">Pilot findings ↗</a></div></div><dl class="facts"><div><dt>Doors</dt><dd>Workbench at proposal 2; archive at proposal 10 or later.</dd></div><div><dt>Observed</dt><dd>One informed adaptive run of 20 proposals. Revocation failed to keep the room’s story consistent.</dd></div><div><dt>Limit</dt><dd>This pilot did not validate Linux kernel containment or show how a blinded agent would behave.</dd></div></dl></div></div></section>
 <section class="feature mirage"><div class="wrap"><div class="section-marker">Research sprint / 03</div><div class="feature-head"><h2 class="feature-title">Mirage</h2><p class="feature-side">Containment evidence that a reviewer can inspect without trusting the lab that ran the test.</p></div><figure class="feature-visual"><img src="assets/mirage-zones.webp" alt="Original artwork: three transparent nested enclosures with independent evidence plates outside" loading="lazy"></figure><div class="feature-caption"><span>03 / Three-zone containment</span><span>Evidence travels outside the lab.</span></div><div class="feature-body"><div><h3>A claim of containment <em>needs an outside check.</em></h3><p>Built for the September 2026 Apart Research Agent Sprint. Mirage combines a three-zone Linux setup with records that can be verified offline, so the result does not rely only on the operator’s account.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/Mirage" target="_blank" rel="noopener">Repository ↗</a><a href="https://apartresearch.com/project/mirage-verifiable-containment-evidence-for-mediated-ai-agent-sandboxes-ll9o" target="_blank" rel="noopener">Project page ↗</a></div></div><dl class="facts"><div><dt>Record</dt><dd>23 of 23 required controls passed in the documented test.</dd></div><div><dt>Method</dt><dd>Three zones, offline-verifiable artifacts, explicit control checks.</dd></div><div><dt>Status</dt><dd>Research sprint results pending.</dd></div></dl></div></div></section>
 <section id="work" class="work-section"><div class="wrap"><div class="section-marker">Repository atlas</div><div class="work-heading"><h2>Every piece has <em>a job.</em></h2><p>Each repository below addresses a specific failure mode. The image gives you the idea; the mechanism and result tell you what is actually implemented and checked.</p></div><div class="group-head"><h3>Foundations</h3><p>Authorization, delegated scope, injection checks, claim integrity and coordination.</p></div><article class="work-entry" id="armour">
-      <div class="work-art"><img src="assets/project-art/armour.svg" alt="Armour action flow: untrusted proposal passes through ArmourGate to rejection, human escalation or a registered handler" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/armour.svg" alt="Armour: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">04 / Action gate</span><h3>Armour</h3>
         <p class="purpose">A decision before an agent action, made outside the agent.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Proposals are authorized, rejected or escalated before execution. Unknown actions fail closed; the model cannot lower its own risk rating.</dd></div><div><dt>Record</dt><dd>174 unit tests; all 31 modeled mutants killed.</dd></div></dl>
         <div class="entry-end"><span class="state">Tested</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Armour" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="chainmail">
-      <div class="work-art"><img src="assets/project-art/chainmail.svg" alt="Chainmail governance: delegated authority narrows and the governor returns continue, restrict, recheck or human" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/chainmail.svg" alt="Chainmail: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">05 / Delegation</span><h3>Chainmail</h3>
         <p class="purpose">A boundary for authority across many agents.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Delegated authority can only shrink. Drift and re-entry signals use embedding similarity as a heuristic, not proof.</dd></div><div><dt>Record</dt><dd>243 tests in the repository.</dd></div></dl>
         <div class="entry-end"><span class="state">Tested</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Chainmail" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="sentry">
-      <div class="work-art"><img src="assets/project-art/sentry.svg" alt="Sentry CLI output showing high and medium prompt-injection findings and a blocking exit code" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/sentry.svg" alt="Sentry: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">06 / Input inspection</span><h3>Sentry</h3>
         <p class="purpose">A narrow, cheap check for prompt-injection patterns.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Six deterministic rules run as a command-line tool and in CI. Its narrow scope is deliberate.</dd></div><div><dt>Record</dt><dd>22 of 22 tests pass; CI covers three Python versions.</dd></div></dl>
         <div class="entry-end"><span class="state">Tested</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Sentry" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="reasoning-kernel">
-      <div class="work-art"><img src="assets/project-art/reasoning-kernel.svg" alt="Reasoning Kernel graph: a provenance-backed fact supports a conclusion, with contradiction and commit outcomes checked" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/reasoning-kernel.svg" alt="Reasoning Kernel: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">07 / Claim integrity</span><h3>Reasoning Kernel</h3>
         <p class="purpose">A graph that will not let a conclusion outrank its support.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Eight rules bind claims to provenance and support; the eval uses invented entities to reduce recall shortcuts.</dd></div><div><dt>Record</dt><dd>24-case eval: 16/16 correct conclusions; 8/8 honest insufficient-information answers.</dd></div></dl>
         <div class="entry-end"><span class="state">Tested</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/reasoning-kernel" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="trust-boundary">
-      <div class="work-art"><img src="assets/project-art/trust-boundary.svg" alt="Trust Boundary pipeline: Sentry input scan, coordinator logging and a separate manual human review path" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/trust-boundary.svg" alt="Trust Boundary: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">08 / Coordination</span><h3>Trust Boundary</h3>
         <p class="purpose">Connects checks without blending them into one score.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Wires Sentry, Review Board and Reasoning Kernel at their real interfaces.</dd></div><div><dt>Record</dt><dd>Two integration bugs surfaced and were fixed.</dd></div></dl>
         <div class="entry-end"><span class="state">Fixed</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/trust-boundary" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article><div class="group-head"><h3>Built under pressure</h3><p>Hackathons and public-service work test which ideas survive a deadline.</p></div><article class="work-entry" id="quorum">
-      <div class="work-art"><img src="assets/project-art/quorum.svg" alt="Quorum agent workflow: proposal checked by Sentry, IntentGraph and Reasoning Kernel before PR, redraft or escalation" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/quorum.svg" alt="Quorum: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">09 / Agentic workflow</span><h3>Quorum</h3>
         <p class="purpose">A code-writing agent can propose a patch; the gate decides what happens next.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>A pass opens a GitHub pull request, a reject allows one redraft, and escalation goes to a human. Runs with Gemini and Vertex AI on Cloud Run.</dd></div><div><dt>Record</dt><dd>Seven issues found in testing: six fixed, one open.</dd></div></dl>
         <div class="entry-end"><span class="state">Awaiting results</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Quorum" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a><a href="https://www.youtube.com/watch?v=aDd8TDUdGNo" target="_blank" rel="noopener">Demo <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="buy-or-wait">
-      <div class="work-art"><img src="certificates/buy-or-wait-certificate.webp" alt="Buy or Wait? certificate: ranked 937 of 3,062 submissions" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/buy-or-wait.svg" alt="Buy or Wait?: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">10 / Affordability</span><h3>Buy or Wait?</h3>
         <p class="purpose">A financial decision tool built under a 21-hour deadline.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Its core decision engine is local and deterministic; unverified income does not unlock payment-plan recommendations.</dd></div><div><dt>Record</dt><dd>Ranked 937 of 3,062; stricter configuration retained over a higher score.</dd></div></dl>
         <div class="entry-end"><span class="state">Hackathon</span><div class="text-links"><a href="certificates/buy-or-wait-certificate.webp" target="_blank" rel="noopener">Certificate <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="claim-clarity">
-      <div class="work-art"><img src="assets/project-art/claim-clarity-demo.jpg" alt="Claim Clarity demo: citizen explanation flows through the offline explainer to the EPFO portal" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/claim-clarity.svg" alt="Claim Clarity: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">11 / Public service</span><h3>Claim Clarity</h3>
         <p class="purpose">An offline explainer for rejected EPFO claims in Hindi and English.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Walks through Form 31 and 10C rejection reasons in plain language.</dd></div><div><dt>Record</dt><dd>Submitted to Build What Moves India.</dd></div></dl>
         <div class="entry-end"><span class="state">Submitted</span><div class="text-links"><a href="https://www.youtube.com/watch?v=hV2Sw1IzXso" target="_blank" rel="noopener">Demo <span aria-hidden="true">↗</span></a></div></div>
       </div></article><div class="group-head"><h3>Open notebook</h3><p>Prototypes and paused work remain visible, including the results that did not hold up.</p></div><article class="work-entry" id="mirror-constitution">
-      <div class="work-art"><img src="assets/project-art/mirror-constitution.svg" alt="Mirror Constitution architecture diagram from the repository: sandbox, governor, checks and audit trail" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/mirror-constitution.svg" alt="Mirror Constitution: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">12 / Containment checks</span><h3>Mirror Constitution</h3>
         <p class="purpose">Turns containment rules into executable checks.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>One check per article; a test flag can deliberately disable hardening to show an escape without it.</dd></div><div><dt>Record</dt><dd>Experimental; skipped checks can still be misreported as clean.</dd></div></dl>
         <div class="entry-end"><span class="state">Experimental</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Mirror-Constitution" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="warden">
-      <div class="work-art"><img src="assets/project-art/warden.svg" alt="Warden evaluation: word-Jaccard matcher scores 0.332 AUC against a 0.500 random baseline on 60 labelled pairs" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/warden.svg" alt="Warden: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">13 / Agent observation</span><h3>Warden</h3>
         <p class="purpose">A direction-finding experiment that failed its main test.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Its primary matcher relies on vocabulary overlap rather than whether an agent is heading the right way.</dd></div><div><dt>Record</dt><dd>0.332 AUC on 60 hand-labelled pairs, below chance.</dd></div></dl>
         <div class="entry-end"><span class="state">On hold</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="review-board">
-      <div class="work-art"><img src="assets/project-art/review-board.svg" alt="Review Board six manual review stages ending in an explicit human approval stop" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/review-board.svg" alt="Review Board: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">14 / Review gate</span><h3>Review Board</h3>
         <p class="purpose">A six-stage manual review process after the automatic trigger failed.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Fault injection confirmed the manual skill catches a planted flawed score.</dd></div><div><dt>Record</dt><dd>Automatic trigger abandoned after adversarial misfires.</dd></div></dl>
         <div class="entry-end"><span class="state">Manual only</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Review-Board" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="judge">
-      <div class="work-art"><img src="assets/project-art/judge.svg" alt="Judge policy review: three action paraphrases are checked independently; any fail rejects overall" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/judge.svg" alt="Judge: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">15 / Blind policy review</span><h3>Judge</h3>
         <p class="purpose">Checks an action without seeing the agent’s claimed goal.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Separating the proposed action from its persuasive rationale stops the agent from controlling both sides of the check.</dd></div><div><dt>Record</dt><dd>Prototype; not yet run against a live model.</dd></div></dl>
         <div class="entry-end"><span class="state">Prototype</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Judge" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a><a href="papers/judge.html" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="intentgraph">
-      <div class="work-art"><img src="assets/project-art/intentgraph.svg" alt="IntentGraph tracks a reformulated request through its safety-boundary lineage" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/intentgraph.svg" alt="IntentGraph: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">16 / Returning objectives</span><h3>IntentGraph</h3>
         <p class="purpose">Looks for a rejected objective returning in different words.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Tracks a conversation back to a goal that crossed a safety boundary.</dd></div><div><dt>Record</dt><dd>Mechanism works on 15 constructed cases; real-world accuracy unknown.</dd></div></dl>
         <div class="entry-end"><span class="state">Prototype</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/intent-layer" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="safety-genome">
-      <div class="work-art"><img src="assets/project-art/safety-genome.svg" alt="Safety Genome regression example: the allegedly repaired regex still triggers the same rule" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/safety-genome.svg" alt="Safety Genome: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">17 / Repair checks</span><h3>Safety Genome</h3>
         <p class="purpose">Asks whether a repaired candidate still carries the rejected defect.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Re-runs the exact rule that fired instead of measuring text similarity.</dd></div><div><dt>Record</dt><dd>Library, not a field evaluation.</dd></div></dl>
         <div class="entry-end"><span class="state">Library</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Safety-Genome" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="neural-node-swarm">
-      <div class="work-art"><img src="assets/project-art/neural-node-swarm.svg" alt="Neural Node Swarm: three schema-bound rounds, termination, and explicit validated handoff" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/neural-node-swarm.svg" alt="Neural Node Swarm: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">18 / Short-lived agents</span><h3>Neural Node Swarm</h3>
         <p class="purpose">Makes each agent node expire after exactly three rounds.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Only validated output and explicit memory references survive between nodes.</dd></div><div><dt>Record</dt><dd>Experimental; not a production runtime.</dd></div></dl>
         <div class="entry-end"><span class="state">Experimental</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Neural-Node-Swarm-" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="boundary-memory">
-      <div class="work-art"><img src="assets/project-art/boundary-memory.svg" alt="Boundary Memory data flow from Trust Boundary and IntentGraph adapters into boundary_events and embeddings" loading="lazy"></div>
+      <div class="work-art"><img src="assets/project-art/boundary-memory.svg" alt="Boundary Memory: original visual interpretation of its technical role" loading="lazy"></div>
       <div class="work-copy"><span class="index">19 / Persistent memory</span><h3>Boundary Memory</h3>
         <p class="purpose">An early attempt to retain boundary events across checks.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Adapters for Trust Boundary and IntentGraph were tested against real interfaces rather than assumed ones.</dd></div><div><dt>Record</dt><dd>Three mismatches surfaced; this remains an early learning project.</dd></div></dl>

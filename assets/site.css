@@ -63,6 +63,7 @@ to{opacity:1;transform:scale(1)}
 .feature.perk{background:#E8D8C7;padding:95px 0 120px}
 .feature.perk .feature-title{font-size:clamp(58px,10vw,147px)}
 .feature.perk .feature-visual img{height:clamp(340px,48vw,650px)}
+.feature.dogwhistle{background:#E2E5DA;padding:95px 0 120px}
 .feature.mirage{background:#DDE3E3;padding:95px 0 120px}
 .feature.mirage .feature-visual img{height:clamp(350px,48vw,680px)}
 
@@ -166,7 +167,7 @@ to{opacity:1;transform:scale(1)}
 .hero-stage img{height:460px;object-position:56% center}
 .hero-stage figcaption{font-size:9px}
 .hero-under{padding-bottom:35px}
-.feature,.feature.perk,.feature.mirage{padding:68px 0 75px}
+.feature,.feature.dogwhistle,.feature.perk,.feature.mirage{padding:68px 0 75px}
 .feature-head{display:block}
 .feature-title,.feature.perk .feature-title{font-size:clamp(53px,15vw,83px);margin-top:22px}
 .feature-head .feature-side{margin-top:22px}

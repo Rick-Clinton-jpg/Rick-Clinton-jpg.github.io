@@ -311,7 +311,7 @@ button { font: inherit; cursor: pointer; color: inherit; }
     { id: "C", name: "Projects", shape: "bar", palette: ["#5A3A2C", "#6F7782", "#8C3B2E", "#3E5C4B", "#4B4F7A", "#6B4E6E", "#7B5B2E", "#2F5D63"], ink: ["#F4E9DC"] },
     { id: "D", name: "Poison", shape: "bottle", poison: true, palette: ["#2F4A3A", "#2C4144", "#36433A", "#3C3A2C", "#2B3A4A", "#3D2F3B"], ink: ["#F3E9D2"] }
   ];
-  var byCode = {}, current = null, credits = 0, typed = "", busy = false, active = "B", page = 0, seen = {}, picks = 0, total = 0;
+  var byCode = {}, current = null, credits = 0, typed = "", busy = false, active = "C", page = 0, seen = {}, picks = 0, total = 0;
 
   /* ---------- Sound (tiny synth, only after a tap) ---------- */
   var soundOn = true, ac = null;
@@ -618,8 +618,8 @@ button { font: inherit; cursor: pointer; color: inherit; }
     .then(function (html) {
       stock(parse(new DOMParser().parseFromString(html, "text/html")));
       if (!total) throw new Error("empty");
-      buildTabs(); buildKeys(); openRow("B", 0); idle();
-      render(byCode.B1 || byCode[Object.keys(byCode)[0]], true);
+      buildTabs(); buildKeys(); openRow("C", 0); idle();
+      render(byCode.C1 || byCode[Object.keys(byCode)[0]], true);
     })
     .catch(function () {
       show("OUT OF ORDER", "could not stock the machine");

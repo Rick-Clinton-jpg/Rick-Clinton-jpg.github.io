@@ -513,10 +513,14 @@ button { font: inherit; cursor: pointer; color: inherit; }
     credits = n; $("credit").textContent = n + (n === 1 ? " credit" : " credits");
     $("mouth").classList.toggle("lit", n > 0);
   }
+  var flying = false, afterCoin = null, pending = "", codeTimer = null;
   function insertCoin(then) {
-    if (credits >= 3) { show("MAX CREDIT", "3 is plenty"); sfx.nope(); if (then) then(); return; }
-    var done = function () { setCredits(credits + 1); sfx.coin(); if (then) then(); else idle(); };
+    if (then) afterCoin = then;
+    if (flying) return;                       // a coin is already on its way; the last request wins
+    if (credits >= 3) { show("MAX CREDIT", "3 is plenty"); sfx.nope(); runAfterCoin(); return; }
+    var done = function () { flying = false; setCredits(credits + 1); sfx.coin(); runAfterCoin(); };
     if (reduce) { done(); return; }
+    flying = true;
     var from = document.querySelector("#coin .disc").getBoundingClientRect(), to = $("mouth").getBoundingClientRect();
     var c = document.createElement("div"); c.className = "flying-coin";
     c.style.left = from.left + "px"; c.style.top = from.top + "px"; document.body.appendChild(c);
@@ -528,36 +532,64 @@ button { font: inherit; cursor: pointer; color: inherit; }
     ], { duration: 520, easing: "cubic-bezier(.3,.6,.4,1)" });
     anim.onfinish = function () { c.remove(); done(); };
   }
+  function runAfterCoin() {
+    var f = afterCoin; afterCoin = null;
+    if (f) { f(); return; }
+    if (pending) { var code = pending; pending = ""; vend(code); return; }   // picked first, paid second
+    idle();
+  }
   $("coin").addEventListener("click", function () { if (!busy) insertCoin(); });
+
+  function clearCode() { if (codeTimer) { clearTimeout(codeTimer); codeTimer = null; } }
+
+  // Runs a finished code: vends it, or holds it until a coin goes in.
+  function commit(code) {
+    clearCode(); typed = "";
+    var p = byCode[code];
+    if (!p) { show("SOLD OUT", "no slot " + code + ", try another"); sfx.nope(); return; }
+    if (!credits) {
+      pending = code;
+      if (flying) { show(code, p.title + " · coin dropping"); return; }
+      show("INSERT COIN", code + " " + p.title + " is ready"); return;
+    }
+    vend(code);
+  }
 
   function press(k) {
     if (busy) return;
     var b = $("key-" + k); if (b) { b.classList.add("pressed"); setTimeout(function () { b.classList.remove("pressed"); }, 120); }
     sfx.key();
-    if (k === "clr") { typed = ""; idle(); return; }
-    if (/^[A-D]$/.test(k)) { typed = k; openRow(k, 0); show(k + "_", ROWS.find(function (r) { return r.id === k; }).name + " · then a number"); return; }
+    if (k === "clr") { clearCode(); typed = ""; pending = ""; idle(); return; }
+    if (/^[A-D]$/.test(k)) { clearCode(); typed = k; openRow(k, 0); show(k + "_", ROWS.find(function (r) { return r.id === k; }).name + " · then a number"); return; }
     if (!typed) { show("ROW FIRST", "press A, B, C or D"); sfx.nope(); return; }
     var r = ROWS.find(function (x) { return x.id === typed[0]; });
-    if (k === "go") { if (typed.length > 1) vend(typed); else { show(typed + "_", "then a number"); sfx.nope(); } return; }
+    if (k === "go") { if (typed.length > 1) commit(typed); else { show(typed + "_", "then a number"); sfx.nope(); } return; }
     if (typed.length >= 3) return;
+    clearCode();
     typed += k;
-    var n = parseInt(typed.slice(1), 10);
-    show(typed, byCode[typed] ? byCode[typed].title : (n > r.items.length ? "no such slot" : "press GO"));
-    var pg = Math.floor((n - 1) / PER_PAGE); if (n >= 1 && n <= r.items.length && pg !== page) openRow(r.id, pg);
-    if (r.items.length < 10 || typed.length === 3) vend(typed);
+    var n = parseInt(typed.slice(1), 10), N = r.items.length;
+    if (n < 1 || n > N) { show("NO " + typed, r.name + " has " + N + " slots"); sfx.nope(); typed = r.id; return; }
+    show(typed, byCode[typed].title);
+    var pg = Math.floor((n - 1) / PER_PAGE); if (pg !== page) openRow(r.id, pg);
+    if (typed.length === 3 || n * 10 > N) { commit(typed); return; }   // nothing longer can start with it
+    var code = typed;                                                  // e.g. C1 could still become C12
+    show(code, byCode[code].title + " · or another digit");
+    codeTimer = setTimeout(function () { codeTimer = null; if (typed === code) commit(code); }, 1400);
   }
 
   function quickVend(code) {
     if (busy) return;
+    clearCode(); typed = ""; pending = "";
     if (!credits) insertCoin(function () { vend(code); });
     else vend(code);
   }
 
   function vend(code) {
     if (busy) return;
-    var p = byCode[code]; typed = "";
+    var p = byCode[code]; typed = ""; pending = ""; clearCode();
     if (!p) { show("SOLD OUT", "no slot " + code + ", try another"); sfx.nope(); return; }
-    if (!credits) { show("INSERT COIN", code + " is " + p.title); sfx.nope(); return; }
+    if (!credits) { pending = code; show("INSERT COIN", code + " " + p.title + " is ready"); return; }
+    busy = true;                                  // claim the machine now, before any shelf change
     var pg = Math.floor((parseInt(code.slice(1), 10) - 1) / PER_PAGE);
     if (active !== p.row.id || page !== pg) { openRow(p.row.id, pg); setTimeout(function () { vend2(p); }, reduce ? 0 : 260); }
     else vend2(p);
@@ -571,11 +603,12 @@ button { font: inherit; cursor: pointer; color: inherit; }
       tray.classList.add("bump"); setTimeout(function () { tray.classList.remove("bump"); }, 260);
       Array.prototype.forEach.call(tray.querySelectorAll(".item, .hint"), function (n) { n.remove(); });
       tray.appendChild(itemEl(p));
-      var h = document.createElement("span"); h.className = "hint"; h.textContent = "Push the tray to open it ↓"; tray.appendChild(h); tray.classList.add("ready");
+      var h = document.createElement("span"); h.className = "hint"; h.textContent = "Push the tray to open it again ↓"; tray.appendChild(h);
       sfx.thunk();
       if (!seen[p.code]) { seen[p.code] = true; picks++; }
       current = p; waiting(p); busy = false;
-      show("PUSH THE TRAY", p.title);
+      show("ENJOY", p.title);
+      setTimeout(function () { if (current === p) balloons(p); }, reduce ? 0 : 380);   // balloons for every pick
     };
     if (reduce || !it) { land(); return; }
     sfx.motor(); slot.classList.add("spin"); it.classList.add("falling");
@@ -614,7 +647,7 @@ button { font: inherit; cursor: pointer; color: inherit; }
     var head = el("div", "head"); head.appendChild(el("span", null, "RECEIPT")); head.appendChild(el("span", null, p.code)); receipt.appendChild(head);
     receipt.appendChild(el("div", "kind", "In the tray"));
     receipt.appendChild(el("h2", null, p.title));
-    receipt.appendChild(el("p", "lead", "Push the tray to open it. Four balloons float out, each holding a fact; pop them, then the full receipt prints here."));
+    receipt.appendChild(el("p", "lead", "Four balloons are floating out of the machine, each holding a fact. Pop them, then the full receipt prints here."));
   }
 
   function factsFor(p) {
@@ -625,6 +658,7 @@ button { font: inherit; cursor: pointer; color: inherit; }
     if (p.state) out.push(["Status", p.state]);
     if (p.kind) out.push(["Where it sits", p.kind]);
     out.push(["Picked by", "You. No algorithm chose this."]);
+    out.push(["From the machine", "Row " + p.row.id + " · " + p.row.name + " · slot " + p.code]);
     return out.slice(0, 4);
   }
 
@@ -683,6 +717,8 @@ button { font: inherit; cursor: pointer; color: inherit; }
 
   tray.addEventListener("click", function () {
     if (busy) return;
+    if (typed.length > 1 && byCode[typed]) { commit(typed); return; }
+    if (pending) { if (!credits) { insertCoin(); return; } }
     if (!current) {
       if (credits) show("PICK A CODE", "e.g. " + active + "1, then push the tray");
       else show("INSERT COIN", "then pick an item");

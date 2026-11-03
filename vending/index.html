@@ -230,6 +230,35 @@ button { font: inherit; cursor: pointer; color: inherit; }
 .receipt .note { font: 400 17px/1.25 var(--lcd); color: #8A8F86; border-top: 2px dashed var(--paper-line); padding-top: 10px; display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
 
 .oops { background: var(--paper); color: var(--ink); border-radius: 12px; padding: 16px 18px; }
+.tray.ready { color: var(--led); box-shadow: inset 0 0 0 4px var(--led), inset 0 14px 18px rgba(0, 0, 0, .5), 0 0 22px rgba(255, 177, 61, .45); }
+.tray.ready .hint { animation: nudge 1s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateY(3px); } }
+
+/* Balloons with facts */
+.balloons { position: fixed; inset: 0; z-index: 60; pointer-events: none; }
+.balloons .veil { position: absolute; inset: 0; background: rgba(10, 5, 25, .45); pointer-events: auto; opacity: 0; transition: opacity .3s ease; }
+.balloons.on .veil { opacity: 1; }
+.balloon { position: absolute; width: 92px; height: 140px; margin-left: -46px; border: 0; padding: 0; background: none; pointer-events: auto; cursor: pointer; }
+.balloon .b { position: absolute; left: 0; top: 0; width: 92px; height: 108px; border-radius: 50% 50% 47% 47% / 56% 56% 44% 44%;
+  background: radial-gradient(circle at 32% 26%, rgba(255, 255, 255, .8), transparent 20%), var(--bc);
+  box-shadow: inset -10px -12px 0 rgba(0, 0, 0, .14), 0 0 26px var(--bc); display: grid; place-items: center;
+  font: 400 15px/1 var(--display); color: rgba(255, 255, 255, .92); text-shadow: 0 1px 0 rgba(0, 0, 0, .25); }
+.balloon .b::after { content: ""; position: absolute; bottom: -9px; left: 50%; margin-left: -6px; border: 6px solid transparent; border-bottom-color: var(--bc); transform: rotate(180deg); }
+.balloon .s { position: absolute; left: 50%; top: 112px; width: 2px; height: 30px; background: rgba(255, 255, 255, .55); transform-origin: top; }
+.balloon:hover .b, .balloon:focus-visible .b { filter: brightness(1.1); }
+.balloon.sway { animation: sway 2.6s ease-in-out infinite; }
+@keyframes sway { 50% { transform: translateY(-8px) rotate(3deg); } }
+.burst { position: absolute; width: 10px; height: 10px; margin: -5px 0 0 -5px; border-radius: 50%; pointer-events: none; }
+.fact { position: absolute; width: min(250px, 44vw); background: var(--paper); color: var(--ink); border-radius: 12px; padding: 13px 15px 14px;
+  font: 15px/1.42 var(--body); box-shadow: 0 14px 34px rgba(0, 0, 0, .45), 0 0 0 3px var(--bc); pointer-events: auto; transform: translate(-50%, -30%);
+  animation: fact-in .35s cubic-bezier(.3, 1.5, .5, 1); }
+@keyframes fact-in { from { transform: translate(-50%, -30%) scale(.6); opacity: 0; } }
+.fact b { display: block; font: 700 11px/1.2 var(--label); letter-spacing: .14em; text-transform: uppercase; color: var(--enamel); margin-bottom: 5px; }
+.balloons .bar { position: absolute; left: 50%; bottom: max(24px, env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); display: flex; gap: 10px; pointer-events: auto; }
+.balloons .bar button { border: 0; border-radius: 999px; padding: 11px 18px; font: 700 14px/1 var(--label); letter-spacing: .1em; text-transform: uppercase; }
+.balloons .bar .go-receipt { background: var(--sun); color: var(--night); box-shadow: 0 0 18px rgba(255, 211, 78, .5); }
+.balloons .bar .close { background: rgba(255, 255, 255, .14); color: #fff; box-shadow: inset 0 0 0 2px rgba(255, 255, 255, .4); }
+.balloons .count { position: absolute; top: max(18px, env(safe-area-inset-top, 0px)); left: 50%; transform: translateX(-50%); font: 400 22px/1 var(--lcd); color: var(--led); text-shadow: 0 0 8px rgba(255, 177, 61, .7); }
 
 @media (max-width: 900px) { .stage { grid-template-columns: minmax(0, 1fr); } .printer { max-width: 560px; } }
 @media (max-width: 600px) {
@@ -249,7 +278,7 @@ button { font: inherit; cursor: pointer; color: inherit; }
 }
 @media (prefers-reduced-motion: reduce) {
   .item, .shelves, .tray .flap { transition: none; }
-  .item.falling, .tray .item, .slot.spin .coil, .crown.flicker h1, .receipt.printing, .lcd .l2.marquee span, .floor, .cab i { animation: none; }
+  .item.falling, .tray .item, .slot.spin .coil, .crown.flicker h1, .receipt.printing, .lcd .l2.marquee span, .floor, .cab i, .tray.ready .hint, .balloon.sway, .fact { animation: none; }
   .lcd .l2.marquee span { padding-left: 0; }
 }
 </style></head>
@@ -288,7 +317,7 @@ button { font: inherit; cursor: pointer; color: inherit; }
             <div class="keys" id="keys" aria-label="Keypad"></div>
             <button class="surprise" id="surprise">Surprise me</button>
           </div>
-          <button class="tray" id="tray" aria-label="Pickup tray"><span class="flap" aria-hidden="true"></span><span class="hint">Push to read ↓</span></button>
+          <button class="tray" id="tray" aria-label="Pickup tray"><span class="flap" aria-hidden="true"></span><span class="hint">Tray empty · pick an item</span></button>
         </div>
       </div>
     </section>
@@ -332,7 +361,8 @@ button { font: inherit; cursor: pointer; color: inherit; }
     motor: function () { tone(110, .6, "sawtooth", .025, 70); },
     thunk: function () { tone(160, .18, "sine", .12, 60); },
     print: function () { for (var i = 0; i < 5; i++) setTimeout(function () { tone(2200, .02, "square", .015); }, i * 60); },
-    nope: function () { tone(220, .15, "square", .04, 180); }
+    nope: function () { tone(220, .15, "square", .04, 180); },
+    pop: function () { tone(520, .09, "square", .07, 90); setTimeout(function () { tone(1400, .05, "triangle", .04); }, 30); }
   };
   $("sound").addEventListener("click", function () {
     soundOn = !soundOn; this.setAttribute("aria-pressed", String(soundOn)); this.textContent = soundOn ? "Sound on" : "Sound off";
@@ -541,11 +571,11 @@ button { font: inherit; cursor: pointer; color: inherit; }
       tray.classList.add("bump"); setTimeout(function () { tray.classList.remove("bump"); }, 260);
       Array.prototype.forEach.call(tray.querySelectorAll(".item, .hint"), function (n) { n.remove(); });
       tray.appendChild(itemEl(p));
-      var h = document.createElement("span"); h.className = "hint"; h.textContent = "Push to read ↓"; tray.appendChild(h);
+      var h = document.createElement("span"); h.className = "hint"; h.textContent = "Push the tray to open it ↓"; tray.appendChild(h); tray.classList.add("ready");
       sfx.thunk();
       if (!seen[p.code]) { seen[p.code] = true; picks++; }
-      current = p; render(p, false); busy = false;
-      show("TAKE ITEM", p.title);
+      current = p; waiting(p); busy = false;
+      show("PUSH THE TRAY", p.title);
     };
     if (reduce || !it) { land(); return; }
     sfx.motor(); slot.classList.add("spin"); it.classList.add("falling");
@@ -579,10 +609,88 @@ button { font: inherit; cursor: pointer; color: inherit; }
     if (!example && !reduce) { receipt.classList.add("printing"); sfx.print(); }
   }
 
+  function waiting(p) {
+    receipt.className = "receipt"; receipt.innerHTML = "";
+    var head = el("div", "head"); head.appendChild(el("span", null, "RECEIPT")); head.appendChild(el("span", null, p.code)); receipt.appendChild(head);
+    receipt.appendChild(el("div", "kind", "In the tray"));
+    receipt.appendChild(el("h2", null, p.title));
+    receipt.appendChild(el("p", "lead", "Push the tray to open it. Four balloons float out, each holding a fact; pop them, then the full receipt prints here."));
+  }
+
+  function factsFor(p) {
+    var out = [];
+    if (p.lead) out.push([p.row.poison ? "What failed" : "The idea", p.lead]);
+    (p.facts || []).forEach(function (f) { if (f.k && f.v) out.push([f.k, f.v]); });
+    if (p.sub) out.push(["In one line", p.sub]);
+    if (p.state) out.push(["Status", p.state]);
+    if (p.kind) out.push(["Where it sits", p.kind]);
+    out.push(["Picked by", "You. No algorithm chose this."]);
+    return out.slice(0, 4);
+  }
+
+  var layer = null;
+  function closeBalloons() { if (layer) { layer.remove(); layer = null; } }
+  function balloons(p) {
+    closeBalloons();
+    var facts = factsFor(p), colors = ["#FF4FA3", "#37E3FF", "#FFD34E", "#8F6BFF"], popped = 0;
+    var narrow = window.innerWidth < 700;
+    var spots = narrow ? [[27, 22], [73, 26], [27, 54], [73, 58]] : [[17, 30], [39, 22], [61, 32], [83, 24]];
+    layer = el("div", "balloons"); layer.setAttribute("role", "dialog"); layer.setAttribute("aria-label", "Facts about " + p.title);
+    var veil = el("div", "veil"); layer.appendChild(veil);
+    var count = el("div", "count", "POP THE BALLOONS · 0 / " + facts.length); layer.appendChild(count);
+    var bar = el("div", "bar"); var close = el("button", "close", "Close"); bar.appendChild(close); layer.appendChild(bar);
+    var go = el("button", "go-receipt", "Read the receipt ↓");
+    document.body.appendChild(layer);
+    requestAnimationFrame(function () { layer.classList.add("on"); });
+    var t = tray.getBoundingClientRect(), W = window.innerWidth, H = window.innerHeight;
+    var finish = function () {
+      closeBalloons();
+      render(p, false);
+      receipt.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: narrow ? "start" : "nearest" });
+      var first = receipt.querySelector(".links a"); if (first) first.focus({ preventScroll: true });
+    };
+    close.addEventListener("click", finish); go.addEventListener("click", finish); veil.addEventListener("click", function () { if (popped === facts.length) finish(); });
+    facts.forEach(function (f, i) {
+      var x = spots[i][0] / 100 * W, y = spots[i][1] / 100 * H;
+      var b = el("button", "balloon"); b.style.setProperty("--bc", colors[i]);
+      b.setAttribute("aria-label", "Pop balloon " + (i + 1));
+      var body = el("span", "b", "POP"); b.appendChild(body); b.appendChild(el("span", "s"));
+      b.style.left = x + "px"; b.style.top = y + "px";
+      layer.appendChild(b);
+      if (!reduce) {
+        var sx = t.left + t.width / 2 - x, sy = t.top - y;
+        var a = b.animate([{ transform: "translate(" + sx + "px," + sy + "px) scale(.3)", opacity: 0 }, { transform: "translate(" + sx * .4 + "px," + sy * .45 + "px) scale(.85)", opacity: 1, offset: .45 }, { transform: "translate(0,0) scale(1)" }],
+          { duration: 1100 + i * 180, delay: i * 140, easing: "cubic-bezier(.2,.7,.3,1)", fill: "backwards" });
+        a.onfinish = function () { b.classList.add("sway"); b.style.animationDelay = (-i * .6) + "s"; };
+      }
+      b.addEventListener("click", function () {
+        sfx.pop(); popped++;
+        count.textContent = (popped === facts.length ? "ALL POPPED · " : "POP THE BALLOONS · ") + popped + " / " + facts.length;
+        if (!reduce) for (var k = 0; k < 10; k++) {
+          var d = el("span", "burst"); d.style.background = colors[i]; d.style.left = (x + 46) + "px"; d.style.top = (y + 54) + "px"; layer.appendChild(d);
+          var ang = k / 10 * Math.PI * 2, r = 50 + Math.random() * 30;
+          d.animate([{ transform: "translate(0,0)", opacity: 1 }, { transform: "translate(" + Math.cos(ang) * r + "px," + Math.sin(ang) * r + "px) scale(.2)", opacity: 0 }], { duration: 480, easing: "ease-out" }).onfinish = (function (d) { return function () { d.remove(); }; })(d);
+        }
+        var card = el("div", "fact"); card.style.setProperty("--bc", colors[i]);
+        card.style.left = Math.min(Math.max(x + 46, 130), W - 130) + "px"; card.style.top = (y + 40) + "px";
+        card.appendChild(el("b", null, f[0])); card.appendChild(document.createTextNode(f[1]));
+        b.replaceWith(card);
+        if (popped === facts.length) { bar.insertBefore(go, close); go.focus({ preventScroll: true }); }
+      });
+    });
+    var firstBalloon = layer.querySelector(".balloon"); if (firstBalloon) firstBalloon.focus({ preventScroll: true });
+  }
+
   tray.addEventListener("click", function () {
-    if (!current) { show("TRAY EMPTY", "pick something first"); sfx.nope(); return; }
-    receipt.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
-    var first = receipt.querySelector(".links a"); if (first) first.focus({ preventScroll: true });
+    if (busy) return;
+    if (!current) {
+      if (credits) show("PICK A CODE", "e.g. " + active + "1, then push the tray");
+      else show("INSERT COIN", "then pick an item");
+      sfx.nope(); return;
+    }
+    tray.classList.remove("ready");
+    show("ENJOY", current.title);
+    balloons(current);
   });
 
   $("surprise").addEventListener("click", function () {
@@ -593,10 +701,12 @@ button { font: inherit; cursor: pointer; color: inherit; }
   });
 
   document.addEventListener("keydown", function (e) {
+    if (layer && e.key !== "Escape") return;
     if (e.metaKey || e.ctrlKey || e.altKey || /input|textarea/i.test(e.target.tagName)) return;
     var k = e.key.toUpperCase();
     if (/^[A-D]$/.test(k) || /^[0-9]$/.test(k)) { press(k); e.preventDefault(); }
     else if (k === "ENTER" && typed) { press("go"); e.preventDefault(); }
+    else if (k === "ESCAPE" && layer) { closeBalloons(); if (current) render(current, false); }
     else if (k === "BACKSPACE" || k === "ESCAPE") { press("clr"); }
     else if (k === "$") { if (!busy) insertCoin(); }
   });

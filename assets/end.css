@@ -1,13 +1,46 @@
 /* End of the road: the button, the falling page, the pop-up. */
-.end-zone { display: flex; justify-content: center; padding: 46px 0 6px; }
+.end-zone { position: relative; display: flex; justify-content: center; padding: 78px 0 62px; isolation: isolate; }
 .end-trigger {
-  appearance: none; cursor: pointer; border: 1px solid var(--accent); background: transparent; color: #E9A58E;
-  font: 800 11px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; padding: 13px 20px; border-radius: 999px;
-  opacity: 0; transform: scale(.6); transition: opacity .35s ease, transform .45s cubic-bezier(.2,1.5,.4,1), background .2s ease, color .2s ease;
+  appearance: none; cursor: pointer; position: relative; z-index: 1; border: 2px solid #FF8A78; background: #D5271A; color: #fff;
+  font: 800 14px/1 var(--sans); letter-spacing: .16em; text-transform: uppercase; padding: 20px 34px; border-radius: 999px;
+  box-shadow: 0 0 0 0 rgba(255, 64, 44, .0), 0 0 26px rgba(255, 64, 44, .55), inset 0 2px 0 rgba(255, 255, 255, .35), inset 0 -4px 0 rgba(0, 0, 0, .22);
+  opacity: 0; transform: scale(.6); transition: opacity .35s ease, transform .45s cubic-bezier(.2,1.5,.4,1), filter .2s ease;
 }
 .end-zone.is-armed .end-trigger { opacity: 1; transform: none; }
-.end-trigger:hover, .end-trigger:focus-visible { background: var(--accent); color: #fff; }
-.end-trigger:focus-visible { outline: 2px solid #F1EDE3; outline-offset: 3px; }
+.end-trigger:hover { filter: brightness(1.12); }
+.end-trigger:active { transform: translateY(2px); }
+.end-trigger:focus-visible { outline: 3px solid #F1EDE3; outline-offset: 4px; }
+/* The beacon: two soft beams turning slowly, plus a glow that swells about once a second.
+   Kept well under three flashes a second so it is safe for photosensitive visitors. */
+.site-footer { position: relative; }
+.site-footer > .wrap { position: relative; z-index: 1; }
+.end-light { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.end-beacon {
+  position: absolute; left: 50%; top: 50%; width: min(620px, 150vw); aspect-ratio: 1; translate: -50% -50%; z-index: 0; pointer-events: none;
+  border-radius: 50%; opacity: 0; transition: opacity 2.6s ease;
+  background: conic-gradient(from 0deg, rgba(255, 58, 38, 0) 0deg, rgba(255, 58, 38, .5) 22deg, rgba(255, 58, 38, 0) 58deg, rgba(255, 58, 38, 0) 180deg, rgba(255, 58, 38, .5) 202deg, rgba(255, 58, 38, 0) 238deg, rgba(255, 58, 38, 0) 360deg);
+  -webkit-mask-image: radial-gradient(closest-side, #000 0, rgba(0, 0, 0, .55) 35%, transparent 100%); mask-image: radial-gradient(closest-side, #000 0, rgba(0, 0, 0, .55) 35%, transparent 100%);
+}
+.end-light.is-armed .end-beacon { opacity: 1; transition: opacity .5s ease; }
+.end-zone::before {
+  content: ""; position: absolute; left: 50%; top: 50%; width: 320px; height: 150px; translate: -50% -50%; z-index: 0; pointer-events: none;
+  border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 58, 38, .55), rgba(255, 58, 38, 0)); opacity: 0; transition: opacity 2.6s ease;
+}
+.end-zone.is-armed::before { opacity: .75; transition: opacity .5s ease; }
+@media (prefers-reduced-motion: no-preference) {
+  .end-light.is-armed .end-beacon { animation: end-turn 2.4s linear infinite; }
+  .end-zone.is-armed::before { animation: end-pulse 1.1s ease-in-out infinite alternate; }
+  .end-zone.is-armed .end-trigger { animation: end-glow 1.1s ease-in-out infinite alternate; }
+}
+@keyframes end-turn { to { rotate: 360deg; } }
+@keyframes end-pulse { from { opacity: .3; scale: .85; } to { opacity: .95; scale: 1.15; } }
+@keyframes end-glow {
+  from { box-shadow: 0 0 12px rgba(255, 64, 44, .4), inset 0 2px 0 rgba(255, 255, 255, .35), inset 0 -4px 0 rgba(0, 0, 0, .22); }
+  to { box-shadow: 0 0 46px 6px rgba(255, 64, 44, .9), inset 0 2px 0 rgba(255, 255, 255, .35), inset 0 -4px 0 rgba(0, 0, 0, .22); }
+}
+/* Once pressed, the light dies away slowly while the page falls. */
+.end-dark .end-light.is-armed .end-beacon, .end-dark .end-zone.is-armed::before { opacity: 0; animation-play-state: paused; transition: opacity 2.6s ease; }
+.end-dark .end-zone.is-armed .end-trigger { animation: none; box-shadow: none; filter: saturate(.35) brightness(.7); transition: filter 2.6s ease, box-shadow 2.6s ease; }
 
 html.end-locked { overflow: hidden !important; }
 .end-crumbling .site-header, .end-crumbling main, .end-crumbling .site-footer { pointer-events: none; }
@@ -20,6 +53,7 @@ html.end-locked { overflow: hidden !important; }
   box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
 }
 .end-dialog::backdrop { background: rgba(14, 18, 16, .55); }
+.end-kicker { font: 800 10px/1 var(--sans) !important; letter-spacing: .18em; text-transform: uppercase; color: var(--accent) !important; margin: 0 0 14px !important; }
 .end-dialog h2 { font: 400 clamp(28px, 4vw, 40px)/1.05 var(--serif); letter-spacing: -.02em; margin: 0 0 14px; }
 .end-dialog p { margin: 0 0 26px; color: var(--soft); font-size: 15px; }
 .end-actions { display: flex; justify-content: center; gap: 12px; }
@@ -32,4 +66,4 @@ html.end-locked { overflow: hidden !important; }
 .end-actions a:hover { background: var(--accent); border-color: var(--accent); text-decoration: none; }
 .end-actions button:hover { background: rgba(28, 33, 30, .08); }
 .end-actions a:focus-visible, .end-actions button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
-@media (prefers-reduced-motion: reduce) { .end-trigger { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .end-trigger, .end-beacon, .end-zone::before { transition: none; } }

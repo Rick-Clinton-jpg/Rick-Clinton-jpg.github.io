@@ -5,7 +5,7 @@
   const footer = document.querySelector('.site-footer .wrap');
   if (!footer || !('showModal' in document.createElement('dialog'))) return;
 
-  const ARCHIVE_URL = 'vending/';
+  const ARCHIVE_URL = 'archives/';
   const GRAVITY = 2600;        // px per second squared
   const BOUNCE = 0.22;         // share of speed kept after hitting the pile
   const COLUMN = 36;           // px width of one pile column
@@ -30,6 +30,15 @@
 
   const zone = document.createElement('div');
   zone.className = 'end-zone';
+  // The siren: a slow rotating beacon and a pulsing glow behind the button.
+  // It lives in its own clipped layer so its light never stretches the page.
+  const light = document.createElement('div');
+  light.className = 'end-light';
+  light.setAttribute('aria-hidden', 'true');
+  const beacon = document.createElement('span');
+  beacon.className = 'end-beacon';
+  light.append(beacon);
+  footer.parentElement.prepend(light);
   const trigger = document.createElement('button');
   trigger.type = 'button';
   trigger.className = 'end-trigger';
@@ -41,6 +50,7 @@
   dialog.className = 'end-dialog';
   dialog.setAttribute('aria-labelledby', 'end-dialog-title');
   dialog.innerHTML =
+    '<p class="end-kicker">A hidden message</p>' +
     '<h2 id="end-dialog-title">You have reached the end of the road.</h2>' +
     '<p>Would you like to enter the hidden archives?</p>' +
     '<div class="end-actions"><a class="end-yes" href="' + ARCHIVE_URL + '">Yes</a>' +
@@ -48,7 +58,13 @@
   document.body.append(dialog);
 
   // The button appears once the visitor reaches the foot of the page (or tabs to it).
-  const arm = () => zone.classList.add('is-armed');
+  const placeBeacon = () => {
+    const host = footer.parentElement.getBoundingClientRect(), b = trigger.getBoundingClientRect();
+    beacon.style.left = (b.left + b.width / 2 - host.left) + 'px';
+    beacon.style.top = (b.top + b.height / 2 - host.top) + 'px';
+  };
+  const arm = () => { placeBeacon(); zone.classList.add('is-armed'); light.classList.add('is-armed'); };
+  addEventListener('resize', () => { if (state === 'idle') placeBeacon(); });
   if ('IntersectionObserver' in window) {
     new IntersectionObserver(entries => { if (entries.some(e => e.isIntersecting)) arm(); }, { threshold: 0.9 }).observe(zone);
   } else arm();
@@ -129,7 +145,7 @@
     const computed = elements.map(el => getComputedStyle(el));
     const inline = computed.map(c => c.display === 'inline');
     const fixedInPlace = computed.map(c => c.position === 'static');
-    root.classList.add('end-crumbling');
+    root.classList.add('end-crumbling', 'end-dark');
     lock(true);
     heights = new Float32Array(Math.ceil(innerWidth / COLUMN) + 1);
     bodies = elements.map((el, i) => {
@@ -146,7 +162,7 @@
         vx: (Math.random() - 0.5) * 320, vy: -Math.random() * 160, va: (Math.random() - 0.5) * 5,
         // Lower pieces let go first, so the page gives way from the bottom up.
         delay: (1 - clamp(r.top / innerHeight, 0, 1)) * 0.55 + Math.random() * 0.25,
-        asleep: false, rest: null, inline: inline[i], positioned: fixedInPlace[i]
+        asleep: false, rest: null, inline: inline[i], positioned: fixedInPlace[i], tape: []
       };
     });
     started = previous = performance.now();
@@ -200,6 +216,8 @@
       }
       b.el.style.transform = 'translate3d(' + b.x.toFixed(1) + 'px,' + b.y.toFixed(1) + 'px,0) rotate(' + b.a.toFixed(4) + 'rad)';
     });
+    // Keep every frame, so declining can play the fall backwards.
+    bodies.forEach(b => b.tape.push(b.x, b.y, b.a));
     if (moving && now - started < MAX_FALL_MS) frame = requestAnimationFrame(step);
     else { frame = 0; state = 'down'; dialog.showModal(); }
   }
@@ -220,31 +238,35 @@
     words.forEach(word => { if (word.parentNode) { parents.add(word.parentNode); word.replaceWith(word.textContent); } });
     parents.forEach(parent => parent.normalize());
     words = [];
-    root.classList.remove('end-crumbling');
+    root.classList.remove('end-crumbling', 'end-dark');
     lock(false);
     state = 'idle';
     // Let the scroll motion re-measure the restored page.
     dispatchEvent(new Event('resize'));
   }
 
+  // "No" rewinds time: the recorded fall plays backwards until the page stands as it did.
   function rebuild() {
     if (state !== 'down') return;
     if (!bodies.length) { state = 'idle'; trigger.focus(); return; }
     state = 'rising';
-    let longest = 0;
-    bodies.forEach((b, i) => {
-      // Take the shortest way back round rather than unwinding every tumble.
-      const turns = Math.round(b.a / (2 * Math.PI)) * 2 * Math.PI;
-      b.el.style.transform = 'translate3d(' + b.x.toFixed(1) + 'px,' + b.y.toFixed(1) + 'px,0) rotate(' + (b.a - turns).toFixed(4) + 'rad)';
-    });
-    void root.offsetWidth;
-    bodies.forEach((b, i) => {
-      const delay = Math.round((i % 12) * 28 + Math.random() * 120);
-      longest = Math.max(longest, delay);
-      b.el.style.transition = 'transform 850ms cubic-bezier(.2,.85,.25,1) ' + delay + 'ms';
-      b.el.style.transform = 'translate3d(0,0,0) rotate(0rad)';
-    });
-    setTimeout(() => { clean(); trigger.focus({ preventScroll: true }); }, 850 + longest + 80);
+    root.classList.remove('end-dark');
+    const frames = bodies[0].tape.length / 3;
+    const duration = Math.max(700, Math.min(1900, frames * 16.7 * 0.55));
+    const begun = performance.now();
+    const rewind = now => {
+      const t = Math.min(1, (now - begun) / duration);
+      // Ease out, so the last pieces click gently back into place.
+      const eased = 1 - Math.pow(1 - t, 2.2);
+      const at = Math.max(0, Math.round((frames - 1) * (1 - eased)));
+      bodies.forEach(b => {
+        const i = Math.min(at, b.tape.length / 3 - 1) * 3;
+        b.el.style.transform = 'translate3d(' + b.tape[i].toFixed(1) + 'px,' + b.tape[i + 1].toFixed(1) + 'px,0) rotate(' + b.tape[i + 2].toFixed(4) + 'rad)';
+      });
+      if (t < 1) frame = requestAnimationFrame(rewind);
+      else { frame = 0; clean(); trigger.focus({ preventScroll: true }); }
+    };
+    frame = requestAnimationFrame(rewind);
   }
 
   trigger.addEventListener('click', crumble);

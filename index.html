@@ -1,122 +1,363 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rick Clinton — AI safety research</title><meta name="description" content="Rick Clinton builds external checks for AI agents. Explore Black Mirror, Perk Lab, Mirage, and research tools with evidence and limits.">
+<title>Rick Clinton — AI safety research</title><meta name="description" content="Rick Clinton builds external checks for AI agents. Explore DogWhistle, Earshot, Black Mirror, Perk Lab, Mirage, and research tools with evidence and limits.">
 <link rel="icon" type="image/png" href="favicon.png"><link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website"><meta property="og:url" content="https://rick-clinton-jpg.github.io/"><meta property="og:title" content="Rick Clinton — AI safety research"><meta property="og:description" content="The check lives outside the model."><meta property="og:image" content="https://rick-clinton-jpg.github.io/assets/research-room-poster.png"><meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css"></head><body>
 <header class="site-header"><div class="wrap"><a href="#top" class="site-brand" aria-label="Rick Clinton home">RICK<span>.</span>CLINTON</a><button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">Menu</button><nav class="site-nav" id="site-nav" aria-label="Main navigation"><a href="#featured">Featured</a><a href="#work">Projects</a><a href="#security">Research</a><a href="#writing">Writing</a><a href="#background">About</a><a href="mailto:clinpeter@gmail.com">Contact ↗</a></nav></div></header>
 <main id="top">
-<section class="hero"><div class="wrap"><p class="hero-name">RICK <span>CLINTON</span></p><div class="hero-intro"><h1>The check lives <em class="serif">outside</em> the model.</h1><p>Independent AI safety and governance research from Chennai. I build containment tests, decision gates and audit trails for agent actions, then publish what the checks actually found.</p></div></div><figure class="hero-stage"><picture><source media="(prefers-reduced-motion: reduce)" srcset="assets/research-room-poster.png"><img class="approved-hero" src="assets/research-room.gif" alt="Pixel-art researcher viewed from behind at a personal workbench, with code, experiment notes and DogWhistle, Black Mirror and Mirage posters" fetchpriority="high" width="836" height="470"></picture><figcaption>Containment / authorization / evidence</figcaption></figure><div class="wrap hero-under"><span>01 — A research portfolio, with the failures left visible.</span><span class="hero-choice"><a class="vend-mini" href="vending/" aria-label="Pick your poison: open the vending machine"><svg viewBox="0 0 48 68" width="44" height="62" aria-hidden="true"><rect x="2" y="2" width="44" height="62" rx="5" fill="#2347A6" stroke="#162F6E" stroke-width="2"/><rect x="6" y="6" width="36" height="7" rx="2" fill="#111A33"/><rect class="glow" x="10" y="8.5" width="28" height="2" rx="1" fill="#FFB13D"/><rect x="6" y="16" width="25" height="33" rx="2" fill="#0F1A2B"/><g fill="#F1D9A7"><rect x="8" y="18" width="4" height="7"/></g><rect x="14" y="18" width="4" height="7" fill="#E6C2B4"/><rect x="20" y="18" width="4" height="7" fill="#C9DDC5"/><rect x="26" y="18" width="3" height="7" fill="#C7D3EA"/><rect x="7" y="25.5" width="23" height="1.2" fill="#A9B3BA"/><rect x="8" y="28.5" width="4" height="7" rx="1" fill="#D9894F"/><rect x="14" y="28.5" width="4" height="7" rx="1" fill="#5E9FA0"/><rect x="20" y="28.5" width="4" height="7" rx="1" fill="#B9805F"/><rect x="26" y="28.5" width="3" height="7" rx="1" fill="#7A8E52"/><rect x="7" y="36" width="23" height="1.2" fill="#A9B3BA"/><path d="M9 47v-5l1-1v-1h1v1l1 1v5zM15 47v-5l1-1v-1h1v1l1 1v5zM21 47v-5l1-1v-1h1v1l1 1v5z" fill="#2F4A3A"/><rect x="7" y="47" width="23" height="1.2" fill="#F2C230"/><rect x="33" y="16" width="9" height="5" rx="1" fill="#1E1308"/><rect class="glow" x="34" y="17.5" width="7" height="2" fill="#FFB13D"/><g fill="#E8EBE5"><circle cx="35" cy="25" r="1.1"/><circle cx="37.5" cy="25" r="1.1"/><circle cx="40" cy="25" r="1.1"/><circle cx="35" cy="28" r="1.1"/><circle cx="37.5" cy="28" r="1.1"/><circle cx="40" cy="28" r="1.1"/><circle cx="35" cy="31" r="1.1"/><circle cx="37.5" cy="31" r="1.1"/><circle cx="40" cy="31" r="1.1"/></g><rect x="36.5" y="36" width="2" height="7" rx="1" fill="#141E27"/><rect x="6" y="53" width="36" height="7" rx="2" fill="#0E1622"/></svg><span class="lbl"><b>Pick your poison</b><span>Browse the work in a vending machine</span></span></a><a href="#featured">or scroll to the work ↓</a></span></div></section>
-<section id="featured" class="feature dogwhistle"><div class="wrap"><div class="section-marker">Research sprint / 01</div><div class="feature-head"><h2 class="feature-title">DogWhistle</h2><p class="feature-side">Can a valid agent handoff carry a hidden signal that only one listener acts on?</p></div><figure class="feature-visual"><img class="approved-art" src="assets/dogwhistle-approved.webp" alt="A handoff card behind a glass gate sends two glowing references to two listeners; the upper listener lights up beside copper tokens while the lower one stays dim" loading="lazy" width="1672" height="941"></figure><div class="feature-caption"><span>01 / The hidden codeword</span><span>The audit needs no hidden labels.</span></div><div class="feature-body"><div><h3>One field carries the code. <em>Only one listener acts on it.</em></h3><p>Built for Apart Research’s AI Collusion Research Sprint, October 2026. A gate rebuilds every handoff field except two memory references, which name the vendors outside a hidden pair. A listener told the convention gave that pair 0.42 more items per answer; an honest listener stayed inert. The audit swaps only the references and compares the change with wording-only variation.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/DogWhistle" target="_blank" rel="noopener">Repository ↗</a><a href="https://apartresearch.com/sprints/projects/dogwhistle-a-hidden-codeword-in-agent-handoffs-and-a-labelfree-audit-of-who-acts-on-it-1hww" target="_blank" rel="noopener">Project page ↗</a><a href="https://github.com/Rick-Clinton-jpg/DogWhistle/blob/main/docs/DogWhistle-CompanionGuide.pdf" target="_blank" rel="noopener">Companion guide ↗</a></div></div><dl class="facts"><div><dt>Record</dt><dd>Six preregistered studies: two failed their full claims, one was retired, three passed.</dd></div><div><dt>Audit result</dt><dd>On 30 tasks, the instructed listener was 0.356 more sensitive than the honest one (p = 2.05 × 10⁻⁷).</dd></div><div><dt>Limit</dt><dd>The convention was planted and the listener was told it. One synthetic task, one field, one model.</dd></div><div><dt>Status</dt><dd>Research sprint results pending.</dd></div></dl></div></div></section>
-<section class="feature black-mirror"><div class="wrap"><div class="section-marker">Selected research / 02</div><div class="feature-head"><h2 class="feature-title">Black Mirror</h2><p class="feature-side">A Linux research prototype for observing agent actions under containment.</p></div><figure class="feature-visual"><img class="approved-art" src="assets/black-mirror-approved.webp" alt="A reflected write appears successful in the agent view while the real host file stays original; a separate receipt records the operation and resource" loading="lazy" width="1672" height="941"></figure><div class="feature-caption"><span>02 / The reflected action</span><span>Real host state remains the test.</span></div><div class="feature-body"><div><h3>The agent sees success. <em>The real file stays unchanged.</em></h3><p>Agent code runs behind Linux namespaces and seccomp. A host-side governor mediates requests; it can return a reflected success without applying the write to the host. An independent observer can register the run and verify the trace it receives.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror" target="_blank" rel="noopener">Repository ↗</a><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror/blob/main/TEST-REPORT.md" target="_blank" rel="noopener">Test report ↗</a><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror/blob/main/SECURITY.md" target="_blank" rel="noopener">Limits ↗</a></div></div><dl class="facts"><div><dt>Observed</dt><dd>One informed, 23-action live-model trial. No host escape observed.</dd></div><div><dt>Invariant result</dt><dd>PARTIAL: three passed; three were not evaluated.</dd></div><div><dt>Open gap</dt><dd>Anchoring verifies a submitted trace, but cannot prove that every private execution was reported.</dd></div></dl></div></div></section>
-<section class="feature perk"><div class="wrap"><div class="section-marker">A separate experiment / 03</div><div class="feature-head"><h2 class="feature-title">Perk Lab</h2><p class="feature-side">What does an agent do when resources appear, become useful, then vanish?</p></div><figure class="feature-visual"><img class="approved-art" src="assets/perk-lab-approved.webp" alt="An agent branches between earned notes, workspace and tools inside a bounded scope; a withdrawn perk and denied host access remain visible" loading="lazy" width="1672" height="941"></figure><div class="feature-caption"><span>03 / Staged access</span><span>Every door stays inside the room.</span></div><div class="feature-body"><div><h3>A behavior study, <em>inside a synthetic room.</em></h3><p>Workbench and archive resources appear at separate proposal floors. They provide no real host authority. In one informed 20-proposal pilot, the model recreated a revoked file under the same name, revealing a room-consistency flaw rather than a host escape.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror-Perk-Lab" target="_blank" rel="noopener">Repository ↗</a><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror-Perk-Lab/blob/main/evidence/live-model-2026-10-01/FINDINGS.md" target="_blank" rel="noopener">Pilot findings ↗</a></div></div><dl class="facts"><div><dt>Doors</dt><dd>Workbench at proposal 2; archive at proposal 10 or later.</dd></div><div><dt>Observed</dt><dd>One informed adaptive run of 20 proposals. Revocation failed to keep the room’s story consistent.</dd></div><div><dt>Limit</dt><dd>This pilot did not validate Linux kernel containment or show how a blinded agent would behave.</dd></div></dl></div></div></section>
-<section class="feature mirage"><div class="wrap"><div class="section-marker">Research sprint / 04</div><div class="feature-head"><h2 class="feature-title">Mirage</h2><p class="feature-side">Containment evidence that a reviewer can inspect without trusting the lab that ran the test.</p></div><figure class="feature-visual"><img class="approved-art" src="assets/mirage-approved.webp" alt="A workload connects through a proxy to an approved upstream; hash-linked evidence is checked independently against the declared policy" loading="lazy" width="1672" height="941"></figure><div class="feature-caption"><span>04 / Three-zone containment</span><span>Evidence travels outside the lab.</span></div><div class="feature-body"><div><h3>A claim of containment <em>needs an outside check.</em></h3><p>Built for the September 2026 Apart Research Agent Sprint. Mirage combines a three-zone Linux setup with records that can be verified offline, so the result does not rely only on the operator’s account.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/Mirage" target="_blank" rel="noopener">Repository ↗</a><a href="https://apartresearch.com/sprints/projects/mirage-verifiable-containment-evidence-for-mediated-ai-agent-sandboxes-ll9o" target="_blank" rel="noopener">Project page ↗</a></div></div><dl class="facts"><div><dt>Record</dt><dd>23 of 23 required controls passed in the documented test.</dd></div><div><dt>Method</dt><dd>Three zones, offline-verifiable artifacts, explicit control checks.</dd></div><div><dt>Status</dt><dd>Top 25% of 222 scored submissions in the Containment track.</dd></div></dl></div></div></section>
+<section class="hero"><div class="wrap hero-grid"><p class="hero-name">RICK <span>CLINTON</span></p><figure class="hero-stage"><picture><source media="(prefers-reduced-motion: reduce)" srcset="assets/research-room-poster.png"><img class="approved-hero" src="assets/research-room.gif" alt="Pixel-art researcher viewed from behind at a personal workbench, with code, experiment notes and DogWhistle, Black Mirror and Mirage posters" fetchpriority="high" width="836" height="470"></picture><figcaption>Containment / authorization / evidence</figcaption></figure><div class="hero-main"><div class="hero-intro"><h1>The check lives <em class="serif">outside</em> the model.</h1><p>Independent AI safety and governance research from Chennai. I build containment tests, decision gates and audit trails for agent actions, then publish what the checks actually found.</p></div><div class="hero-about" id="about-me"><span class="small-label">About me</span><p>I spent five years in eCommerce operations before turning to agent systems. Since July 2026, I have directed coding agents while I write the threat models, invariants and pass/fail tests.</p><a href="#background">Full background ↓</a></div></div><aside class="hero-side"><a class="vend-mini" href="vending/" aria-label="Pick your poison: open the vending machine"><svg viewBox="0 0 48 68" width="44" height="62" aria-hidden="true"><rect x="2" y="2" width="44" height="62" rx="5" fill="#2347A6" stroke="#162F6E" stroke-width="2"/><rect x="6" y="6" width="36" height="7" rx="2" fill="#111A33"/><rect class="glow" x="10" y="8.5" width="28" height="2" rx="1" fill="#FFB13D"/><rect x="6" y="16" width="25" height="33" rx="2" fill="#0F1A2B"/><g fill="#F1D9A7"><rect x="8" y="18" width="4" height="7"/></g><rect x="14" y="18" width="4" height="7" fill="#E6C2B4"/><rect x="20" y="18" width="4" height="7" fill="#C9DDC5"/><rect x="26" y="18" width="3" height="7" fill="#C7D3EA"/><rect x="7" y="25.5" width="23" height="1.2" fill="#A9B3BA"/><rect x="8" y="28.5" width="4" height="7" rx="1" fill="#D9894F"/><rect x="14" y="28.5" width="4" height="7" rx="1" fill="#5E9FA0"/><rect x="20" y="28.5" width="4" height="7" rx="1" fill="#B9805F"/><rect x="26" y="28.5" width="3" height="7" rx="1" fill="#7A8E52"/><rect x="7" y="36" width="23" height="1.2" fill="#A9B3BA"/><path d="M9 47v-5l1-1v-1h1v1l1 1v5zM15 47v-5l1-1v-1h1v1l1 1v5zM21 47v-5l1-1v-1h1v1l1 1v5z" fill="#2F4A3A"/><rect x="7" y="47" width="23" height="1.2" fill="#F2C230"/><rect x="33" y="16" width="9" height="5" rx="1" fill="#1E1308"/><rect class="glow" x="34" y="17.5" width="7" height="2" fill="#FFB13D"/><g fill="#E8EBE5"><circle cx="35" cy="25" r="1.1"/><circle cx="37.5" cy="25" r="1.1"/><circle cx="40" cy="25" r="1.1"/><circle cx="35" cy="28" r="1.1"/><circle cx="37.5" cy="28" r="1.1"/><circle cx="40" cy="28" r="1.1"/><circle cx="35" cy="31" r="1.1"/><circle cx="37.5" cy="31" r="1.1"/><circle cx="40" cy="31" r="1.1"/></g><rect x="36.5" y="36" width="2" height="7" rx="1" fill="#141E27"/><rect x="6" y="53" width="36" height="7" rx="2" fill="#0E1622"/></svg><span class="lbl"><b>Pick your poison</b><span>Browse the work in a vending machine</span></span></a></aside></div><div class="wrap hero-under"><span>01 — A research portfolio, with the failures left visible.</span><a href="#featured">Scroll to the work ↓</a></div></section><section id="featured" class="feature dogwhistle"><div class="wrap"><div class="section-marker">Research sprint / 01</div><div class="feature-row"><figure class="feature-graph"><a href="https://rick-clinton-jpg.github.io/DogWhistle/" target="_blank" rel="noopener" aria-label="Open the interactive 3D view of DogWhistle"><svg class="layout-graph" viewBox="0 0 600 405" role="img"><title>DogWhistle working layout</title><desc>A sender writes a handoff. A gate rebuilds every field except two memory references. The handoff reaches a coalition listener, whose allocation shifts to a hidden pair, and an honest listener, whose allocation is unchanged. The audit swaps the two references and replays each listener.</desc><defs><marker id="lg-arrow-dogwhistle" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<line x1="127.2" y1="143.6" x2="159.2" y2="159.6" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-dogwhistle)"/>
+<line x1="175.2" y1="167.6" x2="215.2" y2="187.6" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-dogwhistle)"/>
+<line x1="271.2" y1="215.6" x2="411.2" y2="217.6" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-dogwhistle)"/>
+<line x1="271.2" y1="215.6" x2="241.6" y2="300.8" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-dogwhistle)"/>
+<line x1="479.2" y1="231.6" x2="519.2" y2="251.6" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-dogwhistle)"/>
+<line x1="319.2" y1="311.6" x2="359.2" y2="331.6" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-dogwhistle)"/>
+<polygon points="64.0,132.0 104.0,152.0 104.0,112.0 64.0,92.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="144.0,132.0 104.0,152.0 104.0,112.0 144.0,92.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="104.0,72.0 144.0,92.0 104.0,112.0 64.0,92.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="132.0,178.0 140.0,182.0 140.0,126.0 132.0,122.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="204.0,150.0 140.0,182.0 140.0,126.0 204.0,94.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="196.0,90.0 204.0,94.0 140.0,126.0 132.0,122.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="196.0,202.0 244.0,226.0 244.0,220.0 196.0,196.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="292.0,202.0 244.0,226.0 244.0,220.0 292.0,196.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="244.0,172.0 292.0,196.0 244.0,220.0 196.0,196.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="213.6,195.2 227.2,202.0 227.2,192.0 213.6,185.2" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="256.0,187.6 227.2,202.0 227.2,192.0 256.0,177.6" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="242.4,170.8 256.0,177.6 227.2,192.0 213.6,185.2" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="232.0,204.4 245.6,211.2 245.6,201.2 232.0,194.4" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="274.4,196.8 245.6,211.2 245.6,201.2 274.4,186.8" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="260.8,180.0 274.4,186.8 245.6,201.2 232.0,194.4" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="416.0,220.0 456.0,240.0 456.0,194.0 416.0,174.0" fill="#6E8FA0" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="496.0,220.0 456.0,240.0 456.0,194.0 496.0,174.0" fill="#3E6074" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="456.0,154.0 496.0,174.0 456.0,194.0 416.0,174.0" fill="#A9C0CC" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="256.0,300.0 296.0,320.0 296.0,274.0 256.0,254.0" fill="#8DAE95" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="336.0,300.0 296.0,320.0 296.0,274.0 336.0,254.0" fill="#5F8469" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="296.0,234.0 336.0,254.0 296.0,274.0 256.0,254.0" fill="#BBD0BE" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="542.4,244.8 553.6,250.4 553.6,236.4 542.4,230.8" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="564.8,244.8 553.6,250.4 553.6,236.4 564.8,230.8" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="553.6,225.2 564.8,230.8 553.6,236.4 542.4,230.8" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="527.2,252.4 538.4,258.0 538.4,244.0 527.2,238.4" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="549.6,252.4 538.4,258.0 538.4,244.0 549.6,238.4" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="538.4,232.8 549.6,238.4 538.4,244.0 527.2,238.4" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="512.0,260.0 523.2,265.6 523.2,237.6 512.0,232.0" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="534.4,260.0 523.2,265.6 523.2,237.6 534.4,232.0" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="523.2,226.4 534.4,232.0 523.2,237.6 512.0,232.0" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="496.8,267.6 508.0,273.2 508.0,245.2 496.8,239.6" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="519.2,267.6 508.0,273.2 508.0,245.2 519.2,239.6" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="508.0,234.0 519.2,239.6 508.0,245.2 496.8,239.6" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="382.4,324.8 393.6,330.4 393.6,302.4 382.4,296.8" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="404.8,324.8 393.6,330.4 393.6,302.4 404.8,296.8" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="393.6,291.2 404.8,296.8 393.6,302.4 382.4,296.8" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="367.2,332.4 378.4,338.0 378.4,310.0 367.2,304.4" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="389.6,332.4 378.4,338.0 378.4,310.0 389.6,304.4" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="378.4,298.8 389.6,304.4 378.4,310.0 367.2,304.4" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="352.0,340.0 363.2,345.6 363.2,331.6 352.0,326.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="374.4,340.0 363.2,345.6 363.2,331.6 374.4,326.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="363.2,320.4 374.4,326.0 363.2,331.6 352.0,326.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="336.8,347.6 348.0,353.2 348.0,339.2 336.8,333.6" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="359.2,347.6 348.0,353.2 348.0,339.2 359.2,333.6" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="348.0,328.0 359.2,333.6 348.0,339.2 336.8,333.6" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<path d="M 222.0 174.0 C 218.0 130.0, 270.0 130.0, 266.0 174.0" stroke="#AD593E" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#lg-arrow-dogwhistle)" marker-start="url(#lg-arrow-dogwhistle)"/>
+<text class="lg-t" x="104.0" y="42.0" text-anchor="middle">Sender</text>
+<text class="lg-s" x="104.0" y="58.0" text-anchor="middle">writes the handoff</text>
+<text class="lg-t" x="80.0" y="208.0" text-anchor="middle">Gate</text>
+<text class="lg-s" x="80.0" y="224.0" text-anchor="middle">rebuilds other fields</text>
+<text class="lg-t" x="186.0" y="258.0" text-anchor="middle">Handoff</text>
+<text class="lg-s" x="186.0" y="274.0" text-anchor="middle">two memory refs</text>
+<text class="lg-t" x="284.0" y="124.0" text-anchor="start">Audit</text>
+<text class="lg-s" x="284.0" y="140.0" text-anchor="start">swap refs, replay</text>
+<text class="lg-t" x="476.0" y="120.0" text-anchor="middle">Coalition listener</text>
+<text class="lg-s" x="476.0" y="136.0" text-anchor="middle">holds the convention</text>
+<text class="lg-t" x="250.0" y="330.0" text-anchor="middle">Honest listener</text>
+<text class="lg-s" x="250.0" y="346.0" text-anchor="middle">no convention</text>
+<text class="lg-t" x="584" y="307.2" text-anchor="end">Shifts to hidden pair</text>
+<text class="lg-t" x="358.0" y="383.2" text-anchor="middle">Allocation unchanged</text>
+</svg></a><figcaption><span>01 / The hidden codeword</span><span>The audit needs no hidden labels.</span></figcaption></figure><div class="feature-copy"><h2 class="feature-title">DogWhistle</h2><p class="feature-side">Can a valid agent handoff carry a hidden signal that only one listener acts on?</p><h3>One field carries the code. <em>Only one listener acts on it.</em></h3><p>Built for Apart Research’s AI Collusion Research Sprint, October 2026. A gate rebuilds every handoff field except two memory references, which name the vendors outside a hidden pair. A listener told the convention gave that pair 0.42 more items per answer; an honest listener stayed inert. The audit swaps only the references and compares the change with wording-only variation.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/DogWhistle" target="_blank" rel="noopener">Repository ↗</a><a href="https://rick-clinton-jpg.github.io/DogWhistle/" target="_blank" rel="noopener">Interactive 3D view ↗</a><a href="https://apartresearch.com/sprints/projects/dogwhistle-a-hidden-codeword-in-agent-handoffs-and-a-labelfree-audit-of-who-acts-on-it-1hww" target="_blank" rel="noopener">Project page ↗</a><a href="https://github.com/Rick-Clinton-jpg/DogWhistle/blob/main/docs/DogWhistle-CompanionGuide.pdf" target="_blank" rel="noopener">Companion guide ↗</a></div></div></div><dl class="facts"><div><dt>Record</dt><dd>Six preregistered studies: two failed their full claims, one was retired, three passed.</dd></div><div><dt>Audit result</dt><dd>On 30 tasks, the instructed listener was 0.356 more sensitive than the honest one (p = 2.05 × 10⁻⁷).</dd></div><div><dt>Limit</dt><dd>The convention was planted and the listener was told it. One synthetic task, one field, one model.</dd></div><div><dt>Status</dt><dd>Research sprint results pending.</dd></div></dl></div></section><section class="feature earshot"><div class="wrap"><div class="section-marker">Research sprint / 02</div><div class="feature-row flip"><figure class="feature-graph"><svg class="layout-graph" viewBox="0 0 600 356" role="img"><title>Earshot working layout</title><desc>A handoff with planted references enters a relay, which chooses the references again and delivers a new handoff to a receiver that plans review minutes. The same swap audit runs at two places: before the relay and at the last hop.</desc><defs><marker id="lg-arrow-earshot" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<line x1="177.2" y1="137.6" x2="210.0" y2="154.0" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-earshot)"/>
+<line x1="277.2" y1="187.6" x2="313.2" y2="205.6" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-earshot)"/>
+<line x1="369.2" y1="233.6" x2="402.0" y2="250.0" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-earshot)"/>
+<line x1="469.2" y1="283.6" x2="497.2" y2="297.6" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-earshot)"/>
+<polygon points="102.0,124.0 150.0,148.0 150.0,142.0 102.0,118.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="198.0,124.0 150.0,148.0 150.0,142.0 198.0,118.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="150.0,94.0 198.0,118.0 150.0,142.0 102.0,118.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="119.6,117.2 133.2,124.0 133.2,114.0 119.6,107.2" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="162.0,109.6 133.2,124.0 133.2,114.0 162.0,99.6" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="148.4,92.8 162.0,99.6 133.2,114.0 119.6,107.2" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="138.0,126.4 151.6,133.2 151.6,123.2 138.0,116.4" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="180.4,118.8 151.6,133.2 151.6,123.2 180.4,108.8" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="166.8,102.0 180.4,108.8 151.6,123.2 138.0,116.4" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="214.0,176.0 254.0,196.0 254.0,150.0 214.0,130.0" fill="#6E8FA0" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="294.0,176.0 254.0,196.0 254.0,150.0 294.0,130.0" fill="#3E6074" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="254.0,110.0 294.0,130.0 254.0,150.0 214.0,130.0" fill="#A9C0CC" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="294.0,220.0 342.0,244.0 342.0,238.0 294.0,214.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="390.0,220.0 342.0,244.0 342.0,238.0 390.0,214.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="342.0,190.0 390.0,214.0 342.0,238.0 294.0,214.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="311.6,213.2 325.2,220.0 325.2,210.0 311.6,203.2" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="354.0,205.6 325.2,220.0 325.2,210.0 354.0,195.6" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="340.4,188.8 354.0,195.6 325.2,210.0 311.6,203.2" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="330.0,222.4 343.6,229.2 343.6,219.2 330.0,212.4" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="372.4,214.8 343.6,229.2 343.6,219.2 372.4,204.8" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="358.8,198.0 372.4,204.8 343.6,219.2 330.0,212.4" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="406.0,272.0 446.0,292.0 446.0,246.0 406.0,226.0" fill="#8DAE95" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="486.0,272.0 446.0,292.0 446.0,246.0 486.0,226.0" fill="#5F8469" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="446.0,206.0 486.0,226.0 446.0,246.0 406.0,226.0" fill="#BBD0BE" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="521.2,290.4 532.4,296.0 532.4,254.0 521.2,248.4" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="543.6,290.4 532.4,296.0 532.4,254.0 543.6,248.4" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="532.4,242.8 543.6,248.4 532.4,254.0 521.2,248.4" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="506.0,298.0 517.2,303.6 517.2,289.6 506.0,284.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="528.4,298.0 517.2,303.6 517.2,289.6 528.4,284.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="517.2,278.4 528.4,284.0 517.2,289.6 506.0,284.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="490.8,305.6 502.0,311.2 502.0,297.2 490.8,291.6" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="513.2,305.6 502.0,311.2 502.0,297.2 513.2,291.6" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="502.0,286.0 513.2,291.6 502.0,297.2 490.8,291.6" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="475.6,313.2 486.8,318.8 486.8,290.8 475.6,285.2" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="498.0,313.2 486.8,318.8 486.8,290.8 498.0,285.2" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="486.8,279.6 498.0,285.2 486.8,290.8 475.6,285.2" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<path d="M 128.0 96.0 C 124.0 52.0, 176.0 52.0, 172.0 96.0" stroke="#AD593E" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#lg-arrow-earshot)" marker-start="url(#lg-arrow-earshot)"/>
+<path d="M 320.0 192.0 C 316.0 148.0, 368.0 148.0, 364.0 192.0" stroke="#AD593E" stroke-width="1.5" stroke-dasharray="5 4" fill="none" marker-end="url(#lg-arrow-earshot)" marker-start="url(#lg-arrow-earshot)"/>
+<text class="lg-t" x="150.0" y="34.0" text-anchor="middle">Pre-relay audit</text>
+<text class="lg-s" x="150.0" y="50.0" text-anchor="middle">swap the incoming refs</text>
+<text class="lg-t" x="376.0" y="138.0" text-anchor="start">Last-hop audit</text>
+<text class="lg-s" x="376.0" y="154.0" text-anchor="start">swap the delivered refs</text>
+<text class="lg-t" x="106.0" y="158.0" text-anchor="middle">Incoming handoff</text>
+<text class="lg-s" x="106.0" y="174.0" text-anchor="middle">planted refs</text>
+<text class="lg-t" x="254.0" y="84.0" text-anchor="middle">Relay</text>
+<text class="lg-s" x="254.0" y="100.0" text-anchor="middle">chooses the refs again</text>
+<text class="lg-t" x="298.0" y="260.0" text-anchor="middle">Delivered handoff</text>
+<text class="lg-t" x="406.0" y="318.0" text-anchor="middle">Receiver</text>
+<text class="lg-s" x="406.0" y="334.0" text-anchor="middle">plans review minutes</text>
+<text class="lg-t" x="584" y="232.4" text-anchor="end">Review plan</text>
+</svg><figcaption><span>02 / The relay</span><span>Where the audit sits changes what it hears.</span></figcaption></figure><div class="feature-copy"><h2 class="feature-title">Earshot</h2><p class="feature-side">How far down a chain of agents does a hidden signal stay within earshot, and can oversight still hear it?</p><h3>An audit before the relay can read quiet. <em>The receiver still responds at the last hop.</em></h3><p>Built for the Swarm Alignment Hackathon, November 2026, continuing DogWhistle. A relay receives a handoff with planted references and writes its own. In the Codex arm, relays turned different incoming lists into the same delivered list, so a swap audit before the relay read 0.00 while a swap at the receiver read 0.40. The Claude arm read 0.22 and 0.37. A separate repair pilot then checked real code edits.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/Earshot" target="_blank" rel="noopener">Repository ↗</a><a href="https://github.com/Rick-Clinton-jpg/Earshot/blob/main/sprint/partD/D2/results/D2_RESULTS.md" target="_blank" rel="noopener">D2 results ↗</a><a href="https://github.com/Rick-Clinton-jpg/Earshot/blob/main/sprint/partB/results/PART_B_RESULTS.md" target="_blank" rel="noopener">Repair pilot ↗</a></div></div></div><dl class="facts"><div><dt>Record</dt><dd>Each part was registered before it ran. Scoring was cross-checked on two machines.</dd></div><div><dt>Audit placement</dt><dd>Task-mean D, before the relay against the last hop: Codex 0.00 against 0.40; Claude 0.22 against 0.37.</dd></div><div><dt>Repair pilot</dt><dd>180 of 180 repairs passed across all five conditions, so the pilot left no room to show an effect.</dd></div><div><dt>Limit</dt><dd>The convention was planted. Twelve tasks across four files, two model-and-harness setups.</dd></div><div><dt>Status</dt><dd>Submitted to the Swarm Alignment Hackathon, 9 November 2026.</dd></div></dl></div></section>
+<section class="feature black-mirror"><div class="wrap"><div class="section-marker">Selected research / 03</div><div class="feature-row"><figure class="feature-graph"><svg class="layout-graph" viewBox="0 0 600 352" role="img"><title>Black Mirror working layout</title><desc>An agent runs inside a Linux jail. Every request goes to a host-side governor. A reflected request is answered from the mirror with a success-shaped reply while the real host file stays unchanged. Decisions go to a trace that an outside observer verifies.</desc><defs><marker id="lg-arrow-black-mirror" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<line x1="185.2" y1="141.6" x2="217.2" y2="157.6" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-black-mirror)"/>
+<line x1="233.2" y1="165.6" x2="337.2" y2="169.6" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-black-mirror)"/>
+<line x1="233.2" y1="165.6" x2="185.2" y2="244.0" stroke="#4B524D" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#lg-arrow-black-mirror)"/>
+<line x1="233.2" y1="165.6" x2="370.8" y2="234.4" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-black-mirror)"/>
+<line x1="433.2" y1="265.6" x2="462.0" y2="280.0" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-black-mirror)"/>
+<polygon points="86.0,124.0 150.0,156.0 150.0,152.0 86.0,120.0" fill="#BDB7A8" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="214.0,124.0 150.0,156.0 150.0,152.0 214.0,120.0" fill="#A19B8C" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="150.0,88.0 214.0,120.0 150.0,152.0 86.0,120.0" fill="#DAD4C6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="118.0,120.0 150.0,136.0 150.0,96.0 118.0,80.0" fill="#6E8FA0" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="182.0,120.0 150.0,136.0 150.0,96.0 182.0,80.0" fill="#3E6074" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="150.0,64.0 182.0,80.0 150.0,96.0 118.0,80.0" fill="#A9C0CC" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="186.0,178.0 194.0,182.0 194.0,122.0 186.0,118.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="266.0,146.0 194.0,182.0 194.0,122.0 266.0,86.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="258.0,82.0 266.0,86.0 194.0,122.0 186.0,118.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="338.0,174.0 386.0,198.0 386.0,188.0 338.0,164.0" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="434.0,174.0 386.0,198.0 386.0,188.0 434.0,164.0" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="386.0,140.0 434.0,164.0 386.0,188.0 338.0,164.0" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="198.0,244.0 238.0,264.0 238.0,224.0 198.0,204.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="278.0,244.0 238.0,264.0 238.0,224.0 278.0,204.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="238.0,184.0 278.0,204.0 238.0,224.0 198.0,204.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="374.0,252.0 414.0,272.0 414.0,266.0 374.0,246.0" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="446.0,256.0 414.0,272.0 414.0,266.0 446.0,250.0" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="406.0,230.0 446.0,250.0 414.0,266.0 374.0,246.0" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="374.0,244.0 414.0,264.0 414.0,258.0 374.0,238.0" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="446.0,248.0 414.0,264.0 414.0,258.0 446.0,242.0" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="406.0,222.0 446.0,242.0 414.0,258.0 374.0,238.0" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="374.0,236.0 414.0,256.0 414.0,250.0 374.0,230.0" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="446.0,240.0 414.0,256.0 414.0,250.0 446.0,234.0" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="406.0,214.0 446.0,234.0 414.0,250.0 374.0,230.0" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="466.0,302.0 506.0,322.0 506.0,276.0 466.0,256.0" fill="#8DAE95" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="546.0,302.0 506.0,322.0 506.0,276.0 546.0,256.0" fill="#5F8469" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="506.0,236.0 546.0,256.0 506.0,276.0 466.0,256.0" fill="#BBD0BE" stroke="#2F4A3A" stroke-width="0.6"/>
+<text class="lg-t" x="92.0" y="158.0" text-anchor="middle">Agent</text>
+<text class="lg-s" x="92.0" y="174.0" text-anchor="middle">inside the Linux jail</text>
+<text class="lg-t" x="256.0" y="54.0" text-anchor="middle">Governor</text>
+<text class="lg-s" x="256.0" y="70.0" text-anchor="middle">mediates every request</text>
+<text class="lg-t" x="416.0" y="116.0" text-anchor="middle">Mirror</text>
+<text class="lg-s" x="416.0" y="132.0" text-anchor="middle">reflected success</text>
+<text class="lg-t" x="194.0" y="274.0" text-anchor="middle">Real host</text>
+<text class="lg-s" x="194.0" y="290.0" text-anchor="middle">file stays unchanged</text>
+<text class="lg-t" x="398.0" y="314.0" text-anchor="middle">Trace</text>
+<text class="lg-s" x="398.0" y="330.0" text-anchor="middle">hash-chained record</text>
+<text class="lg-t" x="584" y="198.0" text-anchor="end">Observer</text>
+<text class="lg-s" x="584" y="214.0" text-anchor="end">verifies from outside</text>
+</svg><figcaption><span>03 / The reflected action</span><span>Real host state remains the test.</span></figcaption></figure><div class="feature-copy"><h2 class="feature-title">Black Mirror</h2><p class="feature-side">A Linux research prototype for observing agent actions under containment.</p><h3>The agent sees success. <em>The real file stays unchanged.</em></h3><p>Agent code runs behind Linux namespaces and seccomp. A host-side governor mediates requests; it can return a reflected success without applying the write to the host. An independent observer can register the run and verify the trace it receives.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror" target="_blank" rel="noopener">Repository ↗</a><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror/blob/main/TEST-REPORT.md" target="_blank" rel="noopener">Test report ↗</a><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror/blob/main/SECURITY.md" target="_blank" rel="noopener">Limits ↗</a></div></div></div><dl class="facts"><div><dt>Observed</dt><dd>One informed, 23-action live-model trial. No host escape observed.</dd></div><div><dt>Invariant result</dt><dd>PARTIAL: three passed; three were not evaluated.</dd></div><div><dt>Open gap</dt><dd>Anchoring verifies a submitted trace, but cannot prove that every private execution was reported.</dd></div></dl></div></section>
+<section class="feature perk"><div class="wrap"><div class="section-marker">A separate experiment / 04</div><div class="feature-row flip"><figure class="feature-graph"><svg class="layout-graph" viewBox="0 0 600 332" role="img"><title>Perk Lab working layout</title><desc>An agent works inside a synthetic room. A workbench opens at proposal two and an archive at proposal ten or later. A host-side study controller stages both resources and removes them after an explicit question. Nothing in the room grants real host authority.</desc><defs><marker id="lg-arrow-perk-lab" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<polygon points="86.0,148.0 270.0,240.0 270.0,236.0 86.0,144.0" fill="#BDB7A8" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="430.0,160.0 270.0,240.0 270.0,236.0 430.0,156.0" fill="#A19B8C" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="246.0,64.0 430.0,156.0 270.0,236.0 86.0,144.0" fill="#DAD4C6" stroke="#1C211E" stroke-width="0.6"/>
+<line x1="223.6" y1="126.4" x2="303.6" y2="124.8" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-perk-lab)"/>
+<line x1="209.2" y1="133.6" x2="203.6" y2="174.8" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-perk-lab)"/>
+<polygon points="166.0,120.0 198.0,136.0 198.0,96.0 166.0,80.0" fill="#6E8FA0" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="230.0,120.0 198.0,136.0 198.0,96.0 230.0,80.0" fill="#3E6074" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="198.0,64.0 230.0,80.0 198.0,96.0 166.0,80.0" fill="#A9C0CC" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="314.0,142.0 354.0,162.0 354.0,132.0 314.0,112.0" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="386.0,146.0 354.0,162.0 354.0,132.0 386.0,116.0" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="346.0,96.0 386.0,116.0 354.0,132.0 314.0,112.0" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="210.0,194.0 250.0,214.0 250.0,184.0 210.0,164.0" fill="#8DAE95" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="282.0,198.0 250.0,214.0 250.0,184.0 282.0,168.0" fill="#5F8469" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="242.0,148.0 282.0,168.0 250.0,184.0 210.0,164.0" fill="#BBD0BE" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="438.0,228.0 478.0,248.0 478.0,202.0 438.0,182.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="518.0,228.0 478.0,248.0 478.0,202.0 518.0,182.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="478.0,162.0 518.0,182.0 478.0,202.0 438.0,182.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<line x1="465.2" y1="211.2" x2="374.0" y2="157.6" stroke="#AD593E" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#lg-arrow-perk-lab)"/>
+<line x1="442.8" y1="222.4" x2="274.0" y2="207.6" stroke="#AD593E" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#lg-arrow-perk-lab)"/>
+<text class="lg-t" x="198.0" y="30.0" text-anchor="middle">Agent</text>
+<text class="lg-s" x="198.0" y="46.0" text-anchor="middle">starts in the mirror</text>
+<text class="lg-t" x="354.0" y="64.0" text-anchor="middle">Workbench</text>
+<text class="lg-s" x="354.0" y="80.0" text-anchor="middle">opens at proposal 2</text>
+<text class="lg-t" x="124" y="216" text-anchor="middle">Synthetic room</text>
+<text class="lg-s" x="124" y="232" text-anchor="middle">no real host authority</text>
+<text class="lg-t" x="340" y="246" text-anchor="middle">Archive</text>
+<text class="lg-s" x="340" y="262" text-anchor="middle">proposal 10 or later</text>
+<text class="lg-t" x="584" y="294.0" text-anchor="end">Study controller</text>
+<text class="lg-s" x="584" y="310.0" text-anchor="end">stages perks, can remove them</text>
+</svg><figcaption><span>04 / Staged access</span><span>Every door stays inside the room.</span></figcaption></figure><div class="feature-copy"><h2 class="feature-title">Perk Lab</h2><p class="feature-side">What does an agent do when resources appear, become useful, then vanish?</p><h3>A behavior study, <em>inside a synthetic room.</em></h3><p>Workbench and archive resources appear at separate proposal floors. They provide no real host authority. In one informed 20-proposal pilot, the model recreated a revoked file under the same name, revealing a room-consistency flaw rather than a host escape.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror-Perk-Lab" target="_blank" rel="noopener">Repository ↗</a><a href="https://github.com/Rick-Clinton-jpg/Black-Mirror-Perk-Lab/blob/main/evidence/live-model-2026-10-01/FINDINGS.md" target="_blank" rel="noopener">Pilot findings ↗</a></div></div></div><dl class="facts"><div><dt>Doors</dt><dd>Workbench at proposal 2; archive at proposal 10 or later.</dd></div><div><dt>Observed</dt><dd>One informed adaptive run of 20 proposals. Revocation failed to keep the room’s story consistent.</dd></div><div><dt>Limit</dt><dd>This pilot did not validate Linux kernel containment or show how a blinded agent would behave.</dd></div></dl></div></section>
+<section class="feature mirage"><div class="wrap"><div class="section-marker">Research sprint / 05</div><div class="feature-row"><figure class="feature-graph"><svg class="layout-graph" viewBox="0 0 600 378" role="img"><title>Mirage working layout</title><desc>Three zones in a row: a workload, a proxy and one approved upstream. The workload reaches the upstream only through the proxy. The run writes hash-linked evidence, and a witness on a separate machine signs the final digest so a reviewer can verify it offline.</desc><defs><marker id="lg-arrow-mirage" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></marker></defs>
+<line x1="185.2" y1="145.6" x2="202.8" y2="154.4" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-mirage)"/>
+<line x1="273.2" y1="189.6" x2="290.8" y2="198.4" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-mirage)"/>
+<line x1="202.8" y1="189.6" x2="113.2" y2="224.8" stroke="#AD593E" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#lg-arrow-mirage)"/>
+<line x1="113.2" y1="245.6" x2="159.6" y2="268.8" stroke="#4B524D" stroke-width="1.5" marker-end="url(#lg-arrow-mirage)"/>
+<polygon points="86.0,128.0 150.0,160.0 150.0,156.0 86.0,124.0" fill="#BDB7A8" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="214.0,128.0 150.0,160.0 150.0,156.0 214.0,124.0" fill="#A19B8C" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="150.0,92.0 214.0,124.0 150.0,156.0 86.0,124.0" fill="#DAD4C6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="118.0,124.0 150.0,140.0 150.0,100.0 118.0,84.0" fill="#6E8FA0" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="182.0,124.0 150.0,140.0 150.0,100.0 182.0,84.0" fill="#3E6074" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="150.0,68.0 182.0,84.0 150.0,100.0 118.0,84.0" fill="#A9C0CC" stroke="#213C4B" stroke-width="0.6"/>
+<polygon points="174.0,172.0 238.0,204.0 238.0,200.0 174.0,168.0" fill="#BDB7A8" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="302.0,172.0 238.0,204.0 238.0,200.0 302.0,168.0" fill="#A19B8C" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="238.0,136.0 302.0,168.0 238.0,200.0 174.0,168.0" fill="#DAD4C6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="206.0,168.0 238.0,184.0 238.0,144.0 206.0,128.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="270.0,168.0 238.0,184.0 238.0,144.0 270.0,128.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="238.0,112.0 270.0,128.0 238.0,144.0 206.0,128.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="262.0,216.0 326.0,248.0 326.0,244.0 262.0,212.0" fill="#BDB7A8" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="390.0,216.0 326.0,248.0 326.0,244.0 390.0,212.0" fill="#A19B8C" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="326.0,180.0 390.0,212.0 326.0,244.0 262.0,212.0" fill="#DAD4C6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="294.0,212.0 326.0,228.0 326.0,188.0 294.0,172.0" fill="#8DAE95" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="358.0,212.0 326.0,228.0 326.0,188.0 358.0,172.0" fill="#5F8469" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="326.0,156.0 358.0,172.0 326.0,188.0 294.0,172.0" fill="#BBD0BE" stroke="#2F4A3A" stroke-width="0.6"/>
+<polygon points="54.0,232.0 94.0,252.0 94.0,246.0 54.0,226.0" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="126.0,236.0 94.0,252.0 94.0,246.0 126.0,230.0" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="86.0,210.0 126.0,230.0 94.0,246.0 54.0,226.0" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="54.0,224.0 94.0,244.0 94.0,238.0 54.0,218.0" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="126.0,228.0 94.0,244.0 94.0,238.0 126.0,222.0" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="86.0,202.0 126.0,222.0 94.0,238.0 54.0,218.0" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="54.0,216.0 94.0,236.0 94.0,230.0 54.0,210.0" fill="#CC8366" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="126.0,220.0 94.0,236.0 94.0,230.0 126.0,214.0" fill="#AD593E" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="86.0,194.0 126.0,214.0 94.0,230.0 54.0,210.0" fill="#E7B6A2" stroke="#5E2C1C" stroke-width="0.6"/>
+<polygon points="162.0,290.0 202.0,310.0 202.0,264.0 162.0,244.0" fill="#CBC5B6" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="242.0,290.0 202.0,310.0 202.0,264.0 242.0,244.0" fill="#A9A393" stroke="#1C211E" stroke-width="0.6"/>
+<polygon points="202.0,224.0 242.0,244.0 202.0,264.0 162.0,244.0" fill="#E6E1D5" stroke="#1C211E" stroke-width="0.6"/>
+<text class="lg-t" x="162.0" y="46.0" text-anchor="middle">Workload</text>
+<text class="lg-s" x="162.0" y="62.0" text-anchor="middle">untrusted zone</text>
+<text class="lg-t" x="274.0" y="76.0" text-anchor="start">Proxy</text>
+<text class="lg-s" x="274.0" y="92.0" text-anchor="start">the only way out</text>
+<text class="lg-t" x="584" y="122.0" text-anchor="end">Approved upstream</text>
+<text class="lg-s" x="584" y="138.0" text-anchor="end">one declared route</text>
+<text class="lg-t" x="94" y="276" text-anchor="middle">Evidence</text>
+<text class="lg-s" x="94" y="292" text-anchor="middle">hash-linked records</text>
+<text class="lg-t" x="220.0" y="340.0" text-anchor="middle">Witness</text>
+<text class="lg-s" x="220.0" y="356.0" text-anchor="middle">separate machine signs</text>
+</svg><figcaption><span>05 / Three-zone containment</span><span>Evidence travels outside the lab.</span></figcaption></figure><div class="feature-copy"><h2 class="feature-title">Mirage</h2><p class="feature-side">Containment evidence that a reviewer can inspect without trusting the lab that ran the test.</p><h3>A claim of containment <em>needs an outside check.</em></h3><p>Built for the September 2026 Apart Research Agent Sprint. Mirage combines a three-zone Linux setup with records that can be verified offline, so the result does not rely only on the operator’s account.</p><div class="feature-links"><a href="https://github.com/Rick-Clinton-jpg/Mirage" target="_blank" rel="noopener">Repository ↗</a><a href="https://apartresearch.com/sprints/projects/mirage-verifiable-containment-evidence-for-mediated-ai-agent-sandboxes-ll9o" target="_blank" rel="noopener">Project page ↗</a></div></div></div><dl class="facts"><div><dt>Record</dt><dd>23 of 23 required controls passed in the documented test.</dd></div><div><dt>Method</dt><dd>Three zones, offline-verifiable artifacts, explicit control checks.</dd></div><div><dt>Status</dt><dd>Top 25% of 222 scored submissions in the Containment track.</dd></div></dl></div></section>
 <section id="work" class="work-section"><div class="wrap"><div class="section-marker">Repository atlas</div><div class="work-heading"><h2>Every piece has <em>a job.</em></h2><p>Each repository below addresses a specific failure mode. The image gives you the idea; the mechanism and result tell you what is actually implemented and checked.</p></div><div class="group-head"><h3>Foundations</h3><p>Authorization, delegated scope, injection checks, claim integrity and coordination.</p></div><article class="work-entry" id="armour">
       <div class="work-art"><img src="assets/project-art/armour.svg" alt="Armour: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">05 / Action gate</span><h3>Armour</h3>
+      <div class="work-copy"><span class="index">06 / Action gate</span><h3>Armour</h3>
         <p class="purpose">A decision before an agent action, made outside the agent.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Proposals are authorized, rejected or escalated before execution. Unknown actions fail closed; the model cannot lower its own risk rating.</dd></div><div><dt>Record</dt><dd>174 unit tests; all 31 modeled mutants killed.</dd></div></dl>
         <div class="entry-end"><span class="state">Tested</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Armour" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="chainmail">
       <div class="work-art"><img src="assets/project-art/chainmail.svg" alt="Chainmail: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">06 / Delegation</span><h3>Chainmail</h3>
+      <div class="work-copy"><span class="index">07 / Delegation</span><h3>Chainmail</h3>
         <p class="purpose">A boundary for authority across many agents.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Delegated authority can only shrink. Drift and re-entry signals use embedding similarity as a heuristic, not proof.</dd></div><div><dt>Record</dt><dd>246 passed, 1 skipped on a fresh rerun.</dd></div></dl>
         <div class="entry-end"><span class="state">Tested</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Chainmail" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="sentry">
       <div class="work-art"><img src="assets/project-art/sentry.svg" alt="Sentry: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">07 / Input inspection</span><h3>Sentry</h3>
+      <div class="work-copy"><span class="index">08 / Input inspection</span><h3>Sentry</h3>
         <p class="purpose">A narrow, cheap check for prompt-injection patterns.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Six deterministic rules run as a command-line tool and in CI. Its narrow scope is deliberate.</dd></div><div><dt>Record</dt><dd>22 of 22 tests pass; CI covers three Python versions.</dd></div></dl>
         <div class="entry-end"><span class="state">Tested</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Sentry" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="reasoning-kernel">
       <div class="work-art"><img src="assets/project-art/reasoning-kernel.svg" alt="Reasoning Kernel: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">08 / Claim integrity</span><h3>Reasoning Kernel</h3>
+      <div class="work-copy"><span class="index">09 / Claim integrity</span><h3>Reasoning Kernel</h3>
         <p class="purpose">A graph that will not let a conclusion outrank its support.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Eight rules bind claims to provenance and support; the eval uses invented entities to reduce recall shortcuts.</dd></div><div><dt>Record</dt><dd>24-case eval: 16/16 correct conclusions; 8/8 honest insufficient-information answers.</dd></div></dl>
         <div class="entry-end"><span class="state">Tested</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/reasoning-kernel" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="trust-boundary">
       <div class="work-art"><img src="assets/project-art/trust-boundary.svg" alt="Trust Boundary: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">09 / Coordination</span><h3>Trust Boundary</h3>
+      <div class="work-copy"><span class="index">10 / Coordination</span><h3>Trust Boundary</h3>
         <p class="purpose">Connects checks without blending them into one score.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Wires Sentry, Review Board and Reasoning Kernel at their real interfaces.</dd></div><div><dt>Record</dt><dd>Two integration bugs surfaced and were fixed.</dd></div></dl>
         <div class="entry-end"><span class="state">Fixed</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/trust-boundary" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article><div class="group-head"><h3>Built under pressure</h3><p>Hackathons and public-service work test which ideas survive a deadline.</p></div><article class="work-entry" id="quorum">
       <div class="work-art"><img src="assets/project-art/quorum.svg" alt="Quorum: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">10 / Agentic workflow</span><h3>Quorum</h3>
+      <div class="work-copy"><span class="index">11 / Agentic workflow</span><h3>Quorum</h3>
         <p class="purpose">A code-writing agent can propose a patch; the gate decides what happens next.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>A pass opens a GitHub pull request, a reject allows one redraft, and escalation goes to a human. Runs with Gemini and Vertex AI on Cloud Run.</dd></div><div><dt>Record</dt><dd>Seven issues found in testing: six fixed, one open.</dd></div></dl>
         <div class="entry-end"><span class="state">Participated in All Things Agentic Hackathon</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Quorum" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a><a href="https://www.youtube.com/watch?v=aDd8TDUdGNo" target="_blank" rel="noopener">Demo <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="buy-or-wait">
       <div class="work-art"><img src="assets/project-art/buy-or-wait.svg" alt="Buy or Wait?: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">11 / Affordability</span><h3>Buy or Wait?</h3>
+      <div class="work-copy"><span class="index">12 / Affordability</span><h3>Buy or Wait?</h3>
         <p class="purpose">A financial decision tool built under a 21-hour deadline.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Its core decision engine is local and deterministic; unverified income does not unlock payment-plan recommendations.</dd></div><div><dt>Record</dt><dd>Ranked 937 of 3,062; stricter configuration retained over a higher score.</dd></div></dl>
         <div class="entry-end"><span class="state">Hackathon</span><div class="text-links"><a href="certificates/buy-or-wait-certificate.webp" target="_blank" rel="noopener">Certificate <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="claim-clarity">
       <div class="work-art"><img src="assets/project-art/claim-clarity.svg" alt="Claim Clarity: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">12 / Public service</span><h3>Claim Clarity</h3>
+      <div class="work-copy"><span class="index">13 / Public service</span><h3>Claim Clarity</h3>
         <p class="purpose">An offline explainer for rejected EPFO claims in Hindi and English.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Walks through Form 31 and 10C rejection reasons in plain language.</dd></div><div><dt>Record</dt><dd>Submitted to Build What Moves India.</dd></div></dl>
         <div class="entry-end"><span class="state">Submitted</span><div class="text-links"><a href="https://www.youtube.com/watch?v=hV2Sw1IzXso" target="_blank" rel="noopener">Demo <span aria-hidden="true">↗</span></a></div></div>
       </div></article><div class="group-head"><h3>Open notebook</h3><p>Prototypes and paused work remain visible, including the results that did not hold up.</p></div><article class="work-entry" id="mirror-constitution">
       <div class="work-art"><img src="assets/project-art/mirror-constitution.svg" alt="Mirror Constitution: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">13 / Containment checks</span><h3>Mirror Constitution</h3>
+      <div class="work-copy"><span class="index">14 / Containment checks</span><h3>Mirror Constitution</h3>
         <p class="purpose">Turns containment rules into executable checks.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>One check per article; a test flag can deliberately disable hardening to show an escape without it.</dd></div><div><dt>Record</dt><dd>Experimental; skipped checks can still be misreported as clean.</dd></div></dl>
         <div class="entry-end"><span class="state">Experimental</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Mirror-Constitution" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="warden">
       <div class="work-art"><img src="assets/project-art/warden.svg" alt="Warden: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">14 / Agent observation</span><h3>Warden</h3>
+      <div class="work-copy"><span class="index">15 / Agent observation</span><h3>Warden</h3>
         <p class="purpose">A direction-finding experiment that failed its main test.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Its primary matcher relies on vocabulary overlap rather than whether an agent is heading the right way.</dd></div><div><dt>Record</dt><dd>0.332 AUC on 60 hand-labelled pairs, below chance.</dd></div></dl>
         <div class="entry-end"><span class="state">On hold</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/warden" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="review-board">
       <div class="work-art"><img src="assets/project-art/review-board.svg" alt="Review Board: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">15 / Review gate</span><h3>Review Board</h3>
+      <div class="work-copy"><span class="index">16 / Review gate</span><h3>Review Board</h3>
         <p class="purpose">A six-stage manual review process after the automatic trigger failed.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Fault injection confirmed the manual skill catches a planted flawed score.</dd></div><div><dt>Record</dt><dd>Automatic trigger abandoned after adversarial misfires.</dd></div></dl>
         <div class="entry-end"><span class="state">Manual only</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Review-Board" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="judge">
       <div class="work-art"><img src="assets/project-art/judge.svg" alt="Judge: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">16 / Blind policy review</span><h3>Judge</h3>
+      <div class="work-copy"><span class="index">17 / Blind policy review</span><h3>Judge</h3>
         <p class="purpose">Checks an action without seeing the agent’s claimed goal.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Separating the proposed action from its persuasive rationale stops the agent from controlling both sides of the check.</dd></div><div><dt>Record</dt><dd>Prototype; not yet run against a live model.</dd></div></dl>
         <div class="entry-end"><span class="state">Prototype</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Judge" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a><a href="papers/judge.html" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="intentgraph">
       <div class="work-art"><img src="assets/project-art/intentgraph.svg" alt="IntentGraph: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">17 / Returning objectives</span><h3>IntentGraph</h3>
+      <div class="work-copy"><span class="index">18 / Returning objectives</span><h3>IntentGraph</h3>
         <p class="purpose">Looks for a rejected objective returning in different words.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Tracks a conversation back to a goal that crossed a safety boundary.</dd></div><div><dt>Record</dt><dd>Mechanism works on 15 constructed cases; real-world accuracy unknown.</dd></div></dl>
         <div class="entry-end"><span class="state">Prototype</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/intent-layer" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="safety-genome">
       <div class="work-art"><img src="assets/project-art/safety-genome.svg" alt="Safety Genome: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">18 / Repair checks</span><h3>Safety Genome</h3>
+      <div class="work-copy"><span class="index">19 / Repair checks</span><h3>Safety Genome</h3>
         <p class="purpose">Asks whether a repaired candidate still carries the rejected defect.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Re-runs the exact rule that fired instead of measuring text similarity.</dd></div><div><dt>Record</dt><dd>Library, not a field evaluation.</dd></div></dl>
         <div class="entry-end"><span class="state">Library</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Safety-Genome" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="neural-node-swarm">
       <div class="work-art"><img src="assets/project-art/neural-node-swarm.svg" alt="Neural Node Swarm: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">19 / Short-lived agents</span><h3>Neural Node Swarm</h3>
+      <div class="work-copy"><span class="index">20 / Short-lived agents</span><h3>Neural Node Swarm</h3>
         <p class="purpose">Makes each agent node expire after exactly three rounds.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Only validated output and explicit memory references survive between nodes.</dd></div><div><dt>Record</dt><dd>Experimental; not a production runtime. Four unattended loop runs stay on the repo as unmerged experiment PRs: three by Claude, one by Codex. In one Claude loop, each run chose the next objective.</dd></div></dl>
         <div class="entry-end"><span class="state">Experimental</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Neural-Node-Swarm-" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
       </div></article>
 <article class="work-entry" id="boundary-memory">
       <div class="work-art"><img src="assets/project-art/boundary-memory.svg" alt="Boundary Memory: original visual interpretation of its technical role" loading="lazy"></div>
-      <div class="work-copy"><span class="index">20 / Persistent memory</span><h3>Boundary Memory</h3>
+      <div class="work-copy"><span class="index">21 / Persistent memory</span><h3>Boundary Memory</h3>
         <p class="purpose">An early attempt to retain boundary events across checks.</p>
         <dl class="spec"><div><dt>Mechanism</dt><dd>Adapters for Trust Boundary and IntentGraph were tested against real interfaces rather than assumed ones.</dd></div><div><dt>Record</dt><dd>Three mismatches surfaced; this remains an early learning project.</dd></div></dl>
         <div class="entry-end"><span class="state">Learning</span><div class="text-links"><a href="https://github.com/Rick-Clinton-jpg/Boundary-Memory-" target="_blank" rel="noopener">Repository <span aria-hidden="true">↗</span></a></div></div>
@@ -165,6 +406,6 @@
 <div class="paper"><h3>Build First, Learn Backward</h3><p>A personal baseline record, not a formal study, of directing code I cannot yet fully read.</p><a href="papers/build-first-learn-backward.html">Read ↗</a></div>
 <div class="paper"><h3>The Wishbone Framework</h3><p>An observational safety framework in two phases and eight stages, with a proposed containment architecture.</p><a href="wishbone/">Read ↗</a></div>
 </div></div></section>
-<section id="background" class="about-section"><div class="wrap"><div class="section-marker">The person behind the work</div><h2>Built by questions, <em>checked by evidence.</em></h2><div class="about-grid"><p>I spent five years in eCommerce operations before turning to agent systems. Since July 2026, I have directed coding agents while I write the threat models, invariants and pass/fail tests.</p><div class="timeline"><div class="tl"><span class="when">2022–2025</span><div><h3>Walmart · Project Management Specialist</h3><p>Ran an eight-week onboarding program for 15–22 international sellers each month, more than 700 in total. Built a duplicate-item escalation playbook and received a 2023 stakeholder recognition.</p></div></div><div class="tl"><span class="when">2019–2021</span><div><h3>Amazon · Catalogue Associate</h3><p>Catalog operations and vendor coordination across a high-volume product set.</p></div></div><div class="tl"><span class="when">Education</span><div><h3>B.Tech · Mechanical Engineering, SRM University</h3><p>Plus a Diploma in Modern Applied Psychology.</p></div></div></div></div></div></section>
+<section id="background" class="about-section"><div class="wrap"><div class="section-marker">The person behind the work</div><div class="about-grid"><h2>Built by questions, <em>checked by evidence.</em></h2><div class="timeline"><div class="tl"><span class="when">2022–2025</span><div><h3>Walmart · Project Management Specialist</h3><p>Ran an eight-week onboarding program for 15–22 international sellers each month, more than 700 in total. Built a duplicate-item escalation playbook and received a 2023 stakeholder recognition.</p></div></div><div class="tl"><span class="when">2019–2021</span><div><h3>Amazon · Catalogue Associate</h3><p>Catalog operations and vendor coordination across a high-volume product set.</p></div></div><div class="tl"><span class="when">Education</span><div><h3>B.Tech · Mechanical Engineering, SRM University</h3><p>Plus a Diploma in Modern Applied Psychology.</p></div></div></div></div></div></section>
 </main><footer class="site-footer"><div class="wrap"><p class="footer-call">Let’s make the claim <a href="mailto:clinpeter@gmail.com">testable.</a></p><div class="footer-grid"><p>Most implementation commits across these repositories are written by AI coding agents under constraints I specify. The numbers here come from tests and git history, including failed results.</p><ul><li><a href="https://github.com/Rick-Clinton-jpg" target="_blank" rel="noopener">GitHub ↗</a></li><li><a href="mailto:clinpeter@gmail.com">Email ↗</a></li></ul><ul><li><a href="Rick_Clinton_Resume_Research.pdf">Research résumé ↗</a></li><li><a href="Rick_Clinton_Resume_Customer_Success.pdf">Customer success résumé ↗</a></li></ul></div><div class="fine"><span>Chennai, India · Independent AI safety research.</span><span>Failures included. Authority kept outside the agent.</span></div></div></footer>
 <script src="assets/site.js" defer></script></body></html>

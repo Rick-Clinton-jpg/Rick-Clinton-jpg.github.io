@@ -16,13 +16,14 @@
 .editorial-motion .motion-atom {
   --piece-progress: clamp(0, calc(var(--unbuilt) * 1.6 - var(--piece-delay)), 1);
   transform: translate3d(calc(var(--piece-x) * var(--piece-progress)), calc(var(--piece-y) * var(--piece-progress) * var(--direction)), 0) rotate(calc(var(--piece-turn) * var(--piece-progress)));
-  opacity: calc(1 - var(--piece-progress));
+  /* Pieces stay solid for the first half of their travel, then fade. */
+  opacity: clamp(0, calc((1 - var(--piece-progress)) * 2), 1);
   transform-origin: center;
 }
 .editorial-motion .motion-diagram .motion-atom { transform-box: fill-box; }
 .editorial-motion .motion-block {
   opacity: var(--presence);
-  transform: translate3d(0, calc(14px * var(--travel)), 0);
+  transform: translate3d(0, calc(28px * var(--travel)), 0);
 }
 .editorial-motion .motion-rule {
   opacity: var(--presence);

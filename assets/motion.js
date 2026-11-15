@@ -6,6 +6,12 @@
 
   const clamp = value => Math.max(0, Math.min(1, value));
   const smooth = value => { const t = clamp(value); return t * t * (3 - 2 * t); };
+  // Tuning: where on the screen pieces assemble and break up, and how far they travel.
+  const FRAGMENT_KINDS = ['type', 'image', 'diagram'];
+  const BLOCK_TRAVEL = 28;            // px a text block slides; keep in step with motion.css
+  const ENTER = { fragment: { end: 0.58, span: 0.38 }, block: { end: 0.72, span: 0.26 } };
+  const EXIT_START = 0.26;            // break-up starts when the bottom edge is this far below the header (share of screen height)
+  const EXIT_SPAN = 0.24;             // and completes over this much further scroll
   const records = [];
   const visible = new Set();
   let frame = 0;
@@ -73,9 +79,9 @@
     }
     record.parts.forEach((part, i) => {
       // Deterministic cuts: no random flicker when the scroll direction changes.
-      part.style.setProperty('--piece-x', `${((i * 17 % 11) - 5) * (kind === 'type' ? 5 : 4)}px`);
-      part.style.setProperty('--piece-y', `${12 + (i * 7 % 19)}px`);
-      part.style.setProperty('--piece-turn', `${((i * 3 % 7) - 3) * (kind === 'type' ? 0.14 : 0.35)}deg`);
+      part.style.setProperty('--piece-x', `${((i * 17 % 11) - 5) * (kind === 'type' ? 16 : 12)}px`);
+      part.style.setProperty('--piece-y', `${36 + (i * 7 % 19) * 3}px`);
+      part.style.setProperty('--piece-turn', `${((i * 3 % 7) - 3) * (kind === 'type' ? 0.6 : 1.4)}deg`);
       part.style.setProperty('--piece-delay', ((i * 7 % 13) / 20).toFixed(2));
       part.classList.add('motion-atom');
     });
@@ -86,7 +92,7 @@
     record.last = amount;
     const { element, kind } = record;
     const distance = Math.abs(amount);
-    if (['type', 'image', 'diagram'].includes(kind)) {
+    if (FRAGMENT_KINDS.includes(kind)) {
       if (!record.parts && distance > 0) fragments(record);
       element.classList.toggle('motion-fragmenting', distance > 0.001);
     }
@@ -113,16 +119,20 @@
     const measurements = Array.from(visible, record => {
       const rect = record.element.getBoundingClientRect();
       // Block transforms must not feed back into their own scroll position.
-      const shift = record.kind === 'block' ? 14 * (record.last || 0) : 0;
+      const shift = record.kind === 'block' ? BLOCK_TRAVEL * (record.last || 0) : 0;
       return [record, { top: rect.top - shift, bottom: rect.bottom - shift, height: rect.height, width: rect.width }];
     });
     measurements.forEach(([record, rect]) => {
       if (!rect.height || !rect.width) return;
       let amount = 0;
       if (!record.element.matches(':focus-within')) {
-        const entering = smooth((rect.top - height * 0.70) / (height * 0.28)) * endReveal;
-        const exitRange = Math.min(height * 0.25, rect.height * 0.65);
-        const leaving = smooth((header + exitRange - rect.bottom) / exitRange);
+        const zone = FRAGMENT_KINDS.includes(record.kind) ? ENTER.fragment : ENTER.block;
+        // Content on the first screen is already in view at rest, so it never assembles on scroll.
+        const firstScreen = rect.top + scrollY < height * 0.9;
+        const entering = firstScreen ? 0 : smooth((rect.top - height * zone.end) / (height * zone.span)) * endReveal;
+        // Nothing breaks up while the page rests at the top.
+        const startHold = smooth(scrollY / (height * 0.18));
+        const leaving = smooth((header + height * EXIT_START - rect.bottom) / (height * EXIT_SPAN)) * startHold;
         amount = leaving > 0 ? -leaving : entering;
         if (record.intro && intro > Math.abs(amount)) amount = intro;
       }

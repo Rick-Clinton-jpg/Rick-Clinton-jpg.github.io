@@ -1,0 +1,40 @@
+/* Cuts and tiles inherit the page's ink, paper, typography and artwork. */
+.editorial-motion body { overflow-x: clip; }
+.motion-host { --unbuilt: 0; --travel: 0; --presence: 1; --direction: 1; }
+.motion-type, .motion-image { position: relative; }
+.motion-type > .motion-original { display: block; }
+.motion-host > .motion-fragments { display: none; position: absolute; inset: 0; pointer-events: none; user-select: none; }
+.motion-host .motion-piece { display: block; position: absolute; inset: 0; }
+.motion-type > .motion-fragments { top: -.25em; bottom: -.25em; }
+.motion-type .motion-copy { display: block; width: 100%; height: 100%; padding-block: .25em; }
+.motion-image .motion-piece img.motion-copy { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center; animation: none; transition: none; }
+.motion-image { overflow: hidden; }
+.editorial-motion .motion-fragmenting > .motion-original,
+.editorial-motion .motion-fragmenting > picture > .motion-original,
+.editorial-motion .motion-fragmenting > a > .motion-original { opacity: 0; }
+.editorial-motion .motion-fragmenting > .motion-fragments { display: block; }
+.editorial-motion .motion-atom {
+  --piece-progress: clamp(0, calc(var(--unbuilt) * 1.6 - var(--piece-delay)), 1);
+  transform: translate3d(calc(var(--piece-x) * var(--piece-progress)), calc(var(--piece-y) * var(--piece-progress) * var(--direction)), 0) rotate(calc(var(--piece-turn) * var(--piece-progress)));
+  opacity: calc(1 - var(--piece-progress));
+  transform-origin: center;
+}
+.editorial-motion .motion-diagram .motion-atom { transform-box: fill-box; }
+.editorial-motion .motion-block {
+  opacity: var(--presence);
+  transform: translate3d(0, calc(14px * var(--travel)), 0);
+}
+.editorial-motion .motion-rule {
+  opacity: var(--presence);
+  clip-path: inset(0 calc(100% * var(--unbuilt)) 0 0);
+}
+/* Keyboard focus immediately restores the real, selectable content. */
+.editorial-motion .motion-host:focus-within { opacity: 1; transform: none; clip-path: none; }
+.editorial-motion .motion-host:focus-within .motion-original { opacity: 1; }
+.editorial-motion .motion-host:focus-within > .motion-fragments { display: none; }
+.editorial-motion .motion-host:focus-within .motion-atom { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce), print {
+  .motion-host, .editorial-motion .motion-atom { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .motion-host .motion-original { opacity: 1 !important; }
+  .motion-host > .motion-fragments { display: none !important; }
+}

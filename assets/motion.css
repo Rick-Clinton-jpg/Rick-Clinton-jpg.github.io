@@ -1,5 +1,5 @@
 /* Cuts and tiles inherit the page's ink, paper, typography and artwork. */
-.editorial-motion body { overflow-x: clip; }
+html.editorial-motion, .editorial-motion body { overflow-x: clip; }
 .motion-host { --unbuilt: 0; --travel: 0; --presence: 1; --direction: 1; }
 .motion-type, .motion-image { position: relative; }
 .motion-type > .motion-original { display: block; }
@@ -14,12 +14,14 @@
 .editorial-motion .motion-fragmenting > a > .motion-original { opacity: 0; }
 .editorial-motion .motion-fragmenting > .motion-fragments { display: block; }
 .editorial-motion .motion-atom {
-  --piece-progress: clamp(0, calc(var(--unbuilt) * 1.6 - var(--piece-delay)), 1);
-  transform: translate3d(calc(var(--piece-x) * var(--piece-progress)), calc(var(--piece-y) * var(--piece-progress) * var(--direction)), 0) rotate(calc(var(--piece-turn) * var(--piece-progress)));
-  /* Pieces stay solid for the first half of their travel, then fade. */
-  opacity: clamp(0, calc((1 - var(--piece-progress)) * 2), 1);
-  transform-origin: center;
+  --piece-progress: clamp(0, calc(var(--unbuilt) * 1.9 - var(--piece-delay)), 1);
+  transform: translate3d(calc(var(--piece-x) * var(--piece-progress)), calc(var(--piece-y) * var(--piece-progress) * var(--direction)), 0) rotate(calc(var(--piece-turn) * var(--piece-progress))) scale(calc(1 - var(--piece-shrink, 0) * var(--piece-progress)));
+  /* Tiles stay solid for the first part of their drift, then fade out as dust. */
+  opacity: clamp(0, calc((1 - var(--piece-progress)) * 1.7), 1);
 }
+.editorial-motion .motion-diagram .motion-atom { transform-origin: center; }
+/* Image dust may drift past the frame while it is breaking up. */
+.editorial-motion .motion-image.motion-fragmenting { overflow: visible; }
 .editorial-motion .motion-diagram .motion-atom { transform-box: fill-box; }
 .editorial-motion .motion-block {
   opacity: var(--presence);

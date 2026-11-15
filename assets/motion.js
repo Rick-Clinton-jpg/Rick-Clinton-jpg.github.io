@@ -52,14 +52,18 @@
         if (!source) return;
         source.classList.add('motion-original');
       }
-      const columns = kind === 'image' ? 6 : 1;
-      const rows = kind === 'image' ? 4 : 6;
+      // Small tiles, so the element reads as dust rather than as sliced strips.
+      const columns = kind === 'image' ? 10 : 12;
+      const rows = kind === 'image' ? 6 : 4;
+      record.columns = columns;
       record.parts = [];
       for (let row = 0; row < rows; row++) {
         for (let column = 0; column < columns; column++) {
           const part = document.createElement('span');
           part.className = 'motion-piece';
           part.style.clipPath = `inset(${row * 100 / rows}% ${100 - (column + 1) * 100 / columns}% ${100 - (row + 1) * 100 / rows}% ${column * 100 / columns}%)`;
+          // Each tile shrinks and turns about its own centre, not the centre of the whole element.
+          part.style.transformOrigin = `${(column + 0.5) * 100 / columns}% ${(row + 0.5) * 100 / rows}%`;
           const copy = source.cloneNode(true);
           copy.classList.remove('motion-original');
           copy.classList.add('motion-copy');
@@ -77,12 +81,19 @@
       }
       element.append(layer);
     }
+    // Deterministic scatter: the same tile always takes the same path, so reversing the scroll never flickers.
+    const noise = (i, salt) => { const x = Math.sin((i + 1) * 12.9898 + salt * 78.233) * 43758.5453; return x - Math.floor(x); };
+    const columns = record.columns || 0;
+    const reach = kind === 'type' ? 70 : kind === 'image' ? 60 : 46;
+    const spin = kind === 'type' ? 26 : kind === 'image' ? 40 : 18;
     record.parts.forEach((part, i) => {
-      // Deterministic cuts: no random flicker when the scroll direction changes.
-      part.style.setProperty('--piece-x', `${((i * 17 % 11) - 5) * (kind === 'type' ? 16 : 12)}px`);
-      part.style.setProperty('--piece-y', `${36 + (i * 7 % 19) * 3}px`);
-      part.style.setProperty('--piece-turn', `${((i * 3 % 7) - 3) * (kind === 'type' ? 0.6 : 1.4)}deg`);
-      part.style.setProperty('--piece-delay', ((i * 7 % 13) / 20).toFixed(2));
+      // The dissolve sweeps across the element: tiles on one side go first.
+      const sweep = columns ? (i % columns) / (columns - 1) : noise(i, 5);
+      part.style.setProperty('--piece-x', `${((noise(i, 1) - 0.35) * 2 * reach).toFixed(1)}px`);
+      part.style.setProperty('--piece-y', `${(40 + noise(i, 2) * 120).toFixed(1)}px`);
+      part.style.setProperty('--piece-turn', `${((noise(i, 3) - 0.5) * 2 * spin).toFixed(1)}deg`);
+      part.style.setProperty('--piece-shrink', (0.45 + noise(i, 4) * 0.4).toFixed(2));
+      part.style.setProperty('--piece-delay', (sweep * 0.55 + noise(i, 6) * 0.25).toFixed(2));
       part.classList.add('motion-atom');
     });
   }

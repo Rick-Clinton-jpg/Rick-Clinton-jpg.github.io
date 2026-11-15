@@ -1,0 +1,35 @@
+/* End of the road: the button, the falling page, the pop-up. */
+.end-zone { display: flex; justify-content: center; padding: 46px 0 6px; }
+.end-trigger {
+  appearance: none; cursor: pointer; border: 1px solid var(--accent); background: transparent; color: #E9A58E;
+  font: 800 11px/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; padding: 13px 20px; border-radius: 999px;
+  opacity: 0; transform: scale(.6); transition: opacity .35s ease, transform .45s cubic-bezier(.2,1.5,.4,1), background .2s ease, color .2s ease;
+}
+.end-zone.is-armed .end-trigger { opacity: 1; transform: none; }
+.end-trigger:hover, .end-trigger:focus-visible { background: var(--accent); color: #fff; }
+.end-trigger:focus-visible { outline: 2px solid #F1EDE3; outline-offset: 3px; }
+
+html.end-locked { overflow: hidden !important; }
+.end-crumbling .site-header, .end-crumbling main, .end-crumbling .site-footer { pointer-events: none; }
+.end-crumbling .site-footer, .end-crumbling .footer-grid, .end-crumbling .fine { border-top-color: transparent; }
+.site-footer, .footer-grid, .fine { transition: border-color .4s ease; }
+
+.end-dialog {
+  border: 1px solid var(--ink); border-radius: 0; background: var(--paper); color: var(--ink);
+  padding: clamp(26px, 4vw, 44px); width: min(460px, calc(100vw - 36px)); text-align: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, .35);
+}
+.end-dialog::backdrop { background: rgba(14, 18, 16, .55); }
+.end-dialog h2 { font: 400 clamp(28px, 4vw, 40px)/1.05 var(--serif); letter-spacing: -.02em; margin: 0 0 14px; }
+.end-dialog p { margin: 0 0 26px; color: var(--soft); font-size: 15px; }
+.end-actions { display: flex; justify-content: center; gap: 12px; }
+.end-actions a, .end-actions button {
+  appearance: none; cursor: pointer; min-width: 104px; padding: 12px 20px; border: 1px solid var(--ink); border-radius: 999px;
+  font: 800 12px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; text-decoration: none;
+}
+.end-actions a { background: var(--ink); color: var(--paper); }
+.end-actions button { background: transparent; color: var(--ink); }
+.end-actions a:hover { background: var(--accent); border-color: var(--accent); text-decoration: none; }
+.end-actions button:hover { background: rgba(28, 33, 30, .08); }
+.end-actions a:focus-visible, .end-actions button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) { .end-trigger { transition: none; } }

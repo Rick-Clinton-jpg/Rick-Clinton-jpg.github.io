@@ -120,6 +120,8 @@
   function update(now) {
     frame = 0;
     if (!enabled) return;
+    // The end-of-page fall moves elements itself; scroll motion waits until it has finished.
+    if (document.documentElement.classList.contains('end-crumbling')) return;
     const height = window.innerHeight;
     const header = document.querySelector('.site-header').getBoundingClientRect().bottom;
     // At the document end, the final lines must be able to finish assembling.

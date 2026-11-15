@@ -399,7 +399,7 @@ button { font: inherit; cursor: pointer; color: inherit; }
       rows.A.push({ title: txt(p.querySelector("h3")), kind: "Writing", lead: txt(p.querySelector("p")), links: [{ label: "Read it", href: l[0] ? l[0].href : abs("#writing") }], home: abs("#writing") });
     });
     Array.prototype.forEach.call(doc.querySelectorAll("section.feature"), function (s) {
-      var body = s.querySelector(".feature-body");
+      var body = s.querySelector(".feature-copy") || s.querySelector(".feature-body");
       rows.B.push({ title: txt(s.querySelector(".feature-title")), kind: txt(s.querySelector(".section-marker")), lead: txt(s.querySelector(".feature-side")),
         sub: txt(body && body.querySelector("h3")), facts: facts(s.querySelectorAll(".facts > div")), links: links(s.querySelectorAll(".feature-links a")),
         home: abs("#" + (s.id || "featured")) });

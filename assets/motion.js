@@ -43,10 +43,13 @@
       layer.setAttribute('inert', '');
       let source;
       if (kind === 'type') {
-        source = document.createElement('span');
-        source.className = 'motion-original';
-        source.append(...element.childNodes);
-        element.append(source);
+        source = element.querySelector(':scope > .motion-original');
+        if (!source) {
+          source = document.createElement('span');
+          source.className = 'motion-original';
+          source.append(...element.childNodes);
+          element.append(source);
+        }
       } else {
         source = element.querySelector('img');
         if (!source) return;
@@ -56,14 +59,20 @@
       const columns = kind === 'image' ? 10 : 12;
       const rows = kind === 'image' ? 6 : 4;
       record.columns = columns;
+      record.layer = layer;
+      layer.style.setProperty('--cols', columns);
+      layer.style.setProperty('--rows', rows);
       record.parts = [];
       for (let row = 0; row < rows; row++) {
         for (let column = 0; column < columns; column++) {
+          // Each piece is a small window onto one slice, so it costs only its own area.
+          // (A full-size copy per piece multiplied graphics memory and crashed fast scrolls.)
           const part = document.createElement('span');
           part.className = 'motion-piece';
-          part.style.clipPath = `inset(${row * 100 / rows}% ${100 - (column + 1) * 100 / columns}% ${100 - (row + 1) * 100 / rows}% ${column * 100 / columns}%)`;
-          // Each tile shrinks and turns about its own centre, not the centre of the whole element.
-          part.style.transformOrigin = `${(column + 0.5) * 100 / columns}% ${(row + 0.5) * 100 / rows}%`;
+          part.style.setProperty('--c', column);
+          part.style.setProperty('--r', row);
+          const frame = document.createElement('span');
+          frame.className = 'motion-frame';
           const copy = source.cloneNode(true);
           copy.classList.remove('motion-original');
           copy.classList.add('motion-copy');
@@ -74,7 +83,8 @@
             copy.removeAttribute('loading');
             copy.removeAttribute('fetchpriority');
           }
-          part.append(copy);
+          frame.append(copy);
+          part.append(frame);
           layer.append(part);
           record.parts.push(part);
         }
@@ -98,6 +108,15 @@
     });
   }
 
+  function teardown(record) {
+    if (!record.layer) return;
+    record.layer.remove();
+    record.layer = null;
+    record.parts = null;
+    record.last = null;
+    record.element.classList.remove('motion-fragmenting', 'motion-gone');
+  }
+
   function render(record, amount) {
     if (record.last !== null && Math.abs(record.last - amount) < 0.001) return;
     record.last = amount;
@@ -105,7 +124,10 @@
     const distance = Math.abs(amount);
     if (FRAGMENT_KINDS.includes(kind)) {
       if (!record.parts && distance > 0) fragments(record);
-      element.classList.toggle('motion-fragmenting', distance > 0.001);
+      // Fully dissolved: nothing is drawn, so the pieces need no graphics memory at all.
+      const gone = distance > 0.995;
+      element.classList.toggle('motion-fragmenting', distance > 0.001 && !gone);
+      element.classList.toggle('motion-gone', gone);
     }
     element.style.setProperty('--unbuilt', distance.toFixed(4));
     element.style.setProperty('--direction', amount < 0 ? '-1' : '1');
@@ -171,6 +193,7 @@
           visible.delete(record);
           // A focused control must never disappear when a layout change moves it.
           if (record.element.matches(':focus-within')) render(record, 0);
+          teardown(record);
         }
       });
       schedule();

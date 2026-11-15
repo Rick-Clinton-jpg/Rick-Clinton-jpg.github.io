@@ -4,14 +4,38 @@ html.editorial-motion, .editorial-motion body { overflow-x: clip; }
 .motion-type, .motion-image { position: relative; }
 .motion-type > .motion-original { display: block; }
 .motion-host > .motion-fragments { display: none; position: absolute; inset: 0; pointer-events: none; user-select: none; }
-.motion-host .motion-piece { display: block; position: absolute; inset: 0; }
+.motion-host .motion-piece {
+  display: block; position: absolute; overflow: hidden;
+  left: calc(var(--c) * 100% / var(--cols)); top: calc(var(--r) * 100% / var(--rows));
+  width: calc(100% / var(--cols)); height: calc(100% / var(--rows));
+}
+.motion-host .motion-frame {
+  display: block; position: absolute;
+  left: calc(var(--c) * -100%); top: calc(var(--r) * -100%);
+  width: calc(var(--cols) * 100%); height: calc(var(--rows) * 100%);
+}
+/* Where supported, pieces overlap by a pixel so no hairline seams show between them. */
+@supports (width: 1cqw) {
+  .motion-host > .motion-fragments { container-type: size; }
+  .motion-host .motion-piece {
+    left: calc(var(--c) * 100cqw / var(--cols)); top: calc(var(--r) * 100cqh / var(--rows));
+    width: calc(100cqw / var(--cols) + 1px); height: calc(100cqh / var(--rows) + 1px);
+  }
+  .motion-host .motion-frame {
+    left: calc(var(--c) * -100cqw / var(--cols)); top: calc(var(--r) * -100cqh / var(--rows));
+    width: 100cqw; height: 100cqh;
+  }
+}
 .motion-type > .motion-fragments { top: -.25em; bottom: -.25em; }
 .motion-type .motion-copy { display: block; width: 100%; height: 100%; padding-block: .25em; }
 .motion-image .motion-piece img.motion-copy { width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center; animation: none; transition: none; }
 .motion-image { overflow: hidden; }
 .editorial-motion .motion-fragmenting > .motion-original,
 .editorial-motion .motion-fragmenting > picture > .motion-original,
-.editorial-motion .motion-fragmenting > a > .motion-original { opacity: 0; }
+.editorial-motion .motion-fragmenting > a > .motion-original,
+.editorial-motion .motion-gone > .motion-original,
+.editorial-motion .motion-gone > picture > .motion-original,
+.editorial-motion .motion-gone > a > .motion-original { opacity: 0; }
 .editorial-motion .motion-fragmenting > .motion-fragments { display: block; }
 .editorial-motion .motion-atom {
   --piece-progress: clamp(0, calc(var(--unbuilt) * 1.9 - var(--piece-delay)), 1);
@@ -33,7 +57,7 @@ html.editorial-motion, .editorial-motion body { overflow-x: clip; }
 }
 /* Keyboard focus immediately restores the real, selectable content. */
 .editorial-motion .motion-host:focus-within { opacity: 1; transform: none; clip-path: none; }
-.editorial-motion .motion-host:focus-within .motion-original { opacity: 1; }
+.editorial-motion .motion-host:focus-within .motion-original { opacity: 1 !important; }
 .editorial-motion .motion-host:focus-within > .motion-fragments { display: none; }
 .editorial-motion .motion-host:focus-within .motion-atom { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce), print {
